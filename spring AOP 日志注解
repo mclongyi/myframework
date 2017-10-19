@@ -1,0 +1,203 @@
+基于AOP日志组件
+1：新建一个注解类
+package log.core;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target({ElementType.PARAMETER,ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)  
+@Documented 
+public @interface SystemLog {
+
+	  String module()  default "";  
+      String methods()  default ""; 
+	
+}
+
+2新建一个基于AOP的拦截类
+package log.core;
+
+import java.lang.reflect.Method;
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.Signature;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import log.entity.SysLogTab;
+import log.service.TestService;
+import log.utils.NetWorkUtil;
+
+@Aspect
+public class LogAopAction {
+
+	@Autowired
+	private TestService testService;
+	
+	@Pointcut("execution(* log.controller..*.*(..))")
+	private void ControllerAspect(){};
+	
+	@Around("ControllerAspect()")
+	public Object around(ProceedingJoinPoint pjp) throws Throwable{
+		SysLogTab log=new SysLogTab();
+		
+		HttpServletRequest request=((ServletRequestAttributes)(RequestContextHolder.getRequestAttributes())).getRequest();
+		String name=(String) request.getSession().getAttribute("userId");
+		log.setUserId("leiyi");
+		log.setCreateDate(new Date());
+		log.setIp(NetWorkUtil.GetClientIp(request));
+		long start=System.currentTimeMillis();
+		//拦截实体类
+		 Object target = pjp.getTarget();
+		 //拦截方法名称
+		String methodName= pjp.getSignature().getName();
+		//拦截方法参数
+		Object[] args=pjp.getArgs();
+		//拦截参数类型
+		Signature sig = pjp.getSignature();
+		MethodSignature msig=null;
+		if( !(sig instanceof MethodSignature)) {
+			throw new IllegalArgumentException("该注解只能用于方法");
+		}
+		msig=(MethodSignature)sig;
+		Class<?>[] parameterTypes = msig.getMethod().getParameterTypes();
+		
+		Object object=null;
+		
+		Method method=null;
+		try{
+			method=target.getClass().getMethod(methodName, parameterTypes);
+			
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		if( null!=method ) {
+			if( method.isAnnotationPresent(SystemLog.class)){
+				SystemLog systemlog=method.getAnnotation(SystemLog.class);
+				log.setModule(systemlog.module());
+				log.setMedhod(systemlog.methods());
+				try{
+					object=pjp.proceed();
+					long end=System.currentTimeMillis();
+					log.setSuccess("执行成功");
+					boolean res=testService.writeLog(log);
+					System.out.println(res?"执行写入数据成功":"执行失败");
+				}catch(Exception ex) {
+					
+				}
+			}else{
+				object=pjp.proceed();
+			}
+		}else{
+			object=pjp.proceed();
+		}
+		return object;
+	}
+}
+
+3实体对象
+package log.entity;
+
+import java.util.Date;
+
+public class SysLogTab {
+ 
+	private String userId;
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	public String getModule() {
+		return module;
+	}
+	public void setModule(String module) {
+		this.module = module;
+	}
+	public String getMedhod() {
+		return medhod;
+	}
+	public void setMedhod(String medhod) {
+		this.medhod = medhod;
+	}
+	public String getSuccess() {
+		return success;
+	}
+	public void setSuccess(String success) {
+		this.success = success;
+	}
+	public Date getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+	public String getIp() {
+		return ip;
+	}
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+	private String module;
+	private String medhod;
+	private String success;
+	private Date createDate;
+	private String ip;
+}
+4用法
+package log.controller;
+
+import java.util.HashMap;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import log.core.SystemLog;
+import log.service.TestService;
+import net.sf.json.JSONArray;
+
+@Controller
+@RequestMapping(value="/V1")
+public class TestController {
+
+	@Autowired
+	private TestService testService;
+	
+	@RequestMapping(value="/test",method=RequestMethod.GET)
+	@ResponseBody
+	@SystemLog(module="测试模块",methods="日志管理-查询日志")
+	public JSONArray getUser(HttpServletRequest request,HttpServletResponse response) {
+		
+		List<HashMap> list=testService.getLog();
+		return JSONArray.fromObject(list);
+	}
+	
+}
+5 在spring mvc 引入aop注解模式
+<aop:aspectj-autoproxy proxy-target-class="true" />
+	<bean id="LogAopAction" class="log.core.LogAopAction"/>
+  
+  注意 要引入xsd的aop
+  xmlns:aop="http://www.springframework.org/schema/aop"
+   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+   
