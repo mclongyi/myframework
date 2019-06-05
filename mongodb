@@ -1,5 +1,19 @@
 mogodb授权 命令 
 1.use admin
+
+2.创建角色
+
+db.createRole(    
+   {    
+     role: "manageOpRole",    
+     privileges: [    
+       { resource: { cluster: true }, actions: [ "killop", "inprog" ] },    
+       { resource: { db: "", collection: "" }, actions: [ "killCursors" ] }    
+     ],    
+     roles: []    
+   }    
+)
+
 2.
 db.createUser({
   user: "leiyi",
