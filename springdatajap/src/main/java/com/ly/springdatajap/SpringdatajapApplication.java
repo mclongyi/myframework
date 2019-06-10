@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SpringdatajapApplication {
 
     public static void main(String[] args) {
+		
         SpringApplication.run(SpringdatajapApplication.class, args);
+		
     }
 
 }
