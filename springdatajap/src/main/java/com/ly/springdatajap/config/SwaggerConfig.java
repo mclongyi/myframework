@@ -17,6 +17,9 @@ import static springfox.documentation.builders.PathSelectors.regex;
 @ComponentScan("ccom.ly.springdatajap.controller")
 @EnableSwagger2
 public class SwaggerConfig {
+	
+	
+	
 
     @Bean
     public Docket accountApi() {
