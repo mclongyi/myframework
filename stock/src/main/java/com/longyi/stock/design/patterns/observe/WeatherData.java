@@ -1,6 +1,7 @@
 package com.longyi.stock.design.patterns.observe;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Observable;
 
@@ -10,6 +11,7 @@ import java.util.Observable;
  * @date 2020/5/20
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class WeatherData extends Observable {
 
     private float temperature;
