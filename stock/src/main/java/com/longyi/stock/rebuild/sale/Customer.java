@@ -23,10 +23,10 @@ public class Customer {
             Rental rental=(Rental)elements.nextElement();
             double thisAmount = rental.getCharge();
             result+="\t"+rental.getMovie().getTitle()+"\t"+
-                    String.valueOf(rental.getCharge())+"\n";
+                    rental.getCharge() +"\n";
         }
-        result+="Amount owed is"+String.valueOf(getTotalAmount())+"\n"
-                +"You earned "+String.valueOf(getFrequentRenterPoints())+"frequent renter points ";
+        result+="Amount owed is"+ getTotalAmount() +"\n"
+                +"You earned "+ getFrequentRenterPoints() +"frequent renter points ";
         return result;
     }
 

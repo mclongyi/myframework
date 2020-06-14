@@ -75,9 +75,7 @@ public class RedisLock {
         String curVal = (String)redisTemplate.opsForValue().get(key);
         if(StringUtils.isNotBlank(curVal) && Long.parseLong(curVal)<System.currentTimeMillis()){
             String oldVal=(String)redisTemplate.opsForValue().getAndSet(key,value);
-            if(StringUtils.isNotBlank(oldVal) && oldVal.equals(curVal)){
-                return true;
-            }
+            return StringUtils.isNotBlank(oldVal) && oldVal.equals(curVal);
         }
         return false;
     }
@@ -97,10 +95,7 @@ public class RedisLock {
         list.add(clientId);
         list.add((-clientId.length()) + "");
         List<Long> result =  redisUtils.evalScript(lockKey, list, json);
-        if(result != null && result.size() > 0) {
-            return true;
-        }
-        return false;
+        return result != null && result.size() > 0;
     }
 
 
