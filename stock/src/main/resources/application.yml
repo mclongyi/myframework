@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: stock-test
+  redis:
+    enabled: true,
+    password:
+    host: 127.0.0.1
+    port: 6379
+    lettuce:
+      pool:
+        max-active: 200
+        shutdown-timeout: 100
+        max-wait: 30
+        max-idle: 8
+        min-idle: 8
+server:
+  port: 8081
+mc:
+  long:
+    yi:
+      desc: my name is my shuiguanyin
+      name: shuiguanying

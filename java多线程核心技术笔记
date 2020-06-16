@@ -1,0 +1,19 @@
+public class Mythread extends Thread {
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		super.run();
+		System.out.println("北京时间:"+new Date());
+	}
+	public static void main(String[] args) {
+		Mythread thread=new Mythread();
+		thread.start();
+		System.err.println("报时结束！");
+	}
+}
+
+说明：实现多线程的方式有二种 
+（1）:通过extends Thread的方式实现
+（2）：通过implements Runnable的方式  实质 Thread 也是实现Runnable接口
+（3）:线程的执行与调用顺序无关
