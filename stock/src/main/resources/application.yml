@@ -18,5 +18,6 @@ server:
 mc:
   long:
     yi:
-      desc: my name is my shuiguanyin
-      name: shuiguanying
+      enable: true
+      desc: mclongyizhanzaiqianfangweinidaohang
+      name: feireng
