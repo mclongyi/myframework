@@ -1,6 +1,10 @@
 package com.longyi.stock.redis.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.connection.StringRedisConnection;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.script.RedisScript;
@@ -86,6 +90,36 @@ public class RedisUtils {
         }
         return null;
     }
+
+
+    /**
+     * 批量查询
+     * @param keys
+     * @return
+     */
+    public List<Object> getListByKeys(List<String> keys){
+        List<Object> list = redisTemplate.opsForValue().multiGet(keys);
+        return list;
+    }
+
+    /**
+     * 通过管道的方法批量查询
+     * @param keys
+     * @return
+     */
+    public List<Object> getListByPipLine(List<String> keys){
+        List<Object> objects = redisTemplate.executePipelined(new RedisCallback<Object>() {
+            @Override
+            public Object doInRedis(RedisConnection connection) throws DataAccessException {
+                for (String key : keys) {
+                    connection.get(key.getBytes());
+                }
+                return null;
+            }
+        });
+        return objects;
+    }
+
 
 
 }    

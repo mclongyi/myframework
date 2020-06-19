@@ -21,4 +21,4 @@ mc:
     yi:
       desc: my name is my shuiguanyin
       name: shuiguanying
-      enabled: true
+      enable: true

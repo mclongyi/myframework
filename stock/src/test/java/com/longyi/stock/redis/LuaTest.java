@@ -1,4 +1,4 @@
-package com.longyi.stock;
+package com.longyi.stock.redis;
 
 import com.longyi.stock.redis.lock.ReadSession;
 import com.longyi.stock.redis.lock.RedisLock;
