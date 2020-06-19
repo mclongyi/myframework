@@ -96,23 +96,38 @@ import org.apache.ibatis.type.TypeHandler;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 
 /**
+ * @see <a href="https://mybatis.org/mybatis-3/zh/configuration.html#environments" ></a>
  * @author Clinton Begin
  */
 public class Configuration {
 
+  /**
+   * 环境配置
+   */
   protected Environment environment;
-
+  //是否允许在嵌套语句中使用分页
   protected boolean safeRowBoundsEnabled;
+  //是否允许在嵌套语句中使用结果处理器
   protected boolean safeResultHandlerEnabled = true;
+  //是否开启驼峰命名自动映射，即从经典数据库列名 A_COLUMN 映射到经典 Java 属性名 aColumn。
   protected boolean mapUnderscoreToCamelCase;
+  //开启时，任一方法的调用都会加载该对象的所有延迟加载属性。 否则，每个延迟加载属性会按需加载
   protected boolean aggressiveLazyLoading;
+  //是否允许单个语句返回多结果集（需要数据库驱动支持）。
   protected boolean multipleResultSetsEnabled = true;
+  //允许 JDBC 支持自动生成主键，需要数据库驱动支持。如果设置为 true，将强制使用自动生成主键
   protected boolean useGeneratedKeys;
+  //使用列标签代替列名。实际表现依赖于数据库驱动，具体可参考数据库驱动的相关文档，或通过对比测试来观察
   protected boolean useColumnLabel = true;
+  //全局性地开启或关闭所有映射器配置文件中已配置的任何缓存。
   protected boolean cacheEnabled = true;
+  //指定当结果集中值为 null 的时候是否调用映射对象的 setter（map 对象时为 put）方法
   protected boolean callSettersOnNulls;
+  //允许使用方法签名中的名称作为语句参数名称
   protected boolean useActualParamName = true;
+  //当返回行的所有列都是空时，MyBatis默认返回 null。 当开启这个设置时，MyBatis会返回一个空实例
   protected boolean returnInstanceForEmptyRow;
+  //Removes extra whitespace characters from the SQL. Note that this also affects literal strings in SQL.
   protected boolean shrinkWhitespacesInSql;
 
   protected String logPrefix;
