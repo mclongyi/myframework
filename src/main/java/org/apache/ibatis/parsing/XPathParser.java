@@ -41,15 +41,21 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 /**
+ * @Descroption:封装xpath解析xml
  * @author Clinton Begin
  * @author Kazuki Shimizu
  */
 public class XPathParser {
 
+  //xml文档加载对象
   private final Document document;
+  //是否开启验证
   private boolean validation;
+  //解析器
   private EntityResolver entityResolver;
+  //config里面properties属性集合
   private Properties variables;
+  //xpath解析器
   private XPath xpath;
 
   public XPathParser(String xml) {
@@ -270,6 +276,7 @@ public class XPathParser {
   }
 
   /**
+   * 通过设置对应的熟悉 创建xpath的解析器对象
    * 对属性赋值
    * @param validation
    * @param variables

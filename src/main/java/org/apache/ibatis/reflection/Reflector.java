@@ -48,23 +48,32 @@ import org.apache.ibatis.reflection.property.PropertyNamer;
  * @author Clinton Begin
  */
 public class Reflector {
-
+  //对应的class类对象
   private final Class<?> type;
+  //可读属性的集合
   private final String[] readablePropertyNames;
+  //可写属性集合
   private final String[] writablePropertyNames;
+  //set对应的属性集合
   private final Map<String, Invoker> setMethods = new HashMap<>();
+  //get对应的属性集合
   private final Map<String, Invoker> getMethods = new HashMap<>();
   private final Map<String, Class<?>> setTypes = new HashMap<>();
   private final Map<String, Class<?>> getTypes = new HashMap<>();
+  //默认构造函数
   private Constructor<?> defaultConstructor;
 
   private Map<String, String> caseInsensitivePropertyMap = new HashMap<>();
 
   public Reflector(Class<?> clazz) {
     type = clazz;
+    //构建默认的构造函数
     addDefaultConstructor(clazz);
+    //构建get方法
     addGetMethods(clazz);
+    //构建set方法
     addSetMethods(clazz);
+    //构建字段
     addFields(clazz);
     readablePropertyNames = getMethods.keySet().toArray(new String[0]);
     writablePropertyNames = setMethods.keySet().toArray(new String[0]);
@@ -76,6 +85,10 @@ public class Reflector {
     }
   }
 
+  /**
+   * 根据反射获取对象的默认无参数构造函数
+   * @param clazz
+   */
   private void addDefaultConstructor(Class<?> clazz) {
     Constructor<?>[] constructors = clazz.getDeclaredConstructors();
     Arrays.stream(constructors).filter(constructor -> constructor.getParameterTypes().length == 0)
