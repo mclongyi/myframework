@@ -1,0 +1,12 @@
+server:
+  port: 8083
+spring:
+  application:
+    name: longyi-elasticsearch
+
+  elasticsearch:
+    rest:
+      uris: http://122.51.52.82:9200
+      password: changeme
+      username: elastic
+
