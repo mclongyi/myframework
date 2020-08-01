@@ -1,5 +1,6 @@
 package com.longyi.csjl.aop;
 
+import com.alibaba.fastjson.JSON;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -54,7 +55,7 @@ public class LoggerCallAspect {
         //获取方法签名
         MethodSignature signature = (MethodSignature) point.getSignature();
         Method method = signature.getMethod();
-
+        String methodName=method.getName();
         // 获取注解
         LoggerCallAnnotation loggerCallAnnotation = method.getAnnotation(LoggerCallAnnotation.class);
 
@@ -70,6 +71,7 @@ public class LoggerCallAspect {
         if(loggerCallAnnotation.needDB()){
             //保存数据库业务
         }
+        System.out.println("url=" + url + " ip=" + ip + " param=" + JSON.toJSONString(param)+" result="+JSON.toJSONString(result));
         return result;
     }
 

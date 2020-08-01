@@ -22,7 +22,7 @@ public @interface LoggerCallAnnotation {
      * 服务端ip
      * @return
      */
-    String serverIp();
+    String serverIp() default "127.0.0.1";
 
     /**
      * 是否需要存储数据库
