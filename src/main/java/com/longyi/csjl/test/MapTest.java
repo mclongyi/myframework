@@ -1,5 +1,6 @@
 package com.longyi.csjl.test;
 
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -11,14 +12,7 @@ import java.util.Set;
  */
 public class MapTest {
   public static void main(String[] args) {
-      Map map=new HashMap(10);
-      map.put("222","112");
-      map.put("3434","1132");
-      Set set = map.keySet();
-
-
-
-    System.out.println(set.toArray());
+   Map map=new HashMap<>();
   }
 }    
    
