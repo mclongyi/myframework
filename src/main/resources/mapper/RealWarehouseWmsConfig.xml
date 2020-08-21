@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.longyi.csjl.domain.resporitory.RealWarehouseWmsConfigMapper">
+
+
+    <select id="getRealWarehouseWmsConfigByVMId" parameterType="java.lang.Long"
+            resultType="com.longyi.csjl.domain.dto.RealWarehouseWmsConfigDO">
+        SELECT id,real_warehouse_id,wms_code,wms_name,creator,create_time FROM sc_real_warehouse_wms_config WHERE
+        is_available =1 AND is_deleted =0
+        <if test="id != null">
+            AND real_warehouse_id = #{id}
+        </if>
+    </select>
+
+
+
+
+</mapper>

@@ -1,5 +1,7 @@
 package com.longyi.csjl.leetcode;
 
+import org.springframework.util.StringUtils;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,11 +25,15 @@ public class LeetCodeTest {
 //      System.out.println(reverse);
 //      System.out.println(reverse3);
 //        isPalindrome(123321);
-      int res = romanToInt("III");
-      int res1 = romanToInt("IV");
-      int res2 = romanToInt("LVIII");
-      int res4 = romanToInt("XL");
-    System.out.println(res+" "+res1+" "+res2+" "+res4);
+//      int res = romanToInt("III");
+//      int res1 = romanToInt("IV");
+//      int res2 = romanToInt("LVIII");
+//      int res4 = romanToInt("XL");
+//    System.out.println(res+" "+res1+" "+res2+" "+res4);
+//      String[] str={"abcfge","ge"};
+//      String s = longestCommonPrefix(str);
+//      System.out.println(s);
+      charTest();
   }
 
     public static int[] twoSum(int[] nums, int target) {
@@ -124,6 +130,44 @@ public class LeetCodeTest {
         }
         return sum;
     }
+
+    /**
+     * 取公共字符串
+     * @param strs
+     * @return
+     */
+    public static String longestCommonPrefix(String[] strs) {
+        if (strs == null || strs.length == 0) {
+            return "";
+        }
+        String prefix = strs[0];
+        int count = strs.length;
+        for (int i = 1; i < count; i++) {
+            prefix = longestCommonPrefix(prefix, strs[i]);
+            if (prefix.length() == 0) {
+                break;
+            }
+        }
+        return prefix;
+    }
+
+    private static String longestCommonPrefix( String str1, String str2) {
+        int length = Math.min(str1.length(), str2.length());
+        int index = 0;
+        while (index < length && str1.charAt(index) == str2.charAt(index)) {
+            index++;
+        }
+        return str1.substring(0, index);
+
+    }
+
+
+    public static void charTest(){
+        char left='{';
+        char right='}';
+    System.out.println("左括号:"+left+"右括号:"+right);
+    }
+
 
 }    
    
