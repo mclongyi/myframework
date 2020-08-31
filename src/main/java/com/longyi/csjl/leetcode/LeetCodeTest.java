@@ -2,10 +2,7 @@ package com.longyi.csjl.leetcode;
 
 import org.springframework.util.StringUtils;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author ly
@@ -33,7 +30,17 @@ public class LeetCodeTest {
 //      String[] str={"abcfge","ge"};
 //      String s = longestCommonPrefix(str);
 //      System.out.println(s);
-      charTest();
+//      isValid("{[]}");
+      ListNode<Integer> listNode=new ListNode<>(22);
+      ListNode<Integer> listNode1=new ListNode<>(4);
+      listNode.next=listNode1;
+
+      ListNode<Integer> listNode3=new ListNode<>(3);
+      ListNode<Integer> listNode4=new ListNode<>(54);
+      listNode3.next=listNode4;
+
+      ListNode node = mergeTwoLists(listNode, listNode3);
+       System.out.println(node);
   }
 
     public static int[] twoSum(int[] nums, int target) {
@@ -162,12 +169,56 @@ public class LeetCodeTest {
     }
 
 
-    public static void charTest(){
-        char left='{';
-        char right='}';
-    System.out.println("左括号:"+left+"右括号:"+right);
+
+
+
+    public static boolean isValid(String s) {
+        int n = s.length();
+        if (n % 2 == 1) {
+            return false;
+        }
+
+        Map<Character, Character> pairs = new HashMap<Character, Character>() {{
+            put(')', '(');
+            put(']', '[');
+            put('}', '{');
+        }};
+        Deque<Character> stack = new LinkedList<Character>();
+        for (int i = 0; i < n; i++) {
+            char ch = s.charAt(i);
+            if (pairs.containsKey(ch)) {
+                if (stack.isEmpty() || stack.peek() != pairs.get(ch)) {
+                    return false;
+                }
+                stack.pop();
+            } else {
+                stack.push(ch);
+            }
+        }
+        return stack.isEmpty();
     }
 
+    /**
+     * 合并两个连表
+     * @param l1
+     * @param l2
+     * @return
+     */
+    public static ListNode mergeTwoLists(ListNode<Integer> l1, ListNode<Integer> l2) {
+        if(l1==null){
+            return l2;
+        }
+        if(l2==null){
+            return l1;
+        }
+        if(l1.val<l2.val){
+            l1.next=mergeTwoLists(l1.next,l2);
+            return l1;
+        }else{
+            l2.next=mergeTwoLists(l1,l2.next);
+            return l2;
+        }
+    }
 
 }    
    

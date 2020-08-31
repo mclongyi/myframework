@@ -1,9 +1,7 @@
 package com.longyi.csjl.test;
 
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.concurrent.atomic.LongAdder;
 
 /**
  * @author ly
@@ -12,7 +10,7 @@ import java.util.Set;
  */
 public class MapTest {
   public static void main(String[] args) {
-   Map map=new HashMap<>();
+      LongAdder longAddr=new LongAdder();
   }
 }    
    
