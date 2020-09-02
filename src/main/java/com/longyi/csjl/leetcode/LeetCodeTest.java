@@ -31,16 +31,20 @@ public class LeetCodeTest {
 //      String s = longestCommonPrefix(str);
 //      System.out.println(s);
 //      isValid("{[]}");
-      ListNode<Integer> listNode=new ListNode<>(22);
-      ListNode<Integer> listNode1=new ListNode<>(4);
-      listNode.next=listNode1;
-
-      ListNode<Integer> listNode3=new ListNode<>(3);
-      ListNode<Integer> listNode4=new ListNode<>(54);
-      listNode3.next=listNode4;
-
-      ListNode node = mergeTwoLists(listNode, listNode3);
-       System.out.println(node);
+//      ListNode<Integer> listNode=new ListNode<>(22);
+//      ListNode<Integer> listNode1=new ListNode<>(4);
+//      listNode.next=listNode1;
+//
+//      ListNode<Integer> listNode3=new ListNode<>(3);
+//      ListNode<Integer> listNode4=new ListNode<>(54);
+//      listNode3.next=listNode4;
+//
+//      ListNode node = mergeTwoLists(listNode, listNode3);
+//       System.out.println(node);
+      int[] nums={1,1,3,3,4,6,9};
+//      removeDuplicates(nums);
+      removeElement(nums,3);
+    System.out.println(nums);
   }
 
     public static int[] twoSum(int[] nums, int target) {
@@ -218,6 +222,42 @@ public class LeetCodeTest {
             l2.next=mergeTwoLists(l1,l2.next);
             return l2;
         }
+    }
+
+    /**
+     * 原地删除重复的数组元素
+     * @param nums
+     * @return
+     */
+    public static int removeDuplicates(int[] nums) {
+            int i=0;
+            if(nums.length == 0){
+                return 0;
+            }
+            for(int j=1;j<nums.length;j++){
+                if(nums[i] != nums[j]){
+                    i++;
+                    nums[i]=nums[j];
+                }
+            }
+            return i+1;
+    }
+
+    /**
+     * 原地移除数组元素
+     * @param nums
+     * @param val
+     * @return
+     */
+    public static int removeElement(int[] nums, int val) {
+        int i=0;
+        for(int j=0;j<nums.length;j++){
+            if(nums[j] != val){
+                nums[i]=nums[j];
+                i++;
+            }
+        }
+        return i;
     }
 
 }    
