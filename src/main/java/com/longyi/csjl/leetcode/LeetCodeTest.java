@@ -1,6 +1,6 @@
 package com.longyi.csjl.leetcode;
 
-import org.springframework.util.StringUtils;
+import org.apache.cxf.common.util.StringUtils;
 
 import java.util.*;
 
@@ -41,10 +41,29 @@ public class LeetCodeTest {
 //
 //      ListNode node = mergeTwoLists(listNode, listNode3);
 //       System.out.println(node);
-      int[] nums={1,1,3,3,4,6,9};
-//      removeDuplicates(nums);
-      removeElement(nums,3);
-    System.out.println(nums);
+//      int[] nums={1,1,3,3,4,6,9};
+////      removeDuplicates(nums);
+//      removeElement(nums,3);
+//    System.out.println(nums);
+
+//      int i = strStr("hello", "ll");
+//      System.out.println(i);
+//      int[] nums={1,3,5,6};
+//      int searchInsert = searchInsert(nums, 5);
+//    System.out.println(searchInsert);
+//      int[] nums2={1,3,5,6};
+//      int searchInsert2 = searchInsert(nums2, 2);
+//      System.out.println(searchInsert2);
+//
+//      int[] nums3={1,3,5,6};
+//      int searchInsert3 = searchInsert(nums3,7);
+//      System.out.println(searchInsert3);
+//
+//      int[] nums4={1,3,5,6};
+//      int searchInsert4 = searchInsert(nums4,0);
+//      System.out.println(searchInsert4);
+         String str = countAndSay(4);
+         System.out.println(str);
   }
 
     public static int[] twoSum(int[] nums, int target) {
@@ -258,6 +277,76 @@ public class LeetCodeTest {
             }
         }
         return i;
+    }
+
+    /**
+     * 查询需要的字符串
+     * @param haystack
+     * @param needle
+     * @return
+     */
+    public static int strStr(String haystack, String needle) {
+        haystack.indexOf(needle);
+        if(StringUtils.isEmpty(needle)){
+            return 0;
+        }
+        int L=needle.length(),N=haystack.length();
+        for(int start=0;start<N-L+1;++start){
+            if(haystack.substring(start,start+L).equals(needle)){
+                return start;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * 搜索插入的位置
+     * @param nums
+     * @param target
+     * @return
+     */
+    public static int searchInsert(int[] nums, int target) {
+        for(int i=0;i<nums.length;i++){
+            if(nums[i]>target){
+                return 0;
+            }
+            if(nums[i]==target){
+                return i;
+            }
+            if(i<nums.length-1){
+                if(nums[i]<target  && target<nums[i+1]){
+                    return i+1;
+                }
+            }
+        }
+        return nums.length;
+    }
+
+
+    /**
+     * 外观数列
+     * @param n
+     * @return
+     */
+    public static String countAndSay(int n) {
+        StringBuilder s = new StringBuilder();
+        int p1 = 0;
+        int cur = 1;
+        if ( n == 1 )
+            return "1";
+        String str = countAndSay(n - 1);
+        for ( cur = 1; cur < str.length(); cur++ ) {
+            if ( str.charAt(p1) != str.charAt(cur) ) {// 如果碰到当前字符与前面紧邻的字符不等则更新此次结果
+                int count = cur - p1;
+                s.append(count).append(str.charAt(p1));
+                p1 = cur;
+            }
+        }
+        if ( p1 != cur ){// 防止最后一段数相等，如果不等说明p1到cur-1这段字符串是相等的
+            int count = cur - p1;
+            s.append(count).append(str.charAt(p1));
+        }
+        return s.toString();
     }
 
 }    
