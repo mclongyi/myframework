@@ -1,0 +1,447 @@
+{
+ "settings" : {
+        "index" : {
+            "number_of_shards" : 3,
+            "number_of_replicas" : 1
+        },
+        "analysis" : {
+            "analyzer" : {
+                "std" : {
+                    "tokenizer" : "standard",
+                    "filter" : ["standard", "lowercase", "stop", "porter_stem"]
+                }
+            }
+        }
+    },
+  "mappings": {
+    "mp": {
+      "_parent": {
+        "type": "merchant"
+      },
+      "properties": {
+        "id": {
+          "type": "long",
+          "index": "not_analyzed",
+          "store":"yes"
+        },
+       "productId": {
+          "type": "long",
+          "index": "not_analyzed"
+        },
+        "tag_words": {
+           "type": "string",
+           "store": "no",
+           "term_vector": "no",
+           "norms": { "enabled": false },
+           "index_options": "docs",
+           "index_analyzer": "whitespace",
+           "search_analyzer": "whitespace"
+        },
+        "categoryId_search": {
+          "type": "string",
+		  "norms": { "enabled": false },
+		  "index_options": "docs",
+          "analyzer": "std"
+        },
+        "categoryId": {
+          "type": "long",
+          "index": "not_analyzed"
+        },
+        "navCategoryId_search": {
+          "type": "string",
+          "norms": { "enabled": false },
+          "index_options": "docs",
+          "analyzer": "std"
+        },
+        "categoryName_search": {
+          "type": "string",
+           "store": "no",
+           "term_vector": "no",
+           "norms": { "enabled": false },
+           "index_options": "docs",
+           "index_analyzer": "whitespace",
+           "search_analyzer": "whitespace"
+        },
+        "brandId_search": {
+          "type": "string",
+          "norms": { "enabled": false },
+          "index_options": "docs",
+          "analyzer": "std"
+        },
+        "brandName_search": {
+          "type": "string",
+           "store": "no",
+           "term_vector": "no",
+           "norms": { "enabled": false },
+           "index_options": "docs",
+           "index_analyzer": "whitespace",
+           "search_analyzer": "whitespace"
+        },
+        "merchantId": {
+          "type": "long",
+          "index": "not_analyzed"
+        },
+        "coverProvinceId": {
+          "type": "string",
+          "norms": { "enabled": false },
+          "index_options": "docs",
+          "analyzer": "std"
+        },
+        "attrValueId_search": {
+          "type": "string",
+          "norms": { "enabled": false },
+          "index_options": "docs",
+          "analyzer": "std"
+        },
+        "attrValue_search": {
+          "type": "string",
+           "store": "no",
+           "term_vector": "no",
+           "norms": { "enabled": false },
+           "index_options": "docs",
+           "index_analyzer": "whitespace",
+           "search_analyzer": "whitespace"
+        },
+        "price": {
+          "type": "double",
+          "index": "not_analyzed"
+        },
+        "orgPrice": {
+          "type": "double",
+          "index": "not_analyzed"
+        },
+        "create_time": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "first_shelf_time": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "ean_no": {
+          "type": "string",
+          "norms": { "enabled": false },
+          "index_options": "docs",
+          "analyzer": "whitespace"
+        },
+        "code": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "merchantName_search":{
+          "type": "string",
+           "store": "no",
+           "term_vector": "no",
+           "norms": { "enabled": false },
+           "index_options": "docs",
+           "index_analyzer": "whitespace",
+           "search_analyzer": "whitespace"
+        },
+        "merchantCategoryId_search":{
+          "type": "string",
+          "norms": { "enabled": false },
+          "index_options": "docs",
+          "analyzer": "std"
+        },
+        "isNew":{
+          "type": "integer",
+          "index": "not_analyzed"
+        },
+        "compositeSort":{
+          "type": "integer",
+          "index": "not_analyzed"
+        },
+        "hasPic":{
+          "type": "integer",
+          "index": "not_analyzed"
+        },
+        "stock":{
+          "type": "integer",
+          "index": "not_analyzed"
+        },
+        "merchant_categoryId": {
+          "type": "string",
+          "norms": { "enabled": false },
+          "index_options": "docs",
+          "analyzer": "whitespace"
+        },
+        "companyId": {
+          "type": "integer",
+          "index": "not_analyzed"
+        },
+        "picUrl":{
+          "type": "string",
+          "store":"yes",
+          "index": "not_analyzed"
+        },
+        "productName":{
+          "type": "string",
+          "store":"yes",
+          "index": "not_analyzed"
+        },
+        "type":{
+          "type": "integer",
+          "store":"yes"
+        },
+        "tax":{
+          "type": "string",
+          "store":"yes"
+        },
+        "merchantSeriesId":{
+          "type": "long",
+          "store":"yes",
+          "index": "not_analyzed"
+        },
+        "seriesAttrValueIdSearch":{
+          "type": "string",
+          "store":"yes",
+          "norms": { "enabled": false },
+          "index_options": "docs",
+          "analyzer": "whitespace"
+        }, 
+        "isMainSeries":{
+           "type": "integer",
+           "index": "not_analyzed"
+        },
+        "isMain":{
+           "type": "integer",
+           "index": "not_analyzed"
+        },
+        "merhcantType":{
+        		"type": "integer",
+         	"index": "not_analyzed"
+        },
+        "volume4sale":{
+        		"type":"Long",
+        		"store":"yes",
+        		"index":"not_analyzed"
+        },
+        "realVolume4sale":{
+        		"type":"Long",
+        		"store":"yes",
+        		"index":"not_analyzed"
+        },
+        "seasonWeight": {
+          "type": "integer",
+          "index": "not_analyzed"
+        },
+        "calculation_unit":{
+          "type": "string",
+          "store":"yes"
+        },
+        "standard":{
+          "type": "string",
+          "store":"yes"
+        },
+        "sale_type":{
+          "type": "integer",
+          "store":"yes"
+        },
+        "areaCode":{
+          "type": "string",
+          "norms": { "enabled": false },
+          "index_options": "docs",
+          "analyzer": "std"
+        },
+        "productCode": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "updateTime": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "ratingCount": {
+          "type": "Integer",
+          "store":"yes",
+          "index": "not_analyzed"
+        },
+        "rate": {
+          "type": "double",
+          "store":"yes",
+          "index": "not_analyzed"
+        },
+        "positiveRate": {
+          "type": "Integer",
+          "store":"yes",
+          "index": "not_analyzed"
+        },
+        "managementState": {
+          "type": "Integer",
+          "store":"yes",
+          "index": "not_analyzed"
+        },
+        "promotionId_search": {
+          "type": "string",
+          "norms": { "enabled": false },
+          "store":"yes",
+          "index_options": "docs",
+          "analyzer": "std"
+        },
+        "promotionType_search": {
+          "type": "string",
+          "norms": { "enabled": false },
+          "store":"yes",
+          "index_options": "docs",
+          "analyzer": "std"
+        },
+        "scriptIds": {
+          "type": "string",
+          "store":"yes",
+          "index": "not_analyzed"
+        },
+        "saleAreaCodes":{
+          "type": "string",
+          "store":"yes",
+          "norms": { "enabled": false },
+          "index_options": "docs",
+          "analyzer": "whitespace"
+        },
+        "searchAreaCodes":{
+          "type": "string",
+          "store":"yes",
+          "norms": { "enabled": false },
+          "index_options": "docs",
+          "analyzer": "whitespace"
+        },
+        "rank": {
+          "type": "double",
+          "index": "not_analyzed"
+        },
+        "thirdCode": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "isDistributionMp": {
+          "type": "Integer",
+          "store":"no",
+          "index": "not_analyzed"
+        },
+        "commodityCommission": {
+          "type": "double",
+          "store":"no",
+          "index": "not_analyzed"
+        },
+        "refId_search": {
+          "type": "long",
+          "index": "not_analyzed"
+        },
+        "parentMerchantId": {
+          "type": "long",
+          "index": "not_analyzed"
+        },
+        "subMerchantIds": {
+          "type": "string",
+          "store": "no",
+          "term_vector": "no",
+          "norms": { "enabled": false },
+          "index_options": "docs",
+          "analyzer": "whitespace"
+        },
+        "minSize": {
+          "type": "integer",
+          "index": "not_analyzed"
+        },
+        "maxSize": {
+          "type": "integer",
+          "index": "not_analyzed"
+        },
+        "placeOfOrigin": {
+          "type": "string",
+          "store":"yes",
+          "index": "not_analyzed"
+        },
+        "placeOfOriginLogo": {
+          "type": "string",
+          "store":"yes",
+          "index": "not_analyzed"
+        },
+        "subtitle": {
+          "type": "string",
+          "store":"yes",
+          "index": "not_analyzed"
+        },
+        "cardType": {
+          "type": "integer",
+          "store":"yes",
+          "index": "not_analyzed"
+        },
+        "cardId": {
+          "type": "long",
+          "store":"yes",
+          "index": "not_analyzed"
+        }
+      }
+    },
+    "merchant": {
+      "properties": {
+        "merchantId": {
+          "type": "long",
+          "index": "not_analyzed",
+          "store": "yes"
+        },
+        "shopId": {
+          "type": "long",
+          "index": "not_analyzed",
+          "store": "yes"
+        },
+        "parentId": {
+          "type": "long",
+          "index": "not_analyzed"
+        },
+        "companyId": {
+          "type": "integer",
+          "index": "not_analyzed"
+        },
+        "merchantFlag": {
+          "type": "integer",
+          "index": "not_analyzed"
+        },
+        "location": {
+          "type": "geo_point"
+        },
+        "polygon": {
+          "type": "geo_shape"
+        },
+        "codeSearch": {
+          "type": "string",
+          "store": "no",
+          "term_vector": "no",
+          "norms": { "enabled": false },
+          "index_options": "docs",
+          "index_analyzer": "whitespace",
+          "search_analyzer": "whitespace"
+        },
+        "tag_words": {
+          "type": "string",
+          "store": "no",
+          "term_vector": "no",
+          "norms": { "enabled": false },
+          "index_options": "docs",
+          "index_analyzer": "whitespace",
+          "search_analyzer": "whitespace"
+        },
+        "business_times": {
+          "type": "nested",
+          "properties": {
+            "start":    { "type": "date" , "format" : "HH:mm:ss" },
+            "end": { "type": "date" , "format" : "HH:mm:ss" },
+            "state": {"type": "integer"}
+          }
+        },
+        "business_state": {
+          "type": "integer",
+          "index": "not_analyzed"
+        },
+        "hasInSiteService": {
+          "type": "integer",
+          "index": "not_analyzed"
+        },
+        "merchantType":{
+          "type": "integer",
+          "index": "not_analyzed"
+        }
+      }
+    }
+  }
+}

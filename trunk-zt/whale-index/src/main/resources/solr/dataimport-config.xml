@@ -1,0 +1,48 @@
+<dataConfig>
+
+	<dataSource type="JdbcDataSource" driver="com.mysql.jdbc.Driver"
+		url="jdbc:mysql://10.147.0.76:3306/yh-search" user="admin" password="1qaz@WSX" />
+	<document name="product">
+		<entity name="product" pk="id"
+			query="SELECT
+	                 id,
+	                 productId,
+	                 tag_words,
+	                 categoryId_search,
+	                 categoryId,
+	                 navCategoryId_search,
+	                 categoryName_search,
+	                 brandId_search,
+	                 brandName_search,
+	                 attrValueId_search,
+	                 attrValue_search,
+	                 merchantId,
+	                 coverProvinceId,
+	                 create_time,
+	                 price,
+	                 ean_no
+                 FROM
+	                 merchant_product_search"
+			transformer="RegexTransformer">
+
+			<field column="id" name="id" />
+			<field column="productId" name="productId" />
+			<field column="tag_words" name="tag_words" />
+			<field column="categoryId_search" name="categoryId_search" />
+			<field column="categoryId" name="categoryId" />
+			<field column="navCategoryId_search" name="navCategoryId_search" />
+			<field column="categoryName_search" name="categoryName_search" />
+			<field column="brandId_search" name="brandId_search" />
+			<field column="brandName_search" name="brandName_search" />
+			<field column="attrValueId_search" name="attrValueId_search" />
+			<field column="attrValue_search" name="attrValue_search" />
+            <field column="merchantId" name="merchantId" />
+            <field column="coverProvinceId" name="coverProvinceId" />
+            <field column="create_time" name="create_time" />
+            <field column="price" name="price" />
+            <field column="ean_no" name="ean_no" />
+		</entity>
+
+	</document>
+
+</dataConfig>

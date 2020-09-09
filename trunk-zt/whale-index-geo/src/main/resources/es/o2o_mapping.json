@@ -1,0 +1,64 @@
+{
+ "settings" : {
+        "index" : {
+            "number_of_shards" : 3,
+            "number_of_replicas" : 1
+        },
+        "analysis" : {
+            "analyzer" : {
+                "std" : {
+                    "tokenizer" : "standard",
+                    "filter" : ["standard", "lowercase", "stop", "porter_stem"]
+                }
+            }
+        }
+    },
+  "mappings": {
+    "merchant": {
+      "properties": {
+        "merchantId": {
+          "type": "long",
+          "index": "not_analyzed",
+          "store": "yes"
+        },
+        "shopId": {
+          "type": "long",
+          "index": "not_analyzed",
+          "store": "yes"
+        },
+        "companyId": {
+          "type": "long",
+          "index": "not_analyzed"
+        },
+        "merchantFlag": {
+          "type": "integer",
+          "index": "not_analyzed"
+        },
+        "location": {
+            "type": "geo_point"
+        },
+        "polygon": {
+          "type": "geo_shape"
+        },
+        "codeSearch": {
+          "type": "string",
+          "store": "no",
+          "term_vector": "no",
+          "norms": { "enabled": false },
+          "index_options": "docs",
+          "index_analyzer": "whitespace",
+          "search_analyzer": "whitespace"
+        },
+        "tag_words": {
+          "type": "string",
+          "store": "no",
+          "term_vector": "no",
+          "norms": { "enabled": false },
+          "index_options": "docs",
+          "index_analyzer": "whitespace",
+          "search_analyzer": "whitespace"
+        }
+      }
+    }
+  }
+}

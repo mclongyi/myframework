@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="points">
+
+    <resultMap id="pointsMallProduct" class="com.odianyun.search.whale.data.model.PointsMallProduct">
+        <result property="id" column="id" />
+        <result property="mpId" column="mp_id" />
+        <result property="merchantId" column="merchant_id" />
+        <result property="mpName" column="mp_name" />
+        <!-- <result property="is_available" column="is_available" /> -->
+        <result property="categoryId" column="category_id"/>
+        <result property="exchangedNum" column="exchanged_num" nullValue="0"/>
+        <result property="companyId" column="company_id" nullValue="0"/>
+        <result property="managementState" column="management_state" nullValue="0"/>
+
+        <result property="startTime" column="start_time" />
+        <result property="endTime" column="end_time" />
+        <result property="totalExchanged" column="total_exchanged" nullValue="0"/>
+        <result property="totalLimit" column="total_limit" nullValue="0"/>
+
+        <result property="priceType" column="price_type" />
+        <result property="price" column="price" nullValue="0"/>
+        <result property="pointPrice" column="point_price" nullValue="0"/>
+        <result property="pointType" column="ref_type" />
+        <result property="isDefault" column="is_default" />
+
+
+        <result property="ruleId" column="rule_id" />
+
+    </resultMap>
+
+    <resultMap id="pointsMallProductPrice" class="com.odianyun.search.whale.data.model.PointsMallProductPrice">
+        <result property="id" column="id" />
+        <result property="pointsMallProductId" column="point_product_id" />
+        <result property="pointRuleId" column="point_rule_id" />
+        <result property="mpId" column="mp_id" />
+        <result property="price" column="price" />
+        <result property="pointPrice" column="point_price" />
+        <result property="refType" column="ref_type" />
+        <result property="refId" column="ref_id" />
+
+    </resultMap>
+
+
+
+    <select id="getPointsMallProductsByRefIdCurrent" parameterClass="java.util.HashMap" resultMap="pointsMallProduct">
+        select pr.id ,p.mp_id,"" as mp_name,pr.merchant_id,pr.category_id,0 as exchanged_num,
+        p.management_state as management_state,pr.ref_type,
+        pr.start_time,pr.end_time,p.total_exchanged,p.total_limit,pr.price_type,
+        p.company_id,pr.id rule_id,p.price,p.point_price,pr.is_default
+        from point_mall_product_series p
+        join point_mall_product_rule pr on pr.id = p.point_mall_product_rule_id and pr.is_deleted = 0
+        where p.is_deleted=0 and p.company_id = #companyId#
+        <![CDATA[
+          and pr.end_time >= NOW()
+        ]]>
+        and p.mp_id in
+        <iterate property="refIdList" open="(" close=")" conjunction=",">
+            #refIdList[]#
+        </iterate>
+        and pr.company_id = #companyId#
+
+
+    </select>
+
+
+    <select id="getMpIdListByPointsMallProductIdCurrent" parameterClass="java.util.HashMap" resultClass="Long">
+        select p.mp_id
+        from point_mall_product p
+        where p.is_deleted=0 and p.company_id = #companyId#
+        and p.mp_id is not null and p.ref_type = 0
+        <isNotEmpty property="idList" >
+            and p.id in
+            <iterate property="idList" open="(" close=")" conjunction=",">
+                #idList[]#
+            </iterate>
+        </isNotEmpty>
+
+
+    </select>
+
+    <select id="getPointsMallProductPriceCurrent" parameterClass="java.util.HashMap" resultMap="pointsMallProductPrice">
+        select p.id,p.point_product_id,p.point_rule_id,p.mp_id,
+          p.ref_type,p.ref_id,p.point_price,p.price
+        from point_mall_product_rule_price p
+        where p.is_deleted = 0 and p.company_id = #companyId#
+
+        <isNotEmpty property="pointProductIdList" >
+            and p.point_product_id in
+            <iterate property="pointProductIdList" open="(" close=")" conjunction=",">
+                #pointProductIdList[]#
+            </iterate>
+        </isNotEmpty>
+        <isNotEmpty property="pointsRuleIdList" >
+            and p.point_rule_id in
+            <iterate property="pointsRuleIdList" open="(" close=")" conjunction=",">
+                #pointsRuleIdList[]#
+            </iterate>
+        </isNotEmpty>
+        <isNotEmpty property="mpIdList" >
+            and p.mp_id in
+            <iterate property="mpIdList" open="(" close=")" conjunction=",">
+                #mpIdList[]#
+            </iterate>
+        </isNotEmpty>
+
+
+    </select>
+
+    <select id="getPointsMallProductsByRefId" parameterClass="java.util.HashMap" resultMap="pointsMallProduct">
+        select p.id,p.mp_id,p.mp_name,p.merchant_id,p.category_id,p.exchanged_num,
+        p.is_available as management_state,
+        pr.start_time,pr.end_time,pr.total_exchanged,pr.total_limit,pr.price_type,
+        p.company_id,pr.id rule_id,pr.price,pr.point_price,p.ref_type,1 as is_default
+        from sirius.point_mall_product p
+        join sirius.point_mall_product_rule pr on p.id = pr.point_mall_product_id and pr.is_deleted = 0
+        where p.is_deleted=0 and p.company_id = #companyId#
+        <![CDATA[
+          and pr.end_time >= NOW()
+        ]]>
+        and p.mp_id in
+        <iterate property="refIdList" open="(" close=")" conjunction=",">
+            #refIdList[]#
+        </iterate>
+
+
+    </select>
+
+
+    <select id="getMpIdListByPointsMallProductId" parameterClass="java.util.HashMap" resultClass="Long">
+        select p.mp_id
+        from sirius.point_mall_product p
+        where p.is_deleted=0 and p.company_id = #companyId#
+        and p.mp_id is not null and p.ref_type = 0
+        <isNotEmpty property="idList" >
+            and p.id in
+            <iterate property="idList" open="(" close=")" conjunction=",">
+                #idList[]#
+            </iterate>
+        </isNotEmpty>
+
+
+    </select>
+
+    <select id="getPointsMallProductPrice" parameterClass="java.util.HashMap" resultMap="pointsMallProductPrice">
+        select p.id,p.point_product_id,p.point_rule_id,p.mp_id,
+        0 as ref_type,0 as ref_id,p.point_price,p.price
+        from sirius.point_mall_product_rule_series p
+        where p.is_deleted = 0 and p.company_id = #companyId#
+
+        <isNotEmpty property="pointProductIdList" >
+            and p.point_product_id in
+            <iterate property="pointProductIdList" open="(" close=")" conjunction=",">
+                #pointProductIdList[]#
+            </iterate>
+        </isNotEmpty>
+        <isNotEmpty property="pointsRuleIdList" >
+            and p.point_rule_id in
+            <iterate property="pointsRuleIdList" open="(" close=")" conjunction=",">
+                #pointsRuleIdList[]#
+            </iterate>
+        </isNotEmpty>
+        <isNotEmpty property="mpIdList" >
+            and p.mp_id in
+            <iterate property="mpIdList" open="(" close=")" conjunction=",">
+                #mpIdList[]#
+            </iterate>
+        </isNotEmpty>
+
+
+    </select>
+
+
+
+</sqlMap>

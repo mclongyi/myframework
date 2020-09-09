@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="product">
+    
+    <resultMap id="area" class="com.odianyun.search.whale.data.model.Area">
+        <result property="id" column="id" />
+        <result property="code" column="code" />
+        <result property="name" column="name" nullValue=""/>
+        <result property="level" column="level" nullValue="-1"/>
+        <result property="parentCode" column="parentCode" nullValue="-1"/>
+        <result property="postCode" column="postCode" nullValue=""/>
+        <result property="company_id" column="company_id" nullValue="-1"/>
+    </resultMap>
+    
+    
+    <select id="queryAllAreas"  parameterClass="java.util.HashMap" resultMap="area">
+        select id,code,name,level,parentCode,postCode,company_id from area where is_deleted=0
+        <isNotEmpty prepend="and" property="companyId" >
+            (company_id = #companyId# or company_id IS NULL or company_id=-1)
+        </isNotEmpty>
+
+    </select>
+    
+    
+    <select id="queryAreasByIds" parameterClass="java.util.HashMap" resultMap="area" >
+    <![CDATA[
+    		select id,code,name,level,parentCode,postCode,company_id from area where  is_deleted=0 and (company_id = #companyId# or company_id IS NULL or company_id=-1) and id in
+     ]]>
+       <iterate property="ids" open="(" close=")" conjunction=",">    
+            #ids[]#  
+       </iterate>
+    </select>
+    
+    <select id="queryAreasByCodes" parameterClass="java.util.HashMap" resultMap="area">
+       <![CDATA[ 
+		SELECT id,code,name,level,parentCode,postCode,company_id from area where is_deleted=0 AND (company_id = #companyId# or company_id IS NULL or company_id=-1) and code in
+        ]]>  
+       <iterate property="ids"  open="(" close=")" conjunction=",">    
+            #ids[]#  
+       </iterate>
+    </select>
+
+	
+</sqlMap>

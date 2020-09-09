@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="product">
+    
+    <resultMap id="merchant" class="com.odianyun.search.whale.data.model.Merchant">
+        <result property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="company_name" column="company_name" nullValue=""/>
+        <result property="merchant_type" column="merchant_type" nullValue="0"/>
+        <result property="linkman" column="identity_card_name"/>
+        <result property="tel" column="mobile"/>
+        <result property="virtualType" column="is_leaf"/>
+        <result property="company_id" column="company_id"/>
+        <result property="merchant_flag" column="merchant_flag"/>
+        <result property="parentId" column="parent_id" nullValue="-999"/>
+    </resultMap>
+    
+    <resultMap id="shop" class="com.odianyun.search.whale.data.model.Shop">
+        <result property="id" column="id" />
+        <result property="merchant_id" column="merchant_id" nullValue="0"/>
+        <result property="name" column="NAME" nullValue=""/>
+        <result property="logo" column="logo" nullValue=""/>
+        <result property="shop_type" column="shop_type" nullValue="0"/>
+        <result property="businessState" column="business_state" nullValue="0"/>
+        <result property="address" column="contact_addr" nullValue=""/>
+        <result property="hasInSiteService" column="has_in_site_service" nullValue="0"/>
+
+    </resultMap>
+    
+   <!-- <resultMap id="shopArea" class="com.odianyun.search.whale.data.model.ShopBusinessArea">
+          <result property="merchant_id" column="merchant_id" />
+          <result property="shop_id" column="shop_id"/>
+          <result property="area_code" column="area_code"/>
+          <result property="area_type" column="area_type"/>
+   </resultMap> -->
+   
+   <resultMap id="belongArea" class="com.odianyun.search.whale.data.model.MerchantBelongArea">
+         <result property="merchant_id" column="merchant_id" />
+         <result property="nation_id" column="nation_id" />
+         <result property="province_id" column="province_id" />
+         <result property="city_id" column="city_id" />
+         <result property="region_id" column="region_id" />
+         <result property="area_code" column="area_code" />
+   </resultMap>
+
+    <resultMap id="merchantStoreCalendar" class="com.odianyun.search.whale.data.model.geo.MerchantStoreCalendar">
+        <result property="id" column="id" />
+        <result property="merchantId" column="merchant_id" nullValue="0"/>
+        <result property="type" column="type" nullValue="0"/>
+    </resultMap>
+
+    <resultMap id="merchantStoreCalendarItem" class="com.odianyun.search.whale.data.model.geo.MerchantStoreCalendarItem">
+        <result property="merchantStoreCalendarId" column="merchant_store_calendar_id" />
+        <result property="beginDate" column="begin_date" nullValue=""/>
+        <result property="endDate" column="end_date" nullValue=""/>
+    </resultMap>
+
+    <select id="queryAllMerchant"  parameterClass="java.lang.Integer" resultMap="merchant">
+        select id,name,company_name,merchant_type,identity_card_name,mobile,is_leaf,company_id,merchant_flag,parent_id from merchant where audit_status=1 and is_deleted=0 and is_available = 1 and company_id = #companyId#
+    </select>
+
+    <!--<select id="getMerchantsByIds"  parameterClass="java.util.HashMap" resultMap="merchant">
+        select id,name,company_name,merchant_type,identity_card_name,mobile,is_leaf,company_id,merchant_flag from merchant where audit_status=1
+       and company_id = #companyId# and id in
+        <iterate property="ids"  open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>-->
+
+	 <!-- 外卖增加20180907  and mer.`status`=1 -->
+     <select id="queryMerchantsWithPage" parameterClass="java.util.HashMap" resultMap="merchant">
+        select id,name,company_name,merchant_type,identity_card_name,mobile,is_leaf,company_id,merchant_flag,parent_id
+        from merchant where audit_status=1 and is_deleted=0 and is_available = 1 and company_id = #companyId# and `status` = 1  limit #startIndex#,#pageSize#;
+    </select>
+
+
+    <!-- 外卖增加20180912  and `status`=1 -->
+    <select id="queryMerchants" parameterClass="java.util.HashMap" resultMap="merchant" >
+    <![CDATA[
+    		select id,name,company_name,merchant_type,identity_card_name,mobile,is_leaf,company_id,merchant_flag,parent_id from merchant where audit_status=1 and is_deleted=0 and is_available = 1 and company_id = #companyId# and `status`=1 and id in
+     ]]>
+       <iterate property="ids"  open="(" close=")" conjunction=",">    
+            #ids[]#  
+       </iterate>
+    </select>
+    
+    <select id="queryAllShops" parameterClass="java.lang.Integer" resultMap="shop">
+      SELECT id,merchant_id,NAME,logo,shop_type,business_state,contact_addr,has_in_site_service FROM shop WHERE  is_deleted=0 and company_id = #companyId#
+    </select>
+    
+    <select id="getShopsByMerchantIds" parameterClass="java.util.HashMap" resultMap="shop">
+       <![CDATA[ 
+		SELECT id,merchant_id,NAME,logo,shop_type,business_state,contact_addr,has_in_site_service FROM shop WHERE  is_deleted=0 AND  company_id = #companyId#  and merchant_id in
+        ]]>  
+       <iterate property="ids" open="(" close=")" conjunction=",">    
+            #ids[]#  
+       </iterate>
+    </select>
+
+	<select id="queryAllBelongAreas" parameterClass="java.lang.Integer" resultMap="belongArea">
+      SELECT merchant_id,nation_id,province_id,city_id,region_id,area_code FROM merchant_belong_area WHERE  is_deleted=0 and  company_id = #companyId# 
+    </select>
+    
+    <select id="getBelongAreasByMerchantIds" parameterClass="java.util.HashMap" resultMap="belongArea">
+       <![CDATA[
+		SELECT merchant_id,nation_id,province_id,city_id,region_id,area_code FROM merchant_belong_area
+		   WHERE  is_deleted=0 AND  company_id = #companyId# and  merchant_id in
+        ]]>
+       <iterate property="ids"  open="(" close=")" conjunction=",">
+            #ids[]#
+       </iterate>
+    </select>
+
+    <select id="queryMerchantStoreCalendars" parameterClass="java.util.HashMap" resultMap="merchantStoreCalendar">
+      select id,merchant_id,type from merchant_store_calendar
+        where is_deleted = 0 and week = #weekIndex# and company_id = #companyId#
+        <isNotEmpty prepend="and" property="merchantId" >
+            merchant_id in
+            <iterate property="merchantId" open="(" close=")" conjunction=",">
+                #merchantId[]#
+            </iterate>
+        </isNotEmpty>
+    </select>
+
+    <select id="queryMerchantStoreCalendarItems" parameterClass="java.util.HashMap" resultMap="merchantStoreCalendarItem">
+        SELECT merchant_store_calendar_id,begin_date,end_date
+          from merchant_store_calendar_items
+          where is_deleted = 0 and company_id = #companyId#
+          and begin_date is not NULL
+          and end_date is not null
+          <isNotEmpty prepend="and" property="merchantStoreCalendarId" >
+              merchant_store_calendar_id in
+            <iterate property="merchantStoreCalendarId" open="(" close=")" conjunction=",">
+                #merchantStoreCalendarId[]#
+            </iterate>
+          </isNotEmpty>
+    </select>
+	
+</sqlMap>

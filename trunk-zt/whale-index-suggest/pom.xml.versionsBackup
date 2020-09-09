@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.odianyun.search</groupId>
+    <artifactId>whale</artifactId>
+    <version>0.0.5-SNAPSHOT</version>
+  </parent>
+  <artifactId>whale-index-suggest</artifactId>
+  <packaging>war</packaging>
+  <name>whale-index-suggest Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.odianyun.search</groupId>
+      <artifactId>whale-es-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.odianyun.search</groupId>
+      <artifactId>whale-index-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.odianyun.search</groupId>
+      <artifactId>whale-common</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.odianyun.search</groupId>
+      <artifactId>whale-data-service</artifactId>
+    </dependency>
+    <dependency>
+       <groupId>com.odianyun.search</groupId>
+       <artifactId>whale-processor</artifactId>
+    </dependency>
+    <dependency>
+       <groupId>com.odianyun.search</groupId>
+       <artifactId>whale-suggest</artifactId>
+    </dependency>
+  </dependencies>
+  <build>
+    <finalName>whale-index-suggest</finalName>
+  </build>
+</project>

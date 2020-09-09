@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="merchant_product_search">
+
+   <!-- <resultMap id="merchant_product_search" class="com.odianyun.search.whale.data.model.MerchantProductSearch">
+    	<result property="id" column="id" />
+    	<result property="productId" column="productId" />
+    	<result property="tag_words" column="tag_words" />
+    	<result property="categoryId_search" column="categoryId_search" />
+    	<result property="categoryId" column="categoryId" />
+    	<result property="navCategoryId_search" column="navCategoryId_search" />
+    	<result property="categoryName_search" column="categoryName_search" />
+    	<result property="brandId_search" column="brandId_search" />
+    	<result property="brandName_search" column="brandName_search" />
+    	<result property="attrValueId_search" column="attrValueId_search" />
+    	<result property="attrValue_search" column="attrValue_search" />
+    	<result property="merchantId" column="merchantId" />
+    	<result property="coverProvinceId" column="coverProvinceId" />
+    	<result property="create_time" column="create_time" />
+    	<result property="price" column="price" />
+    	<result property="ean_no" column="ean_no" />
+    	<result property="code" column="code" />
+    	<result property="merchantName_search" column="merchantName_search" />
+    	<result property="merchant_categoryId" column="merchant_categoryId"/>
+    	<result property="merchantCategoryId_search" column="merchantCategoryId_search" />
+    	<result property="isNew" column="isNew"/>
+    	<result property="stock" column="stock"/>
+    	<result property="companyId" column="companyId"/>
+    	<result property="picUrl" column="picUrl"/>
+    	<result property="productName" column="productName"/>
+    	<result property="tax" column="tax"/>
+    	<result property="type" column="type"/>
+    	<result property="merchantSeriesId" column="merchant_series_id"/>
+    	<result property="isMainSeries" column="isMainSeries"/>
+    	<result property="merchantType" column="merchantType"/> 	
+    	<result property="merchantType" column="merchantType"/>
+    	<result property="volume4sale" column="volume4sale"/>
+    	<result property="sale_type" column="sale_type"/>
+    	<result property="calculation_unit" column="calculation_unit"/>
+    	<result property="standard" column="standard"/>
+    	<result property="seriesAttrValueIdSearch" column="seriesAttrValueIdSearch"/>
+    	<result property="areaCode" column="area_code"/>
+    	<result property="productCode" column="product_code"/>
+
+    </resultMap> -->
+    
+	<resultMap id="config" class="com.odianyun.search.whale.data.model.Config">
+    	<result property="key" column="config_key"/>
+    	<result property="value" column="config_value"/>
+    	<result property="poolName" column="pool_name"/>
+    	<result property="companyId" column="company_id"/>
+	</resultMap>
+
+	<resultMap id="season" class="com.odianyun.search.whale.data.model.Season">
+		<result property="id" column="id"/>
+		<result property="weight" column="weight"/>
+	</resultMap>
+
+	<resultMap id="seasonCategoryWeight" class="com.odianyun.search.whale.data.model.SeasonCategoryWeight">
+		<result property="seasonId" column="season_id"/>
+		<result property="categoryId" column="category_id"/>
+		<result property="weight" column="weight"/>
+	</resultMap>
+
+	<resultMap id="merchantProductSale" class="com.odianyun.search.whale.data.model.MerchantProductSale">
+		<result property="id" column="id"/>
+		<result property="companyId" column="company_id"/>
+		<result property="volume4sale" column="sale"/>
+		<result property="merchantId" column="merchant_id"/>
+		<result property="merchantProductId" column="merchant_product_id"/>
+		<result property="type" column="type"/>
+
+	</resultMap>
+    
+    <!--  
+    <delete id="cleanMerchantProductSearch" parameterClass="java.util.HashMap" >
+        TRUNCATE $tableName$;
+    </delete>
+    
+    <insert id="saveMerchantProductSearch" parameterClass="com.odianyun.search.whale.data.model.MerchantProductSearch">
+      <![CDATA[
+          insert into $tableName$ (
+              id,productId,tag_words,categoryId_search,categoryId,navCategoryId_search,categoryName_search,brandId_search,brandName_search,attrValueId_search,
+              attrValue_search,merchantId,coverProvinceId,create_time,price,ean_no,code,merchantName_search,merchantCategoryId_search,isNew,stock,merchant_categoryId,companyId,picUrl,productName,tax,type,merchant_series_id,isMainSeries,merchantType,volume4sale
+              ,sale_type,calculation_unit,standard,seriesAttrValueIdSearch,area_code,product_code
+          ) values(#id#,#productId#,#tag_words#,#categoryId_search#,#categoryId#,#navCategoryId_search#,#categoryName_search#,#brandId_search#,#brandName_search#,#attrValueId_search#,
+          #attrValue_search#,#merchantId#,#coverProvinceId#,#create_time#,#price#,#ean_no#,#code#,#merchantName_search#,#merchantCategoryId_search#,#isNew#,#stock#,#merchant_categoryId#,#companyId#,#picUrl#,#productName#,#tax#,#type#,#merchantSeriesId#,#isMainSeries#,#merchantType#,#volume4sale#
+          ,#sale_type#,#calculation_unit#,#standard#,#seriesAttrValueIdSearch#,#areaCode#,#productCode#)
+      ]]>
+   </insert>
+    
+    <select id="countMerchantProductSearch" resultClass="java.lang.Integer" parameterClass="java.util.HashMap">
+    	select count(*) from $tableName$;
+    </select>
+    
+    <delete id="deleteMerchantProductSearchs" parameterClass="java.util.HashMap">
+       delete from $tableName$ where id in ($ids$);
+    </delete>
+    
+   <select id="getMerchantProductSearchs" parameterClass="java.util.HashMap" resultMap="merchant_product_search" >
+    	SELECT id,productId,tag_words,categoryId_search,categoryId,navCategoryId_search,categoryName_search,brandId_search,brandName_search,attrValueId_search,
+            attrValue_search,merchantId,coverProvinceId,create_time,price,ean_no,code,merchantName_search,merchantCategoryId_search,isNew,stock,merchant_categoryId,
+            companyId,picUrl,productName,merchant_series_id,tax,type,isMainSeries,merchantType,volume4sale,sale_type,calculation_unit,standard,seriesAttrValueIdSearch,
+            area_code,product_code
+             from $tableName$ where id in ($ids$);
+    </select>
+    
+    <select id="queryMerchantProductSearchesWithPage" parameterClass="java.util.HashMap" resultMap="merchant_product_search" >
+    	SELECT id,productId,tag_words,categoryId_search,categoryId,navCategoryId_search,categoryName_search,brandId_search,brandName_search,attrValueId_search,
+    		attrValue_search,merchantId,coverProvinceId,create_time,price,ean_no,code,merchantName_search,merchantCategoryId_search,isNew,stock,merchant_categoryId,
+    		companyId,picUrl,productName,merchant_series_id,tax,type,isMainSeries,merchantType,volume4sale,sale_type,calculation_unit,standard,seriesAttrValueIdSearch,
+    		area_code,product_code
+    		 from $tableName$  where id >#maxId#  order by id
+    		 limit 0,#pageSize#;
+    </select> -->
+    
+    <select id="queryAllConfigData" parameterClass="java.util.HashMap" resultMap="config" >
+    		select config_key,config_value,pool_name,company_id from env_config 
+    		<dynamic prepend="where">
+    			<isNotEmpty prepend="and" property="companyId" >
+    				company_id in
+		    		<iterate property="companyId" open="(" close=")" conjunction=",">    
+            			#companyId[]#  
+       			</iterate>
+		 	</isNotEmpty>
+    		</dynamic>
+    </select>
+
+	<select id="queryAllSeasonData" parameterClass="java.lang.Integer" resultMap="season" >
+		select id,weight
+		from season
+		where is_deleted=0 and company_id = #companyId#;
+	</select>
+	<select id="queryAllSeasonCategoryWeight" parameterClass="java.lang.Integer" resultMap="seasonCategoryWeight" >
+		select season_id,category_id,weight
+         from season_category_weight
+         where is_deleted=0 and company_id= #companyId#;
+	</select>
+
+	<select id="queryHotSaleMerchantProductWithPage" parameterClass="java.util.HashMap" resultMap="merchantProductSale">
+		select id,merchant_id,company_id,merchant_product_id,type,sale
+    	   from hot_sale_merchant_product
+    	   where is_deleted=0
+    	   and version = #version#
+    	   and id >#maxId# order by id
+    	   limit 0,#pageSize#;
+	</select>
+
+	<insert id="insertHotSaleMerchantProduct" parameterClass="com.odianyun.search.whale.data.model.MerchantProductSale">
+		INSERT INTO hot_sale_merchant_product (merchant_id,company_id,merchant_product_id,type,sale,version)
+		  VALUE (#merchantId#,#companyId#,#merchantProductId#,#type#,#volume4sale#,#version#)
+	</insert>
+
+	<select id="queryLatestVersion" resultClass="java.lang.String">
+		SELECT version from hot_sale_merchant_product
+		where is_deleted = 0
+		ORDER BY id DESC
+		limit 1
+	</select>
+
+</sqlMap>

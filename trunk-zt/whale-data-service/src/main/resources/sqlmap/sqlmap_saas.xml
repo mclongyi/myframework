@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="search-saas">
+
+	<resultMap id="dumpConfig" class="com.odianyun.search.whale.data.saas.model.DumpConfig">
+    	<result property="indexName" column="index_name"/>
+    	<result property="jobType" column="job_type"/>
+    	<result property="period" column="period"/>
+    	<result property="cronExpression" column="cron_expression"/>
+	</resultMap>
+	
+	<resultMap id="commonConfig" class="com.odianyun.search.whale.data.saas.model.CommonConfig">
+    	<result property="id" column="id"/>
+    	<result property="companyId" column="company_id"/>
+    	<result property="indexName" column="index_name"/>
+    	<result property="esClusterId" column="es_cluster_id"/>
+	</resultMap>
+	
+	<resultMap id="companySqlConfig" class="com.odianyun.search.whale.data.saas.model.CompanySqlConfig">
+    	<!-- <result property="id" column="id"/> -->
+    	<result property="companyId" column="company_id"/>
+    	<result property="sqlName" column="sql_name"/>
+    	<result property="sqlStr" column="sql_content"/>
+	</resultMap>
+	
+	<resultMap id="company" class="com.odianyun.search.whale.data.saas.model.Company">
+    	<!-- <result property="id" column="id"/> -->
+    	<result property="id" column="company_id"/>
+    	<result property="name" column="company_name"/>
+    	<result property="shortName" column="short_name"/>
+    	<result property="virtualCompanyId" column="virtual_company_id"/>
+    	<result property="groupName" column="group_name"/>
+	</resultMap>
+	
+	<resultMap id="dataSourceConfig" class="com.odianyun.search.whale.data.saas.model.DataSourceConfig">
+    	<!-- <result property="id" column="id"/> -->
+    	<result property="companyId" column="company_id"/>
+    	<result property="dbType" column="db_type"/>
+    	<result property="username" column="username"/>
+    	<result property="password" column="password"/>
+		<result property="jdbcUrl" column="jdbc_url"/>
+	</resultMap>
+
+	<resultMap id="clusterConfig" class="com.odianyun.search.whale.data.saas.model.ESClusterConfig">
+    	<result property="id" column="id"/>
+    	<result property="clusterName" column="cluster_name"/>
+    	<result property="clusterNode" column="cluster_nodes"/>
+    	<result property="adminUrl" column="admin_url"/>
+	</resultMap>
+	
+	<sql id="dynamicSql">
+		
+			<isNotEmpty property="ids" >
+			<!-- id in  -->
+		      		<iterate property="ids" open="(" close=")" conjunction=",">    
+            			#ids[]#  
+      	 			</iterate>
+		    </isNotEmpty> 
+		    <isNotEmpty property="id" >
+		      	<!-- id = --> #id# 	
+		    </isNotEmpty>
+		    <isNotEmpty prepend="and" property="companyId" >
+		      	company_id = #companyId# 	
+		    </isNotEmpty>
+		    <isNotEmpty property="start" >
+		    	<isNotEmpty prepend="and" property="end" >
+				 <![CDATA[
+				 ((create_time>=#start# and create_time<=#end#) or (update_time>=#start# and update_time<=#end#))
+				 ]]>
+				</isNotEmpty> 
+		    </isNotEmpty> 
+    		<isNotEmpty prepend="and" property="maxId" >
+		      	id >#maxId# order by id
+		      	<isNotEmpty property="pageSize" >
+		      		limit 0,#pageSize#
+		    	</isNotEmpty>
+		    </isNotEmpty>
+		    
+		    <isNotEmpty  property="startIndex" >
+		      	<isNotEmpty property="pageSize" >
+		      		limit #startIndex#,#pageSize#
+		    	</isNotEmpty>
+		    </isNotEmpty>
+
+			<isNotEmpty  property="groupBy" >
+				GROUP BY #groupBy#
+			</isNotEmpty>
+	</sql>
+	
+    <select id="queryAllDumpConfig" parameterClass="java.util.HashMap" resultMap="dumpConfig" >
+    	select index_name,job_type,period,cron_expression from saas_dump_config
+    </select>
+    
+    <select id="queryAllCommonConfig" parameterClass="java.util.HashMap" resultMap="commonConfig" >
+    	select id,company_id,index_name,es_cluster_id from saas_common_config where is_deleted=0 and app_type=1
+    </select>
+    
+    <select id="queryAllESClusterConfig" parameterClass="java.util.HashMap" resultMap="clusterConfig" >
+    	select id,cluster_name,cluster_nodes,admin_url from saas_escluster_config 
+    </select>
+    
+    <select id="getAllCompanySql" parameterClass="java.util.HashMap" resultMap="companySqlConfig" >
+    	select company_id,sql_name,sql_content from company_sql_config where is_deleted = 0 and sql_name is not NULL and sql_content is not NULL
+    </select>
+    
+    <select id="queryAllCompany" parameterClass="java.util.HashMap" resultMap="company" >
+		select company_id,company_name,short_name,virtual_company_id,group_name from company where is_delete = 0
+    </select>
+    
+    <select id="queryAllCompanyByGroup" parameterClass="String" resultMap="company" >
+		select company_id,company_name,short_name,virtual_company_id,group_name from company where is_delete = 0 and group_name = #groupName#
+    </select>
+    
+    <select id="queryAllDataSourceConfig" parameterClass="java.util.HashMap" resultMap="dataSourceConfig" >
+		select company_id,db_type,username,password,jdbc_url from saas_datasource_config where is_deleted = 0
+    </select>
+    
+    <select id="selectBySqlWithParams" parameterClass="java.util.HashMap" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[ $sql$ ]]>
+		<dynamic prepend="where">
+			<include refid="dynamicSql"/>
+		   
+    	</dynamic>
+
+    </select>
+    
+    <select id="selectBySqlWithParamsAndWhere" parameterClass="java.util.HashMap" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[ $sql$ ]]>
+		<dynamic>
+			<include refid="dynamicSql"/>
+		    
+    	</dynamic>
+
+    </select>
+    
+    <select id="selectBySqlStr" remapResults="true" parameterClass="String" resultClass="java.util.HashMap" >
+		<![CDATA[ $sql$ ]]>
+    </select>
+    
+</sqlMap>

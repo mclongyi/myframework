@@ -1,0 +1,41 @@
+{
+ "settings" : {
+        "index" : {
+            "number_of_shards" : 3,
+            "number_of_replicas" : 1
+        },
+        "analysis" : {
+            "analyzer" : {
+                "std" : {
+                    "tokenizer" : "standard",
+                    "filter" : ["standard", "lowercase", "stop", "porter_stem"]
+                }
+            }
+        }
+    },
+  "mappings": {
+    "suggest": {
+      "properties": {
+        "keyword" : { "type" : "string" },
+        "suggest" : { "type" : "completion",
+                          "index_analyzer" : "whitespace",
+                          "search_analyzer" : "whitespace",
+          "context": {
+            "companyId": {
+              "type": "category",
+              "default": "-1"
+            },
+            "merchantId": {
+              "type": "category",
+              "default": "-1"
+            },
+            "isArea": {
+              "type": "category",
+              "default": "0"
+            }
+          }
+            		}
+      }
+    }
+  }
+}

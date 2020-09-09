@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd"
+       default-autowire="byName">
+
+    <import resource="classpath:applicationContext-search.xml"/>
+    <import resource="classpath:search-backend-api/spring-service.xml"/>
+    
+    <import resource="classpath:applicationContext-beans-suggest.xml"/>
+
+    <bean id="attributeResponseHandler" class="com.odianyun.search.whale.resp.handler.AttributeResponseHandler" />
+    <bean id="categoryResponseHandler" class="com.odianyun.search.whale.resp.handler.CategoryResponseHandler" />
+    <bean id="fieldsResponseHandler" class="com.odianyun.search.whale.resp.handler.FieldsResponseHandler" />
+    <bean id="merchantCategoryResponseHandler" class="com.odianyun.search.whale.resp.handler.MerchantCategoryResponseHandler" />
+    <bean id="brandResponseHandler" class="com.odianyun.search.whale.resp.handler.BrandResponseHandler" />
+    <bean id="navCategoryResponseHandler" class="com.odianyun.search.whale.resp.handler.NavCategoryResponseHandler" />
+    <bean id="shopResponseHandler" class="com.odianyun.search.whale.resp.handler.ShopResponseHandler" />
+    <bean id="searchQueryStrBuilder" class="com.odianyun.search.whale.req.builder.SearchQueryStrBuilder" >
+        <property name="requestScoreBuilder" ref="requestScoreBuilder" />
+     </bean>
+    <bean id="generativeDictionary" class="com.odianyun.search.whale.resp.handler.GenerativeDictionary" />
+    <bean id="editDistance" class="com.odianyun.search.whale.resp.handler.EditDistance" />
+    <bean id="lessSearchQueryStrBuilder" class="com.odianyun.search.whale.req.builder.LessSearchQueryStrBuilder" />
+    <bean id="hotWordRecomendHandler" class="com.odianyun.search.whale.resp.handler.HotWordRecomendHandler" />
+    <bean id="lessFieldsResponseHandler" class="com.odianyun.search.whale.resp.handler.LessFieldsResponseHandler" />
+    <bean id="shopQueryStrBuilder" class="com.odianyun.search.whale.req.builder.ShopQueryStrBuilder" />
+    <bean id="fieldsBuilder" class="com.odianyun.search.whale.req.builder.FieldsBuilder" />
+    <bean id="shopFieldsBuilder" class="com.odianyun.search.whale.req.builder.ShopFieldsBuilder" />
+    <bean id="sortBuilder" class="com.odianyun.search.whale.req.builder.SortBuilder" />
+    <bean id="filterBuilder" class="com.odianyun.search.whale.req.builder.FilterBuilder"/>
+    <bean id="pointsMpBuilder" class="com.odianyun.search.whale.req.builder.PointsMPBuilder"/>
+
+    <bean id="superScriptResponseHandler" class="com.odianyun.search.whale.resp.handler.SuperScriptResponseHandler"/>
+    <bean id="requestScoreBuilder" class="com.odianyun.search.whale.req.builder.FunctionScoreBuilder">
+        <property name="relQueryService">
+            <ref bean="relQueryService" />
+        </property>
+    </bean>
+    
+    <bean id="searchHandler" class="com.odianyun.search.whale.server.SearchHandler" >
+        <property name="requestBuilders">
+            <list>
+               <ref bean="searchQueryStrBuilder"/>
+               <ref bean="fieldsBuilder"/>
+               <ref bean="sortBuilder"/>
+               <ref bean="filterBuilder"/>
+                <ref bean="pointsMpBuilder"/>
+
+            </list>
+        </property>
+        <property name="responseHandlers">
+            <list>
+               <ref bean="fieldsResponseHandler"/>
+               <ref bean="categoryResponseHandler"/>
+               <ref bean="attributeResponseHandler"/>
+               <ref bean="brandResponseHandler"/>
+               <ref bean="navCategoryResponseHandler"/>
+               <ref bean="shopResponseHandler"/>
+               <!--<ref bean="superScriptResponseHandler"/>-->
+            </list>
+        </property>
+      <property name="requestScoreBuilder" >
+          <ref bean="requestScoreBuilder" />
+      </property>
+    </bean>
+
+
+    <bean id="idSearchHandler" class="com.odianyun.search.whale.server.SearchHandler" >
+        <property name="requestBuilders"><!--这里主要依据categoryIdsList 来进行搜索 所以搜索build和以前保持一致就行 handler只需要产生brandResult就行:-->
+            <list>
+                <ref bean="searchQueryStrBuilder"/>
+                <ref bean="fieldsBuilder"/>
+                <ref bean="sortBuilder"/>
+                <ref bean="filterBuilder"/>
+            </list>
+        </property>
+        <property name="responseHandlers">
+            <list>
+                <ref bean="categoryResponseHandler"/>
+                <ref bean="brandResponseHandler"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="zeroResultHandler" class="com.odianyun.search.whale.resp.handler.ZeroResultHandler" >
+        <property name="lessRequestBuilders">
+            <list>
+                <ref bean="lessSearchQueryStrBuilder"/><!--此处build 按照 大于 （总分词数/2）的方式build 而不是以前的 must 精确匹配模式-->
+                <ref bean="fieldsBuilder"/>
+                <ref bean="sortBuilder"/>
+                <ref bean="filterBuilder"/>
+            </list>
+        </property>
+        <property name="lessResponseHandlers">
+            <list>
+                <ref bean="lessFieldsResponseHandler"/> <!--零少结果推荐 把更正后的词语和搜索结果 一并放入ZeroResultRecommendationProductResult字段-->
+            </list>
+        </property>
+        <property name="responseHandlers">
+            <list>
+                <ref bean="fieldsResponseHandler"/>
+                <ref bean="categoryResponseHandler"/>
+                <ref bean="attributeResponseHandler"/>
+                <ref bean="brandResponseHandler"/>
+                <ref bean="navCategoryResponseHandler"/>
+                <ref bean="shopResponseHandler"/>
+                <!--<ref bean="superScriptResponseHandler"/>-->
+            </list>
+        </property>
+        <property name="requestBuilders"><!--这里主要依据categoryIdsList 来进行搜索 所以搜索build和以前保持一致就行 handler只需要产生brandResult就行:-->
+            <list>
+                <ref bean="searchQueryStrBuilder"/> <!--因为是根据categoryIdsList 进行搜索 keyword是空 所以此处无用 -->
+                <ref bean="fieldsBuilder"/>
+                <ref bean="sortBuilder"/>
+                <ref bean="filterBuilder"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="shopSearchHandler" class="com.odianyun.search.whale.server.ShopSearchHandler">
+         <property name="shopRequestBuilders">
+           <list>
+               <ref bean="shopQueryStrBuilder"/>
+               <ref bean="shopFieldsBuilder"/>
+               <ref bean="sortBuilder"/>
+               <ref bean="filterBuilder"/>
+            </list>
+        </property>
+        <property name="shopResponseHandlers">
+            <list>
+               <ref bean="fieldsResponseHandler"/>
+               <ref bean="merchantCategoryResponseHandler"/>
+               <ref bean="attributeResponseHandler"/>
+			   <ref bean="brandResponseHandler"/>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="seriesProductAttrHandler" class="com.odianyun.search.whale.server.SeriesProductAttrHandler" />
+   
+     <bean id="searchByIdHandler" class="com.odianyun.search.whale.server.SearchByIdHandler" />
+
+    <bean id="searchService" class="com.odianyun.search.whale.server.WhaleServer" />
+    <bean id="searchCacheService" class="com.odianyun.search.whale.server.CacheServer">
+    </bean>
+    
+    <bean id="merchantProductConvertor" class="com.odianyun.search.whale.common.MerchantProductConvertor" />
+
+    <bean id="searchCounterTracker" class="com.odianyun.search.whale.tracker.SearchCounterTracker"/>
+    <bean id="shopSearchCountTracker" class="com.odianyun.search.whale.tracker.ShopSearchCountTracker"/>
+    
+    
+    <!-- GEO 相关配置文件 start -->
+    <bean id="geoQueryBuilder" class="com.odianyun.search.whale.geo.req.GeoQueryBuilder" />
+    <bean id="geoFieldsBuilder" class="com.odianyun.search.whale.geo.req.GeoFieldsBuilder" />
+    <bean id="geoSortBuilder" class="com.odianyun.search.whale.geo.req.GeoSortBuilder" />
+    
+    <bean id="geoFieldsResponseHandler" class="com.odianyun.search.whale.geo.resp.GeoFieldsResponseHandler" />
+     
+    <bean id="geoSearchService" class="com.odianyun.search.whale.geo.GeoSearchServer">
+        <property name="geoRequestBuilders">
+           <list>
+               <ref bean="geoQueryBuilder"/>
+               <ref bean="geoFieldsBuilder"/>
+               <ref bean="geoSortBuilder"/>
+            </list>
+        </property>
+        <property name="geoResponseHandlers">
+            <list>
+               <ref bean="geoFieldsResponseHandler"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="areaCodeConvertor" class="com.odianyun.search.whale.geo.AreaCodeConvertor" />
+    <!-- GEO 相关配置文件 end -->
+    
+    <!-- O2O shopSearch  相关配置文件 start -->
+    
+    <bean id="o2OShopSearchQueryBuilder" class="com.odianyun.search.whale.o2o.req.O2OShopSearchQueryBuilder" />
+    <bean id="o2OShopSearchFieldsBuilder" class="com.odianyun.search.whale.o2o.req.O2OShopSearchFieldsBuilder" />
+    <bean id="o2OShopSearchSortBuilder" class="com.odianyun.search.whale.o2o.req.O2OShopSearchSortBuilder" />
+    
+    <bean id="o2OShopCategoryResponseHandler" class="com.odianyun.search.whale.o2o.resp.O2OShopCategoryResponseHandler" />
+    
+    <bean id="o2OShopNavCategoryResponseHandler" class="com.odianyun.search.whale.o2o.resp.O2OShopNavCategoryResponseHandler" />
+     
+    <bean id="o2OShopSearchService" class="com.odianyun.search.whale.o2o.O2OShopSearchServer">
+        <property name="o2OShopSearchRequestBuilders">
+           <list>
+               <ref bean="o2OShopSearchQueryBuilder"/>
+               <ref bean="o2OShopSearchFieldsBuilder"/>
+               <ref bean="o2OShopSearchSortBuilder"/>
+            </list>
+        </property>
+        <property name="o2OShopSearchResponseHandlers">
+            <list>
+               <ref bean="o2OShopCategoryResponseHandler"/>
+               <ref bean="o2OShopNavCategoryResponseHandler"/>
+            </list>
+        </property>
+    </bean>
+    <!-- O2O shopSearch  相关配置文件 end -->
+    
+    
+    <!-- selection product search  相关配置文件 start -->
+    <bean id="selectionProductSearchResponseHandler" class="com.odianyun.search.whale.selectionproduct.SelectionProductSearchResponseHandler" />
+     
+    <bean id="promotionProductSearchResponseHandler" class="com.odianyun.search.whale.selectionproduct.PromotionProductSearchResponseHandler"></bean>
+    
+    <bean id="selectionProductSearchService" class="com.odianyun.search.whale.selectionproduct.SelectionProductSearchServer" />
+    <!-- selection product search  相关配置文件  end -->
+    <bean id="searchUpdateConsumer" class="com.odianyun.search.whale.manager.SearchUpdateConsumer" />
+
+    <bean id="promotionSearchHandler" class="com.odianyun.search.whale.server.PromotionSearchHandler"></bean>
+
+    <bean id="promotionTypeSearchHandler" class="com.odianyun.search.whale.server.PromotionTypeSearchHandler"></bean>
+
+    <bean id="hotSearchHandler" class="com.odianyun.search.whale.server.HotSearchHandler"></bean>
+    <bean id="searchBusinessService" class="com.odianyun.search.whale.server.SearchBusinessServer"/>
+
+    <!--<bean id="hotSaleMerchantProductBuilder" class="com.odianyun.search.whale.shop.req.HotSaleMerchantProductBuilder" />-->
+    <bean id="shopListFieldsBuilder" class="com.odianyun.search.whale.shop.req.ShopListFieldsBuilder" />
+    <bean id="shopListQueryBuilder" class="com.odianyun.search.whale.shop.req.ShopListQueryBuilder" />
+    <bean id="shopListSortBuilder" class="com.odianyun.search.whale.shop.req.ShopListSortBuilder" />
+
+
+    <bean id="hotSaleMerchantProductHandler" class="com.odianyun.search.whale.shop.resq.HotSaleMerchantProductHandler" />
+    <bean id="shopListFieldsHandler" class="com.odianyun.search.whale.shop.resq.ShopListFieldsHandler" />
+
+    <bean id="shopServer" class="com.odianyun.search.whale.shop.ShopServer">
+        <property name="requestBuilders">
+            <list>
+                <!--<ref bean="hotSaleMerchantProductBuilder"/>-->
+                <ref bean="shopListQueryBuilder"/>
+                <ref bean="shopListFieldsBuilder"/>
+                <ref bean="shopListSortBuilder"/>
+            </list>
+        </property>
+        <property name="responseHandlers">
+            <list>
+                <ref bean="shopListFieldsHandler"/>
+                <ref bean="hotSaleMerchantProductHandler"/>
+
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="getChildMerchantByPointHandler" class="com.odianyun.search.whale.shop.GetChildMerchantByPointHandler"/>
+
+
+    <!--推荐相关 start-->
+    <bean id="recommendServer" class="com.odianyun.search.whale.recommend.server.RecommendServer"></bean>
+    <bean id="homeGuessHandler" class="com.odianyun.search.whale.recommend.server.HomeGuessHandler"></bean>
+    <bean id="productDetailHanlder" class="com.odianyun.search.whale.recommend.server.ProductDetailHanlder"></bean>
+    <bean id="cartHandler" class="com.odianyun.search.whale.recommend.server.CartHandler"></bean>
+    <bean id="orderHandler" class="com.odianyun.search.whale.recommend.server.OrderHandler"></bean>
+    <bean id="personCenterHandler" class="com.odianyun.search.whale.recommend.server.PersonCenterHandler"></bean>
+    <!--推荐相关 end-->
+
+</beans>

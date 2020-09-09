@@ -1,0 +1,53 @@
+{
+ "settings" : {
+        "index" : {
+            "number_of_shards" : 3,
+            "number_of_replicas" : 1
+        },
+        "analysis" : {
+            "analyzer" : {
+                "std" : {
+                    "tokenizer" : "standard",
+                    "filter" : ["standard", "lowercase", "stop", "porter_stem"]
+                }
+            }
+        }
+    },
+      "mappings": {
+          "mp": {
+              "properties": {
+                  "order_code": {
+                      "type": "string",
+                      "store": "yes",
+                      "index": "not_analyzed"
+                  },
+                  "tag_words": {
+                      "type": "string",
+                      "store": "no",
+                      "analyzer": "ik_analyzer",
+                      "term_vector": "no"
+                  },
+                  "time": {
+                      "type": "date",
+                      "format": "yyy-MM-dd HH:mm:ss||yyyy-MM-dd",
+                      "index": "not_analyzed"
+                  },
+                  "user_id": {
+                      "type": "long",
+                      "store": "yes",
+                      "index": "not_analyzed"
+                  },
+                  "company_id": {
+                      "type": "long",
+                      "store": "no",
+                      "index": "not_analyzed"
+                  },
+                  "consumer_merchant_id": {
+                      "type": "long",
+                      "store": "no",
+                      "index": "not_analyzed"
+                  }
+              }
+          }
+      }
+}

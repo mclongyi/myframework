@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd"
+       default-autowire="byName">
+
+    <import resource="classpath:applicationContext-suggest.xml"/>
+    
+    <bean id="areaSuggestResponseHandler" class="com.odianyun.search.whale.suggest.resp.handler.AreaSuggestResponseHandler" />
+    <bean id="suggestResponseHandler" class="com.odianyun.search.whale.suggest.resp.handler.SuggestResponseHandler" />
+    <bean id="historyCleanHandler" class="com.odianyun.search.whale.history.handler.HistoryCleanHandler" />
+    <bean id="historySearchHandler" class="com.odianyun.search.whale.history.handler.HistorySearchHandler" />
+    <bean id="spellCheckResponseHandler" class="com.odianyun.search.whale.suggest.resp.handler.SpellCheckResponseHandler" />
+    
+    <bean id="areaSuggestRequestBuilder" class="com.odianyun.search.whale.suggest.req.builder.AreaSuggestRequestBuilder" />
+    <bean id="suggestRequestBuilder" class="com.odianyun.search.whale.suggest.req.builder.SuggestRequestBuilder" />
+    <bean id="spellCheckRequestBuilder" class="com.odianyun.search.whale.suggest.req.builder.SpellCheckRequestBuilder" />
+
+    <bean id="suggestHandler" class="com.odianyun.search.whale.suggest.handler.SuggestHandler" >
+        <property name="requestBuilders">
+            <list>
+               <ref bean="suggestRequestBuilder"/>
+            </list>
+        </property>
+        <property name="responseHandlers">
+            <list>
+               <ref bean="suggestResponseHandler"/>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="areaSuggestHandler" class="com.odianyun.search.whale.suggest.handler.AreaSuggestHandler">
+         <property name="requestBuilders">
+           <list>
+               <ref bean="areaSuggestRequestBuilder"/>
+            </list>
+        </property>
+        <property name="responseHandlers">
+            <list>
+               <ref bean="areaSuggestResponseHandler"/>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="spellCheckerHandler" class="com.odianyun.search.whale.suggest.handler.SpellCheckerHandlerImpl" >
+         <property name="requestBuilders">
+           <list>
+               <ref bean="spellCheckRequestBuilder"/>
+            </list>
+        </property>
+        <property name="responseHandlers">
+            <list>
+               <ref bean="spellCheckResponseHandler"/>
+            </list>
+        </property>
+    </bean>
+   
+    <bean id="suggestServer" class="com.odianyun.search.whale.suggest.server.SuggestServer" />
+    <bean id="historyServer" class="com.odianyun.search.whale.history.server.HistoryServer" />
+	<bean id="userHistoryResdis" class="com.odianyun.search.whale.history.redis.UserHistoryResdis"></bean>
+    
+</beans>

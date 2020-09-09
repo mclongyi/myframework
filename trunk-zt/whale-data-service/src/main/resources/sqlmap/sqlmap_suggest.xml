@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="suggest">
+    
+    <resultMap class="com.odianyun.search.whale.data.model.suggest.WordWithCompany" id="wordWithCompany">
+        <result property="id" column="id" />
+    	<result property="keyword" column="keyword" />
+    	<result property="companyId" column="company_id" />
+    	
+    </resultMap>
+    
+    <resultMap class="com.odianyun.search.whale.data.model.suggest.WordWithCompany" id="wordWithCompanyFrequency">
+    	<result property="keyword" column="keyword" />
+    	<result property="companyId" column="company_id" />
+    	<result property="frequency" column="frequency" />
+    	
+    </resultMap>
+    
+     <resultMap class="com.odianyun.search.whale.data.model.suggest.SuggestWord" id="suggestWord">
+    	<result property="keyword" column="keyword" />
+    	<result property="spell" column="spell" />
+    	<result property="firstSpell" column="first_spell" />
+    	<result property="characterCut" column="character_cut" />
+    	<result property="characterSort" column="character_sort" />
+    	<result property="searchFrequency" column="search_frequency" />
+    	<result property="searchResults" column="search_results" />
+    	<result property="companyId" column="company_id" />
+    	<result property="input" column="input" />
+		
+    </resultMap>
+    
+    <select id="getWordsWithPage" parameterClass="java.util.HashMap" resultMap="wordWithCompany">
+    	select id, $keyword$ keyword, company_id from $tableName$  where company_id = #companyId# and $keyword$ is not null and is_deleted=0 and
+    	<isNotEmpty property="management_state">
+			management_state=1 and status = 2 and type_of_product in (0,3,4) and
+		</isNotEmpty>
+    	id >#maxId# order by id limit 0,#pageSize#
+    </select>
+
+
+    
+    <!-- <insert id="storeConCurrenceWordTemp" parameterClass="java.util.HashMap">
+        <![CDATA[
+    	insert concurrence_word_temp (keyword, frequency, company_id) values (#keyword#, #frequency#,#companyId#)
+    	]]>
+    </insert> 
+    
+    <select id="getConCurrenceWordsWithPage" parameterClass="java.util.HashMap" resultMap="wordWithCompanyFrequency">
+    	select keyword,company_id,frequency from concurrence_word where frequency > 100
+    	    limit #startIndex#,#pageSize#;
+    </select>-->
+    
+    <!-- <update id="cleanConCurrenceWordTemp">
+        TRUNCATE concurrence_word_temp;
+    </update>
+    
+    <update id="cleanConCurrenceWordBak">
+        TRUNCATE concurrence_word_bak;
+    </update>
+    
+    <insert id="copyToConCurrenceWordBak">
+    	insert into concurrence_word_bak select * from concurrence_word;
+    </insert>
+    
+    <update id="cleanConCurrenceWord">
+        TRUNCATE concurrence_word;
+    </update>
+    
+    <insert id="copyToConCurrenceWord">
+    	insert into concurrence_word select * from concurrence_word_temp;    
+    </insert>
+    
+    <insert id="storeToTemp" parameterClass="com.odianyun.search.whale.data.model.suggest.SuggestWord">
+    	<![CDATA[
+    	insert into suggest_word_temp (keyword,spell,first_spell,search_frequency,company_id,input) values (#keyword#,#spell#,#firstSpell#,#searchFrequency#,#companyId#,#input#)
+   		]]>
+    </insert>
+    
+    <update id="cleanBackupSuggestWords">
+    	TRUNCATE suggest_word_bak;
+    </update>
+    
+    <insert id="backupSuggestWords">
+    	insert into suggest_word_bak select * from suggest_word;
+    </insert>
+    
+    <update id="cleanSuggestWords">
+    	TRUNCATE suggest_word;
+    </update>
+    
+    <insert id="copyToSuggestWords">
+		insert into suggest_word select * from suggest_word_temp;
+    </insert>
+    
+    <update id="cleanTempSuggestWords">
+		TRUNCATE suggest_word_temp;
+    </update>
+    
+    <insert id="rollbackSuggestWord">
+		insert into suggest_word select * from suggest_word_bak;
+    </insert>
+    
+    <select id="countSuggestWords">
+    	select count(*) from suggest_word;
+    </select>
+    
+    <select id="countSuggestWordTemp">
+		select count(*) from suggest_word_temp;
+    </select>
+    
+    <select id="querySuggestWordsWithPage" parameterClass="java.util.HashMap" resultMap="suggestWord">
+    	select keyword,spell,first_spell,character_sort,character_cut,search_frequency,search_results,company_id,input from suggest_word 
+    	    limit #startIndex#,#pageSize#;
+    </select> -->
+	
+</sqlMap>

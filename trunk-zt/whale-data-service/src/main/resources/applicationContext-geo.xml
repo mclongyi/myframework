@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd"
+	default-autowire="byName">
+    
+    <context:annotation-config/>
+    <context:component-scan base-package="com.odianyun.search.whale"></context:component-scan>
+	
+	<bean id="sqlMapClient_geo" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation">
+			<value>classpath:/sqlmap/sqlmap-geo-config.xml</value>
+		</property>
+	</bean>
+	
+	<bean id="poiDao" class="com.odianyun.search.whale.data.geo.dao.impl.POIDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource_merchant" />
+		</property>
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient_geo" />
+		</property>
+	</bean>
+
+	
+	<bean id="poiService" class="com.odianyun.search.whale.data.geo.service.impl.POIServiceImpl" >
+	    <property name="poiDao">
+	        <ref bean="poiDao"/>
+	     </property>
+	</bean>
+
+ 
+</beans>

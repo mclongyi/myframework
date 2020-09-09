@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd"
+       default-autowire="byName">
+
+    <import resource="classpath:applicationContext-common.xml"/>
+	
+	<bean id="dataSource_price" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="url" value="${price.jdbc.url}" />  
+        <property name="driverClassName" value="${price.jdbc.DriverClassName}" />  
+        <property name="username" value="${price.jdbc.username}" />  
+        <property name="password" value="${price.jdbc.password}" />  
+        <property name="maxActive" value="${price.jdbc.maxActive}" />  
+        <property name="maxIdle" value="${price.jdbc.maxIdle}" />  
+        <property name="minIdle" value="${price.jdbc.minIdle}" />  
+        <property name="maxWait" value="${price.jdbc.maxWait}" /> 
+        <property name="timeBetweenEvictionRunsMillis"  value="${price.jdbc.timeBetweenEvictionRunsMillis}"></property>
+        <property name="testWhileIdle"  value="${price.jdbc.testWhileIdle}"></property>
+        <property name="validationQuery"  value="${price.jdbc.validationQuery}"></property>
+	</bean>
+	
+	
+	<bean id="dataSource_stock" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="url" value="${stock.jdbc.url}" />  
+        <property name="driverClassName" value="${stock.jdbc.DriverClassName}" />  
+        <property name="username" value="${stock.jdbc.username}" />  
+        <property name="password" value="${stock.jdbc.password}" />  
+        <property name="maxActive" value="${stock.jdbc.maxActive}" />  
+        <property name="maxIdle" value="${stock.jdbc.maxIdle}" />  
+        <property name="minIdle" value="${stock.jdbc.minIdle}" />  
+        <property name="maxWait" value="${stock.jdbc.maxWait}" /> 
+        <property name="timeBetweenEvictionRunsMillis"  value="${stock.jdbc.timeBetweenEvictionRunsMillis}"></property>
+        <property name="testWhileIdle"  value="${stock.jdbc.testWhileIdle}"></property>
+        <property name="validationQuery"  value="${stock.jdbc.validationQuery}"></property>
+	</bean>
+
+	<bean id="productAttributeDao" class="com.odianyun.search.whale.data.dao.impl.ProductAttributeDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource_product" />
+		</property>
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient_product" />
+		</property>
+	</bean>
+	
+	<bean id="merchantProductPriceDao" class="com.odianyun.search.whale.data.dao.impl.MerchantProductPriceDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource_price" />
+		</property>
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient_product" />
+		</property>
+	</bean>
+	
+	<bean id="merchantProductStockDao" class="com.odianyun.search.whale.data.dao.impl.MerchantProductStockDaoImpl">
+	    <property name="dataSource">
+			<ref bean="dataSource_stock" />
+		</property>
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient_product" />
+		</property>
+	</bean>
+	
+	<bean id="merchantSeriesDao" class="com.odianyun.search.whale.data.dao.impl.MerchantSeriesDaoImpl">
+	    <property name="dataSource">
+			<ref bean="dataSource_product" />
+		</property>
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient_product" />
+		</property>
+	</bean>
+
+	<bean id="productSeriesDao" class="com.odianyun.search.whale.data.dao.impl.ProductSeriesDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource_product" />
+		</property>
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient_product" />
+		</property>
+	</bean>
+	
+	<!--  -->
+	<bean id="volume4SaleDao" class="com.odianyun.search.whale.data.dao.impl.Volume4SaleDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource_product" />
+		</property>
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient_product" />
+		</property>
+	</bean>
+	<bean id="rateDao" class="com.odianyun.search.whale.data.dao.impl.RateDaoImpl" >
+		<property name="dataSource">
+			<ref bean="dataSource_front" />
+		</property>
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient_product" />
+		</property>
+	</bean>
+	<bean id="seasonDao" class="com.odianyun.search.whale.data.dao.impl.SeasonDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource_search" />
+		</property>
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient_product" />
+		</property>
+	</bean>
+	<bean id="seasonCategoryWeightDao" class="com.odianyun.search.whale.data.dao.impl.SeasonCategoryWeightDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource_search" />
+		</property>
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient_product" />
+		</property>
+	</bean>
+
+	<bean id="merchantProductCombineDao" class="com.odianyun.search.whale.data.dao.impl.MerchantProductCombineDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource_product" />
+		</property>
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient_product" />
+		</property>
+	</bean>
+
+	<bean id="merchantProductBarcodeDao" class="com.odianyun.search.whale.data.dao.impl.MerchantProductBarcodeDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource_product" />
+		</property>
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient_product" />
+		</property>
+	</bean>
+
+	<bean id="productService" class="com.odianyun.search.whale.data.service.impl.ProductServiceImpl" />
+    <bean id="productAttributeService" class="com.odianyun.search.whale.data.service.impl.ProductAttributeServiceImpl" />
+    <bean id="merchantProductPriceService" class="com.odianyun.search.whale.data.service.impl.MerchantProductPriceServiceImpl" />
+    <bean id="merchantProductStockService" class="com.odianyun.search.whale.data.service.impl.MerchantProductStockServiceImpl" />
+    <bean id="seriesService" class="com.odianyun.search.whale.data.service.impl.MerchantSeriesServiceImpl"/>
+	<bean id="productSeriesService" class="com.odianyun.search.whale.data.service.impl.ProductSeriesServiceImpl"/>
+
+	<bean id="volume4SaleService" class="com.odianyun.search.whale.data.service.impl.Volume4SaleServiceImpl"/>
+	<bean id="merchantProductCombineService" class="com.odianyun.search.whale.data.service.impl.MerchantProductCombineServiceImpl" />
+
+	<!--front库 评分，评价等service-->
+	<bean id="RateService" class="com.odianyun.search.whale.data.service.impl.RateServiceImpl" />
+	<bean id="seasonCategoryWeightService" class="com.odianyun.search.whale.data.service.impl.SeasonCategoryWeightServiceImpl" />
+
+
+</beans>

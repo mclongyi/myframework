@@ -1,0 +1,1068 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="product">
+    <resultMap id="product" class="com.odianyun.search.whale.data.model.Product">
+        <result property="id" column="id" />
+        <result property="brandId" column="brand_id" />
+    	<result property="category_id" column="category_tree_node_id" nullValue="0"/>
+        <result property="ean_no" column="ean_no" />
+        <result property="code" column="code" />
+        <result property="calculation_unit" column="calculation_unit" />
+        <result property="standard" column="standard" />
+    </resultMap>
+
+    <resultMap id="category_tree_node" class="com.odianyun.search.whale.data.model.CategoryTreeNode">
+        <result property="id" column="id" />
+        <result property="parent_id" column="parent_id" />
+        <result property="category_id" column="category_id" />
+        <result property="listSort" column="list_sort" nullValue="9999"/>
+    </resultMap>
+
+    <resultMap id="category" class="com.odianyun.search.whale.data.model.Category">
+        <result property="id" column="id" />
+        <result property="name" column="name" />
+    	    	<result property="parentId" column="parent_id" />
+    	    	<result property="fullIdPath" column="full_id_path" />
+    	    	<result property="listSort" column="list_sort" nullValue="9999"/>
+
+    	    	<!-- <result property="firstCategoryId" column="first_category_id" /> -->
+
+    </resultMap>
+
+    <resultMap id="brand" class="com.odianyun.search.whale.data.model.Brand">
+        <result property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="chinese_name" column="chinese_name" />
+        <result property="english_name" column="english_name" />
+        <result property="brandLogo" column="log_url" />
+    </resultMap>
+
+    <resultMap id="merchantProduct" class="com.odianyun.search.whale.data.model.MerchantProduct">
+        <result property="id" column="id" />
+        <result property="product_id" column="product_id" />
+        <result property="merchant_id" column="merchant_id" />
+        <result property="chinese_name" column="chinese_name" />
+        <result property="english_name" column="english_name" />
+        <result property="is_deleted" column="is_deleted" />
+        <!-- <result property="is_available" column="is_available" /> -->
+        <result property="create_time" column="create_time" />
+        <result property="code" column="code" />
+        <result property="subtitle" column="subtitle" />
+        <result property="isNew" column="isNew"/>
+        <result property="first_shelf_time" column="first_shelf_time"/>
+        <result property="company_id" column="company_id" nullValue="0"/>
+        <result property="merchantSeriesId" column="merchant_series_id" nullValue="0"/>
+        <result property="tax" column="tax_no" nullValue=""/>
+        <result property="type" column="TYPE" nullValue="0"/>
+        <result property="sale_type" column="sale_type" nullValue="0"/>
+        <result property="managementState" column="management_state" nullValue="0"/>
+        <result property="typeOfProduct" column="type_of_product" nullValue="0"/>
+        <result property="thirdCode" column="third_merchant_product_code"/>
+        <result property="cardType" column="card_type" />
+        <result property="cardId" column="card_id"/>
+
+
+    </resultMap>
+    
+        <resultMap id="merchantProductO2O" class="com.odianyun.search.whale.data.model.MerchantProduct">
+        <result property="id" column="id" />
+        <result property="product_id" column="product_id" />
+        <result property="merchant_id" column="merchant_id" />
+        <result property="chinese_name" column="chinese_name" />
+        <result property="english_name" column="english_name" />
+        <result property="is_deleted" column="is_deleted" />
+        <result property="create_time" column="create_time" />
+        <result property="code" column="code" />
+        <result property="subtitle" column="subtitle" />
+        <result property="isNew" column="isNew"/>
+        <result property="first_shelf_time" column="first_shelf_time"/>
+        <result property="company_id" column="company_id" nullValue="0"/>
+        <result property="merchantSeriesId" column="merchant_series_id" nullValue="0"/>
+        <result property="tax" column="tax_no" nullValue=""/>
+        <result property="type" column="TYPE" nullValue="0"/>
+        <result property="sale_type" column="sale_type" nullValue="0"/>
+        <result property="managementState" column="management_state" nullValue="0"/>
+        <result property="typeOfProduct" column="type_of_product" nullValue="0"/>
+        <result property="thirdCode" column="third_merchant_product_code"/>
+        <result property="seriesParentId" column="series_parent_id"/>
+        <result property="minSize" column="min_size"/>
+        <result property="maxSize" column="max_size"/>
+        <result property="merchantType" column="merchant_type"/>
+        <result property="placeOfOrigin" column="place_of_origin"/>
+        <result property="placeOfOriginLogo" column="place_of_origin_logo"/>
+		<result property="cardType" column="card_type" />
+        <result property="cardId" column="card_id"/>
+	</resultMap>
+    
+    
+
+    <resultMap id="merchantProductForSugg" class="com.odianyun.search.whale.data.model.MerchantProductForSuggest">
+        <result property="id" column="id" />
+        <result property="productId" column="product_id" />
+        <result property="merchantId" column="merchant_id" />
+        <result property="chineseName" column="chinese_name" />
+        <result property="englishName" column="english_name" />
+        <result property="subtitle" column="subtitle" />
+        <result property="companyId" column="company_id" nullValue="0"/>
+
+    </resultMap>
+
+    <resultMap id="merchantProductSimple" class="com.odianyun.search.whale.data.model.MerchantProductSimple">
+        <result property="id" column="id" />
+        <result property="merchant_id" column="merchant_id" />
+        <result property="company_id" column="company_id" nullValue="0"/>
+        <result property="managementState" column="management_state" nullValue="0"/>
+        <result property="status" column="status" nullValue="0"/>
+
+    </resultMap>
+
+    <resultMap id="mpIdMerchantIdMap" class="java.util.HashMap">
+        <result property="mpId" column="mpId"  javaType="java.lang.Long"/>
+        <result property="merchantId" column="merchantId" javaType="java.lang.Long"/>
+    </resultMap>
+
+    <resultMap id="productAttribute" class="com.odianyun.search.whale.data.model.ProductAttributeValue">
+        <result property="productId" column="product_id" />
+        <result property="attrNameId" column="att_name_id" />
+        <result property="attrValueId" column="att_value_id" />
+    </resultMap>
+
+    <resultMap id="merchantProductPrice" class="com.odianyun.search.whale.data.model.MerchantProductPrice">
+        <result property="merchant_product_id" column="merchant_product_id" />
+        <result property="merchant_product_price" column="merchant_product_price" nullValue="0"/>
+    </resultMap>
+
+    <!-- 商品销售数量结果集  对应建表语句可能有笔误 merchat_product_id 后期改动 同步修改-->
+    <resultMap id="merchantProductVolume4Sale" class="com.odianyun.search.whale.data.model.MerchantProductVolume4Sale">
+        <result property="merchant_product_id" column="merchant_prod_id" />
+        <result property="product_id" column="product_id" nullValue="0"/>
+        <result property="volume4sales" column="cumulative_sales_volume" nullValue="0"/>
+
+    </resultMap>
+
+    <resultMap id="merchantProductSaleOffset" class="com.odianyun.search.whale.data.model.MerchantProductSaleOffset">
+        <result property="mpId" column="merchant_product_id" />
+        <result property="offset" column="offset" nullValue="0"/>
+    </resultMap>
+
+
+    <resultMap id="attributeValue" class="com.odianyun.search.whale.data.model.AttributeValue">
+        <result property="merchantSeriesId" column="merchantSeriesId" />
+        <result property="attrValueId" column="valueId" />
+        <result property="attrValue" column="value" />
+        <result property="attrNameId" column="nameId" />
+        <result property="attrName" column="name_name" />
+        <result property="parentId" column="parent_id" />
+        <result property="sortValue" column="sort_value" nullValue="999"/>
+        <result property="attrType" column="type" nullValue="0"/>
+    </resultMap>
+
+    <resultMap id="merchantSeriesAttribute" class="com.odianyun.search.whale.data.model.MerchantSeriesAttribute">
+        <result property="merchantSeriesId" column="merchantSeriesId" />
+        <result property="attrNameId" column="attrNameId" />
+    </resultMap>
+
+    <resultMap id="productSeriesAttribute" class="com.odianyun.search.whale.data.model.ProductSeriesAttribute">
+        <result property="virtualMerchantProductId" column="virtual_merchant_product_id" />
+        <result property="attrNameId" column="att_name_id" />
+    </resultMap>
+
+    <resultMap id="categoryTreeNodeRelation" class="com.odianyun.search.whale.data.model.CategoryTreeNodeRelation">
+        <result property="leftCategoryTreeNodeId" column="left_tree_node_id" />
+        <result property="rightCategoryTreeNodeId" column="right_tree_node_id" />
+    </resultMap>
+
+    <resultMap id="merchantCateTreeNode" class="com.odianyun.search.whale.data.model.MerchantCateTreeNode">
+        <result property="id" column="id" />
+        <result property="parent_id" column="parent_id" nullValue="-1"/>
+        <result property="category_id" column="category_id" nullValue="-999"/>
+        <result property="merchant_cat_tree_id" column="category_tree_id" />
+        <result property="name" column="name" />
+    </resultMap>
+
+    <resultMap id="merchantCateCateTreeNodeRel" class="com.odianyun.search.whale.data.model.MerchantCateCategoryTreeNodeRel">
+        <result property="cateTreeNodeId" column="right_tree_node_id" nullValue="-1"/>
+        <result property="merchantCateTreeNodeId" column="left_tree_node_id" nullValue="-1"/>
+        <result property="merchantId" column="merchant_id" nullValue="-1"/>
+    </resultMap>
+
+    <resultMap id="merchantProductStock" class="com.odianyun.search.whale.data.model.MerchantProductStock">
+        <result property="merchant_product_id" column="merchant_product_id" />
+        <result property="product_id" column="product_id" />
+        <result property="merchant_id" column="merchant_id" />
+        <result property="real_stock_num" column="real_stock_num" nullValue="0"/>
+        <result property="real_frozen_stock_num" column="real_frozen_stock_num" nullValue="0"/>
+    </resultMap>
+
+    <resultMap id="merchantSeries" class="com.odianyun.search.whale.data.model.MerchantSeries">
+        <result property="id" column="id"/>
+        <result property="merchant_id" column="merchant_id"/>
+        <result property="main_merchant_product_id" column="main_merchant_product_id"/>
+    </resultMap>
+
+    <resultMap id="merchantProductPic" class="com.odianyun.search.whale.data.model.MerchantProductPic">
+        <result property="id" column="id" />
+        <result property="url" column="url"/>
+        <result property="sort_value" column="sort_value" nullValue="0"/>
+    </resultMap>
+
+    <resultMap id="urlsMap" class="java.util.HashMap">
+        <result property="id" column="id" />
+        <result property="url" column="url"/>
+    </resultMap>
+
+    <resultMap id="merchantCateTreeNodeIdMap" class="com.odianyun.search.whale.data.model.MerchantProdMerchantCateTreeNode">
+        <result property="merchantCateTreeNodeId" column="fore_category_tree_node_id" />
+        <result property="merchantMroductId" column="merchant_product_id"/>
+    </resultMap>
+
+    <resultMap id="merchantProductAttributeValue" class="com.odianyun.search.whale.data.model.MerchantProductAttributeValue">
+        <result property="merchantProductId" column="merchant_product_id"/>
+        <result property="attrValueId" column="att_value_id"/>
+        <result property="attrType" column="attr_type"/>
+    </resultMap>
+
+    <resultMap id="productCategoryRelation" class="com.odianyun.search.whale.data.model.ProductCategoryRelation">
+        <result property="productId" column="product_id" />
+        <result property="type" column="type" />
+        <result property="naviCategoryId" column="left_tree_node_id" />
+        <result property="backendCategoryId" column="right_tree_node_id" />
+    </resultMap>
+    <resultMap id="merchantProductCategory" class="com.odianyun.search.whale.data.model.MPCategoryRelation">
+        <result property="mpId" column="mpId"/>
+        <result property="categoryId" column="categoryId"/>
+    </resultMap>
+
+
+    <resultMap id="mpId2seriesIdMap" class="java.util.HashMap">
+        <result property="seriesId" column="seriesId"  javaType="java.lang.Long"/>
+        <result property="merchant_product_id" column="merchant_product_id" javaType="java.lang.Long"/>
+    </resultMap>
+    <!--商品角标 start-->
+    <resultMap id="superScript" class="com.odianyun.search.whale.data.model.SuperScript">
+        <result property="superscriptId" column="superscript_id"/>
+        <result property="name" column="name"/>
+        <result property="displayType" column="display_type"/>
+        <result property="iconUrl" column="icon_url"/>
+        <result property="priority" column="priority"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+    <resultMap id="merProScript" class="com.odianyun.search.whale.data.model.MerProScript">
+        <result property="mpId" column="id"/>
+        <result property="superscriptId" column="superscript_id"/>
+        <result property="validFrom" column="valid_from"/>
+        <result property="validTo" column="valid_to"/>
+    </resultMap>
+    <!--商品角标 end-->
+    <!--商品销售区域 start-->
+    <resultMap id="merProIdAreaId" class="com.odianyun.search.whale.data.model.MerchantProductSaleArea">
+        <result property="mpId" column="merchant_product_id"/>
+        <result property="saleAreaId" column="sale_area_id"/>
+    </resultMap>
+    <resultMap id="merProSaleAreas" class="com.odianyun.search.whale.data.model.SaleAreasCover">
+        <result property="saleAreaId" column="sale_area_id"/>
+        <result property="areaCode" column="code"/>
+        <result property="parentCode" column="parentCode"/>
+        <result property="name" column="name"/>
+        <result property="level" column="level"/>
+    </resultMap>
+    <resultMap id="saleAreaIdMerchantIdMap" class="java.util.HashMap">
+        <result property="sale_area_id" column="sale_area_id"  javaType="java.lang.Long"/>
+        <result property="merchant_id" column="merchant_id" javaType="java.lang.Long"/>
+    </resultMap>
+    <!--商品销售区域 end-->
+    <!--组合商品 start-->
+    <resultMap id="combineProductMap" class="com.odianyun.search.whale.data.model.CombineProduct">
+        <result property="id" column="id" javaType="java.lang.Long" />
+        <result property="combine_product_id" column="combine_product_id" javaType="java.lang.Long" />
+        <result property="sub_merchant_prod_id" column="sub_merchant_prod_id" javaType="java.lang.Long" />
+        <result property="count" column="count" javaType="java.lang.Integer" />
+        <result property="companyId" column="companyId" javaType="java.lang.Long" />
+    </resultMap>
+
+    <!--组合商品 end -->
+    <!--扫码购-->
+    <resultMap id="productBarcode" class="com.odianyun.search.whale.data.model.ProductBarcodeBind">
+        <result property="srcBarcode" column="src_barcode" />
+        <result property="destBarcode" column="dest_barcode" />
+    </resultMap>
+    <resultMap id="merchantProductRelation" class="com.odianyun.search.whale.data.model.MerchantProductRelation">
+        <result property="refId" column="merchant_product_id"/>
+        <result property="mpId" column="store_mp_id"/>
+    </resultMap>
+
+
+
+    <select id="queryAllProducts"  parameterClass="java.lang.Integer" resultMap="product">
+        select id,brand_id,category_tree_node_id,code,calculation_unit,ean_no
+        from product
+        where is_deleted=0 and is_deleted =0 and company_id = #companyId#;
+    </select>
+
+    <select id="queryAllCategoryTreeNode"  parameterClass="java.lang.Integer" resultMap="category_tree_node">
+        select id,parent_id,category_id,list_sort from category_tree_node where is_deleted=0 and company_id = #companyId#;
+    </select>
+
+    <select id="queryCategoryTreesByLeftTreeNodeIds" parameterClass="java.util.HashMap" resultMap="category_tree_node">
+        select id,parent_id,category_id,list_sort from category_tree_node
+        where is_deleted=0 and company_id = #companyId# and id in
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate> ;
+    </select>
+
+    <select id="queryAllCategory" parameterClass="java.lang.Integer" resultMap="category">
+    	select c.id,c.name,c.parent_id,c.full_id_path,c.list_sort
+    	from category c JOIN category_tree ct ON c.category_tree_id = ct.id AND ct.is_deleted = 0
+    	where c.is_deleted=0 and c.company_id = #companyId# and (ct.merchant_id is null OR ct.merchant_id = 0);
+    </select>
+
+    <!-- select c.id id,c.name name  from category c where c.is_deleted=0
+    		and c.id in (select ctn.category_id from category_tree_node ctn where ctn.is_deleted=0 and ctn.id in
+    		<iterate  open="(" close=")" conjunction=",">
+            #list[]#
+       		</iterate>); -->
+    <select id="queryCategoriesByLeftTreeNodeIds" parameterClass="java.util.HashMap" resultMap="category">
+       	select c.id id,c.name name,c.parent_id,c.full_id_path,list_sort  from category c
+       		join category_tree_node ctn
+        on c.id = ctn.category_id
+        where c.is_deleted=0  and ctn.is_deleted=0 and c.company_id = #companyId# and ctn.company_id = #companyId# and
+        ctn.id in
+        <iterate property="ids"  open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>;
+    </select>
+
+    <select id="queryCategoriesByLeftCategoryIds" parameterClass="java.util.HashMap" resultMap="category">
+       select c.id id,c.name name,c.parent_id,c.full_id_path,c.list_sort  from category c
+       		join category_tree_node_relation ctn
+			on c.id = ctn.right_tree_node_id and ctn.is_deleted=0
+			where c.is_deleted=0 and c.company_id = #companyId# and ctn.company_id = #companyId# and
+ 			ctn.left_tree_node_id in
+ 			<iterate property="ids"  open="(" close=")" conjunction=",">
+            		#ids[]#
+       		</iterate>;
+    </select>
+
+    <select id="queryAllCategoryTreeNodeRelation" parameterClass="java.lang.Integer"  resultMap="categoryTreeNodeRelation">
+        select t.left_tree_node_id left_tree_node_id,t.right_tree_node_id  right_tree_node_id from category_tree_node_relation t where  t.is_deleted=0 and t.company_id = #companyId#;
+    </select>
+
+    <select id="queryCategoryTreeNodeRelationsByLeftTreeNodeIds" parameterClass="java.util.HashMap" resultMap="categoryTreeNodeRelation">
+        select t.left_tree_node_id left_tree_node_id,t.right_tree_node_id  right_tree_node_id from category_tree_node_relation t
+        where  t.is_deleted=0 and t.company_id = #companyId# and t.left_tree_node_id in
+        <iterate property="ids"   open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate> ;
+    </select>
+
+    <select id="queryAllBrand"  parameterClass="java.lang.Integer" resultMap="brand">
+        SELECT id,name,chinese_name,english_name,log_url from brand where is_deleted=0 and type=0 and company_id = #companyId#;
+    </select>
+
+    <select id="queryAllMerchantProduct" parameterClass="java.util.HashMap" resultMap="merchantProduct">
+    	select id,product_id,merchant_id,chinese_name,english_name,subtitle,
+    	   is_deleted,create_time,code,company_id,merchant_series_id,tax_no,TYPE,management_state,type_of_product,
+    	   IF(datediff(NOW(),first_shelf_time)>#is_new_day#,0,1) AS isNew,first_shelf_time,third_merchant_product_code,card_type,card_id
+    	   from merchant_product where is_deleted=0 and status = 2 and company_id = #companyId#;
+    </select>
+<!--
+    <select id="getMerchantProductsWithPage" parameterClass="java.util.HashMap" resultMap="merchantProductO2O">
+    	select id,product_id,merchant_id,chinese_name,english_name,subtitle,
+    	   is_deleted,create_time,code,company_id,merchant_series_id,tax_no,TYPE,sale_type,management_state,type_of_product,
+    	   IF(datediff(NOW(),first_shelf_time)>#is_new_day#,0,1) AS isNew,first_shelf_time,third_merchant_product_code, 
+    	   series_parent_id, min_size, max_size
+    	   from merchant_product where is_deleted=0  and status = 2 and company_id = #companyId#
+    	   and id >#maxId# order by id
+    	   limit 0,#pageSize#;
+    </select>
+     -->
+    <!-- 外卖修改20180907 -->
+    <select id="getMerchantProductsWithPage" parameterClass="java.util.HashMap" resultMap="merchantProductO2O">
+        select mpr.id,mpr.product_id,mpr.merchant_id,mpr.chinese_name,mpr.english_name,mpr.subtitle,
+        mpr.is_deleted,mpr.create_time,mpr.code,mpr.company_id,mpr.merchant_series_id,mpr.tax_no,mpr.TYPE,mpr.sale_type,mpr.management_state,mpr.type_of_product,
+        IF(datediff(NOW(),mpr.first_shelf_time)>#is_new_day#,0,1) AS isNew,mpr.first_shelf_time,mpr.third_merchant_product_code, 
+        mpr.first_shelf_time,mpr.third_merchant_product_code, 
+        mpr.series_parent_id, mpr.min_size, mpr.max_size,mer.merchant_type,mpr.place_of_origin_logo,mpr.place_of_origin,mpr.card_type,mpr.card_id
+        from merchant_product mpr 
+				left join (
+          select merchant_type, id,a.status, a.audit_status from merchant.merchant a where company_id = 30
+         ) mer on mpr.merchant_id = mer.id
+         where mpr.is_deleted=0  and mpr.`status` = 2  and mpr.company_id = #companyId# and mer.`status`=1 and mer.audit_status=1
+		 and mpr.id >#maxId# order by mpr.id
+         limit 0,#pageSize#;
+	</select>
+		
+    <select id="getMerchantProductsForSuggWithPage" parameterClass="java.util.HashMap" resultMap="merchantProductForSugg">
+        select id,product_id,merchant_id,chinese_name,english_name,subtitle,company_id
+        from merchant_product where is_deleted=0  and status = 2 and company_id = #companyId# and management_state = 1
+        and type_of_product in (0,3,4)
+        and id >#maxId# order by id
+        limit 0,#pageSize#;
+    </select>
+
+    <select id="getPointMerchantProductsForSuggWithPage" parameterClass="java.util.HashMap" resultMap="merchantProductForSugg">
+        select mp.id,mp.product_id,mp.merchant_id,mp.chinese_name,mp.english_name,mp.subtitle,mp.company_id
+        from merchant_product mp
+        JOIN sirius.point_mall_product pmp ON pmp.mp_id = mp.id AND pmp.is_deleted = 0 AND pmp.is_available = 1
+        where mp.is_deleted=0  and mp.status = 2 and pmp.company_id = #companyId#
+        and mp.type_of_product in (0,3,4)
+        and mp.id > #maxId#
+        order by id
+        limit 0,#pageSize#;
+    </select>
+
+    <select id="getStoreMerchantProductRelation" parameterClass="java.util.HashMap" resultMap="merchantProductRelation">
+        select merchant_product_id,store_mp_id FROM mp_store_product_relation where is_deleted = 0 and company_id = #companyId# and store_mp_id in
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+    <select id="queryPMPIdsBySMPIds" parameterClass="java.util.HashMap" resultMap="merchantProductRelation">
+        SELECT relation.merchant_product_id,relation.store_mp_id FROM mp_store_product_relation relation LEFT JOIN
+        merchant_product mp ON mp.id = relation.store_mp_id
+        WHERE relation.is_deleted = 0 AND mp.is_deleted = 0 AND mp.company_id = #companyId# AND mp.`status` = 2
+        AND mp.management_state = 1 AND relation.company_id = #companyId# AND relation.store_mp_id in
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+    <!--查询父商家商品审核通过，子商家商品审核通过并上架-->
+    <select id="querySMPIdsByPMPIds" parameterClass="java.util.HashMap" resultMap="merchantProductRelation">
+        SELECT
+        t.merchant_product_id,t.store_mp_id
+        FROM
+        (SELECT relation.merchant_product_id,relation.store_mp_id FROM mp_store_product_relation relation LEFT JOIN merchant_product mp ON mp.id = relation.merchant_product_id
+        WHERE relation.is_deleted = 0 AND mp.is_deleted = 0 AND mp.company_id = #companyId# AND mp.`status` = 2 AND mp.management_state = 1 AND relation.company_id = #companyId# AND relation.merchant_product_id in
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+        ) t
+        LEFT JOIN merchant_product mp1 ON mp1.id = t.store_mp_id
+        WHERE
+        mp1.is_deleted = 0
+        AND mp1.company_id = #companyId#
+        AND mp1.`status` = 2
+        AND mp1.management_state = 1
+    </select>
+
+    <select id="queryRelationByIds" parameterClass="java.util.HashMap" resultMap="merchantProductRelation">
+        SELECT relation.merchant_product_id,relation.store_mp_id FROM mp_store_product_relation relation
+        WHERE relation.is_deleted = 0 AND relation.company_id = #companyId# AND relation.merchant_product_id in
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+        OR relation.store_mp_id IN
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+
+
+
+    <select id="queryAllProductAttributeValues" parameterClass="java.lang.Integer" resultMap="productAttribute">
+    	select distinct t1.product_id product_id,t1.att_name_id att_name_id,t2.att_value_id att_value_id from product_att_name t1 join product_att_value t2 on t1.id=t2.product_att_name_id
+        where and t1.is_deleted=0 and t1.type !=4  and t2.is_deleted=0 and company_id = #companyId#;
+    </select>
+
+    <select id="queryAllProductMerchantPrice" parameterClass="java.lang.Integer" resultMap="merchantProductPrice">
+    	select merchant_product_id,merchant_product_price from merchant_product_price where is_deleted=0 and company_id = #companyId#;
+    </select>
+
+    <select id="queryAllAttributeValue" parameterClass="java.lang.Integer" resultMap="attributeValue">
+    	select  DISTINCT 0 as merchantSeriesId,t1.id valueId,t1.value value,t1.attribute_name_id nameId,t2.name name_name,t2.type type,t1.parent_id parent_id,t1.sort_value sort_value from attribute_value t1 join attribute_name t2 on t1.attribute_name_id=t2.id 
+
+        where  t1.is_deleted=0 and  t2.is_deleted=0 and t1.company_id = #companyId# and t2.company_id = #companyId#;
+    </select>
+
+    <select id="queryProducts" parameterClass="java.util.HashMap" resultMap="product">
+        <![CDATA[
+            select id,brand_id,category_tree_node_id,code,calculation_unit,standard,ean_no
+            from product
+            where is_deleted=0 and company_id = #companyId# and id in
+        ]]>
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+
+    <select id="queryBrands" parameterClass="java.util.HashMap" resultMap="brand" >
+        <![CDATA[
+            SELECT id,name,chinese_name,english_name,log_url from brand where is_deleted=0 and type=0 and company_id = #companyId# and id in
+        ]]>
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+
+    <select id="queryCategorys" parameterClass="java.util.HashMap" resultMap="category" >
+        <![CDATA[
+            select id,name,parent_id,full_id_path,list_sort from category where is_deleted=0 and company_id = #companyId# and id in
+        ]]>
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+
+    <select id="queryCategory" parameterClass="java.lang.Integer" resultMap="category">
+          select id,name,parent_id,full_id_path,list_sort from category where is_deleted=0 and id =#id# and company_id = #companyId#
+    </select>
+
+    <select id="queryCategoryTreeNode" parameterClass="java.util.HashMap" resultMap="category_tree_node" >
+    	select id,parent_id,category_id,list_sort from category_tree_node where is_deleted=0 and id=#id# and company_id = #companyId#
+    </select>
+
+    <select id="queryCategoryTreeNodeRelation" parameterClass="java.util.HashMap" resultMap="categoryTreeNodeRelation" >
+    	select t.left_tree_node_id left_tree_node_id,t.right_tree_node_id right_tree_node_id from category_tree_node_relation t where   t.is_deleted=0 and right_tree_node_id=#id# and t.company_id = #companyId#
+    </select>
+
+<!-- 外卖修改 20180912 start -->
+<!--  
+    <select id="queryMerchantProducts" parameterClass="java.util.HashMap" resultMap="merchantProduct">
+        <![CDATA[
+            select id,product_id,merchant_id,chinese_name,english_name,
+               subtitle,is_deleted,create_time,code,company_id,merchant_series_id,tax_no,TYPE,sale_type,management_state,type_of_product,
+               IF(datediff(NOW(),first_shelf_time)>#is_new_day#,0,1) AS isNew,first_shelf_time,third_merchant_product_code
+                from merchant_product where is_deleted=0 and status = 2 and company_id = #companyId# and id in
+        ]]>
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+ -->
+    
+    <select id="queryMerchantProducts" parameterClass="java.util.HashMap" resultMap="merchantProductO2O">
+        <![CDATA[
+        select mpr.id,mpr.product_id,mpr.merchant_id,mpr.chinese_name,mpr.english_name,mpr.subtitle,
+        mpr.is_deleted,mpr.create_time,mpr.code,mpr.company_id,mpr.merchant_series_id,mpr.tax_no,mpr.TYPE,mpr.sale_type,mpr.management_state,mpr.type_of_product,
+        IF(datediff(NOW(),mpr.first_shelf_time)>#is_new_day#,0,1) AS isNew,mpr.first_shelf_time,mpr.third_merchant_product_code, 
+        mpr.first_shelf_time,mpr.third_merchant_product_code, mpr.card_type,mpr.card_id,
+        mpr.series_parent_id, mpr.min_size, mpr.max_size,mer.merchant_type,mpr.place_of_origin_logo,mpr.place_of_origin
+        from merchant_product mpr left join (
+          select merchant_type, id,a.status, a.audit_status from merchant.merchant a where company_id = 30
+        ) mer on mpr.merchant_id = mer.id
+        where mpr.is_deleted=0  and mpr.`status` = 2  and mpr.company_id = #companyId# and mer.`status`=1 and mer.audit_status=1
+        and mpr.id in
+        ]]>
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+<!-- 外卖修改 20180912 end -->
+
+    <select id="queryMerchantProductsAll" parameterClass="java.util.HashMap" resultMap="merchantProduct">
+        <![CDATA[
+            select id,product_id,merchant_id,chinese_name,english_name,
+               subtitle,is_deleted,create_time,code,company_id,merchant_series_id,tax_no,TYPE,sale_type,management_state,type_of_product,
+               IF(datediff(NOW(),first_shelf_time)>#is_new_day#,0,1) AS isNew,first_shelf_time,third_merchant_product_code,card_type,card_id
+                from merchant_product where company_id = #companyId# and id in
+        ]]>
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+
+    <select id="queryMerchantProductsAllSimple" parameterClass="java.util.HashMap" resultMap="merchantProductSimple">
+        <![CDATA[
+            select id,status,merchant_id,company_id,management_state
+                from merchant_product where company_id = #companyId# and id in
+        ]]>
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+
+
+    <select id="queryMerchantIdByMPId" parameterClass="java.util.HashMap" resultMap="mpIdMerchantIdMap">
+        <![CDATA[
+            select id mpId,merchant_id merchantId
+            from merchant_product where is_deleted=0 and company_id = #companyId# and id in
+        ]]>
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+
+    <select id="getMerchantCateTreeNodeIds" parameterClass="java.util.HashMap" resultMap="merchantCateTreeNodeIdMap">
+        <![CDATA[
+            SELECT  merchant_product_id,fore_category_tree_node_id from `category_tree_node_merchant_product`
+				where  is_deleted = 0  and company_id = #companyId# and merchant_id is not null and merchant_id != 0 and  merchant_product_id in
+        ]]>
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+
+    <select id="getMerchantProductUrls" parameterClass="java.util.HashMap" resultMap="merchantProductPic">
+        <![CDATA[
+		select mpp.merchant_prod_id id,p.url url,mpp.sort_value sort_value
+			from merchant_prod_picture mpp
+			join merchant_picture mp
+			join picture p 
+			on mpp.merchant_picture_id = mp.id && mp.picture_id = p.id
+			where (mpp.type!=2 or mpp.type is null)  and mpp.is_deleted=0 and mp.is_deleted=0 and p.is_deleted=0 and mpp.company_id = #companyId# and p.company_id = #companyId# and mpp.merchant_prod_id in
+        ]]>
+        <iterate property="ids"  open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+
+    <select id="queryMerchantProductIdsByUpdateTime" parameterClass="java.util.HashMap" resultClass="java.lang.Long">
+        <![CDATA[
+           select id from merchant_product where  ((create_time>=#start# and create_time<=#end#) or (update_time>=#start# and update_time<=#end#)) and company_id = #companyId#
+       ]]>
+
+    </select>
+
+    <select id="queryProductAttributeValues" parameterClass="java.util.HashMap" resultMap="productAttribute">
+        <![CDATA[
+            select distinct t1.product_id product_id,t1.att_name_id att_name_id,t2.att_value_id att_value_id from product_att_name t1 join product_att_value t2 on t1.id=t2.product_att_name_id
+        where  t1.is_deleted=0 and t1.type != 4  and t2.is_deleted=0 and t1.company_id = #companyId# and t2.company_id = #companyId# and t1.product_id in
+        ]]>
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+
+    <select id="queryMerchantProductPrice" parameterClass="java.util.HashMap" resultMap="merchantProductPrice">
+        <![CDATA[
+            select merchant_product_id,merchant_product_price from merchant_product_price where  is_deleted=0 and company_id = #companyId# and merchant_product_id in
+        ]]>
+        <iterate  property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+
+    <select id="queryMerchantProductPromotionPrice" parameterClass="java.util.HashMap" resultMap="merchantProductPrice">
+        <![CDATA[
+        select t1.merchant_product_id merchant_product_id,t1.promotion_price merchant_product_price
+        from
+        (select t.merchant_product_id merchant_product_id,t.promotion_price promotion_price
+        from merchant_product_promotion t
+        where t.is_deleted=0
+        and t.company_id=#companyId#
+        and t.promotion_start_time <= NOW()
+        and t.promotion_end_time>= NOW()
+        and t.is_available = 1
+        and t.merchant_product_id in
+        ]]>
+        <iterate  property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+        order by t.priority DESC
+        ) as t1
+        GROUP BY t1.merchant_product_id
+    </select>
+
+    <select id="queryAllMerchantCateTreeNodes"  parameterClass="java.lang.Integer" resultMap="merchantCateTreeNode">
+        select c.id,c.parent_id,c.category_tree_id,c.category_id,c.name
+        from category c JOIN category_tree ct ON c.category_tree_id = ct.id AND ct.is_deleted = 0
+         where c.is_deleted=0 and c.company_id = #companyId# AND ct.merchant_id is not null AND ct.merchant_id != 0
+    </select>
+
+    <select id="queryAllMerchantCateCateTreeNodeRel"  parameterClass="java.lang.Integer" resultMap="merchantCateCateTreeNodeRel">
+        SELECT ctnr.left_tree_node_id, ctnr.right_tree_node_id, ct.merchant_id
+        FROM category_tree_node_relation ctnr
+        JOIN category c ON ctnr.left_tree_node_id = c.id AND c.is_deleted = 0
+        JOIN category_tree ct ON c.category_tree_id = ct.id AND ct.is_deleted = 0
+        WHERE
+            ctnr.is_deleted = 0
+        AND ct.merchant_id IS NOT NULL AND ct.merchant_id != 0
+        AND ctnr.company_id = #companyId#
+    </select>
+
+    <select id="getMerchantCateTreeNodes" parameterClass="java.util.HashMap" resultMap="merchantCateTreeNode">
+        <![CDATA[
+            select id,parent_id,category_tree_id,category_id,name from category where is_deleted=0 and company_id = #companyId# and id in
+        ]]>
+        <iterate property="ids"  open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+
+    <select id="getMerchantCateTreeNodeById" parameterClass="java.util.HashMap" resultMap="merchantCateTreeNode">
+        select id,parent_id,category_tree_id,category_id,name from category where is_deleted=0 and company_id = #companyId#  and id=#id#
+    </select>
+
+    <select id="queryAllMerchantProductStocks" parameterClass="java.lang.Integer"  resultMap="merchantProductStock">
+        SELECT merchant_product_id,product_id,merchant_id,real_stock_num,real_frozen_stock_num FROM merchant_product_warehouse_stock WHERE  is_deleted=0 and company_id = #companyId#;
+    </select>
+
+    <select id="getMerchantProductStocksByIds" parameterClass="java.util.HashMap" resultMap="merchantProductStock">
+        <![CDATA[
+		SELECT merchant_product_id,product_id,merchant_id,real_stock_num,real_frozen_stock_num FROM merchant_product_warehouse_stock WHERE  is_deleted=0 AND is_available=1 AND company_id = #companyId# and merchant_product_id in
+        ]]>
+        <iterate property="ids"  open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+
+    <select id="queryAllMerchantSeries"  parameterClass="java.lang.Integer" resultMap="merchantSeries">
+        SELECT id,merchant_id, main_merchant_product_id FROM merchant_series WHERE  is_deleted=0 and  company_id = #companyId#
+    </select>
+
+    <select id="queryMerchantSeriesList" parameterClass="java.util.HashMap" resultMap="merchantSeries">
+        <![CDATA[
+		SELECT id,merchant_id, main_merchant_product_id FROM merchant_series WHERE  is_deleted=0 AND company_id = #companyId# and  id in
+        ]]>
+        <iterate property="ids"  open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+
+    <!-- <select id="querySeriesAttrValueList" parameterClass="java.util.HashMap" resultMap="attributeValue">
+       <![CDATA[ 
+		select  t.merchant_series_id merchantSeriesId,t1.id valueId,t1.value value,t1.attribute_name_id nameId,t2.name name_name,
+           t2.type type,t1.parent_id parent_id,t1.sort_value sort_value 
+          from merchant_series_product_att t
+
+          join attribute_name t2 on t.att_name_id=t2.id
+
+          join attribute_value t1 on t2.id=t1.attribute_name_id
+
+          where  t1.is_deleted=0 and  t2.is_deleted=0  and t.is_deleted=0 and t1.company_id = #companyId# and t.company_id = #companyId# and t.merchant_series_id in
+        ]]>  
+       <iterate property="ids" open="(" close=")" conjunction=",">    
+            #ids[]#  
+       </iterate>
+    </select> -->
+    <select id="querySeriesAttrValueList" parameterClass="java.util.HashMap" resultMap="merchantSeriesAttribute">
+        <![CDATA[
+		select  t.merchant_series_id merchantSeriesId,t.att_name_id attrNameId
+          from merchant_series_product_att t
+          where  t.is_deleted=0 
+			and t.company_id =  #companyId#
+			and t.merchant_series_id in
+		]]>
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+        order by t.merchant_series_id,t.sort_value
+    </select>
+
+    <select id="queryProductSeriesAttributeList" parameterClass="java.util.HashMap" resultMap="productSeriesAttribute">
+        <![CDATA[
+		select  virtual_merchant_product_id ,att_name_id
+          from series_product_att
+          where  is_deleted=0
+			and company_id =  #companyId#
+			and virtual_merchant_product_id in
+		]]>
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+
+    <select id="queryMpId2SeriesId" parameterClass="java.util.HashMap" resultMap="mpId2seriesIdMap">
+        <![CDATA[
+		select  DISTINCT merchant_series_id seriesId,id merchant_product_id
+          from merchant_product
+         where is_deleted=0  and status = 2 and  company_id = #companyId# and merchant_series_id in
+        ]]>
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+
+    <select id="queryMpId2SeriesIdAll" parameterClass="java.util.HashMap" resultMap="mpId2seriesIdMap">
+        <![CDATA[
+		select  DISTINCT merchant_series_id seriesId,id merchant_product_id
+          from merchant_product
+         where company_id = #companyId# and merchant_series_id in
+        ]]>
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+
+    <!-- 查询所有的商品销售数量 -->
+    <select id="queryVolume4Sale" parameterClass="java.util.HashMap" resultMap="merchantProductVolume4Sale">
+        <![CDATA[
+            SELECT product_id,merchant_prod_id,cumulative_sales_volume FROM merchant_prod_sales_record WHERE is_deleted=0 and company_id = #companyId# and merchant_prod_id in
+        ]]>
+        <iterate property="ids"  open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+
+    <select id="querySaleOffset" parameterClass="java.util.HashMap" resultMap="merchantProductSaleOffset">
+        <![CDATA[
+			select merchant_product_id,offset from merchant_product_sales_info where is_deleted = 0 and company_id = #companyId# and  merchant_product_id in
+        ]]>
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+
+    <!--  <select id="queryCategoryTreeNodeRelationByUpdateTime" parameterClass="com.odianyun.search.whale.data.model.UpdateTimeRange" resultMap="categoryTreeNodeRelation">
+        <![CDATA[
+                    select t.left_tree_node_id left_tree_node_id,t.right_tree_node_id  right_tree_node_id from category_tree_node_relation t where
+                   ((t.create_time>=#start# and t.create_time<=#end#) or (t.update_time>=#start# and t.update_time<=#end#));
+        ]]>
+
+     </select> -->
+
+    <select id="getProductsByBrandIds" parameterClass="java.util.HashMap" resultClass="java.lang.Long">
+        <![CDATA[
+            select DISTINCT id from product where company_id = #companyId# and  brand_id in
+        ]]>
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+
+    <select id="getBrandsByProductIds" parameterClass="java.util.HashMap" resultClass="java.lang.Long">
+        <![CDATA[
+            select DISTINCT p.brand_id from product p 
+				where p.is_deleted = 0 
+				and p.company_id = #companyId# 
+				and p.id in
+        ]]>
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+
+    <select id="getLeftCategoryTreeNodeIdsByProductIds" parameterClass="java.util.HashMap" resultClass="java.lang.Long">
+        <![CDATA[
+            select DISTINCT ctnr.left_tree_node_id from category_tree_node_relation ctnr
+				join product p on p.category_tree_node_id = ctnr.right_tree_node_id
+				where ctnr.company_id = #companyId#   and p.company_id = #companyId# 
+					and ctnr.is_deleted = 0  
+					and p.is_deleted = 0 
+					and p.id in
+        ]]>
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+
+    <select id="getLeftCategoryTreeNodeIdsByProductIds2" parameterClass="java.util.HashMap" resultClass="java.lang.Long">
+        <![CDATA[
+           select DISTINCT ctnr.left_tree_node_id  from category_tree_node_relation ctnr
+			join category_tree_node_product ctnp on ctnp.category_tree_node_relation_id = ctnr.id and ctnp.type = ctnr.type 
+			where ctnr.company_id = #companyId#  and ctnp.company_id = #companyId#
+				and ctnr.is_deleted = 0  and ctnp.is_deleted = 0 
+				and ctnp.type = 3 and ctnp.product_id  in 
+        ]]>
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+
+    <select id="getProductsByCategoryTreeNodeIds" parameterClass="java.util.HashMap" resultClass="java.lang.Long">
+        <![CDATA[
+            select DISTINCT id from product where company_id = #companyId#  and category_tree_node_id in
+        ]]>
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+
+    <select id="queryProductMerchantIdsByProductIds" parameterClass="java.util.HashMap" resultClass="java.lang.Long">
+        <![CDATA[
+            select id from merchant_product where company_id = #companyId# and product_id in
+        ]]>
+        <iterate property="ids"  open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+
+    <select id="queryProductIdsByMpIds" parameterClass="java.util.HashMap" resultClass="java.lang.Long">
+        <![CDATA[
+            select DISTINCT product_id from merchant_product where company_id = #companyId# and id in
+        ]]>
+        <iterate property="ids"  open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+
+    <select id="getRightCategoryTreeNodeIds" parameterClass="java.util.HashMap" resultClass="java.lang.Long">
+        <![CDATA[
+            select DISTINCT right_tree_node_id from category_tree_node_relation where company_id = #companyId# and left_tree_node_id in
+        ]]>
+        <iterate  property="ids"  open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+
+    <select id="queryMerchantProductAttributeValues" parameterClass="java.util.HashMap" resultMap="merchantProductAttributeValue">
+        <![CDATA[
+		select DISTINCT man.merchant_product_id merchant_product_id, mav.att_value_id att_value_id,man.type attr_type
+        from merchant_prod_att_name man 
+        inner join  merchant_prod_att_value mav on mav.merchant_prod_att_name_id=man.id
+        where man.is_deleted=0 and mav.is_deleted=0 and mav.company_id = #companyId# and man.company_id = #companyId#
+        and man.merchant_product_id in 
+        ]]>
+        <iterate property="ids"  open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+
+    <select id="queryMerchantProdAttValues" parameterClass="java.util.HashMap" resultClass="com.odianyun.search.whale.data.model.MerchantProdAttValue">
+        <![CDATA[
+		select
+		    man.merchant_product_id merchantProductId,
+		    mav.att_value_id attValueId,
+		    mav.att_value_custom attValueCustom
+        from merchant_prod_att_name man
+        inner join  merchant_prod_att_value mav on mav.merchant_prod_att_name_id=man.id AND mav.is_deleted=0
+        where man.is_deleted=0 and mav.company_id = #companyId# and man.company_id = #companyId#
+        and man.merchant_product_id in
+        ]]>
+        <iterate property="ids"  open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+
+
+    <select id="queryCompanyIds" parameterClass="java.util.HashMap" resultClass="java.lang.Integer">
+        select DISTINCT company_id from merchant_product where is_deleted=0  and status = 2 and company_id is not null
+    </select>
+
+    <select id="queryProductCategoryRelation" parameterClass="java.lang.Integer" resultMap="productCategoryRelation">
+        select p.product_id product_id,p.type type,c.left_tree_node_id left_tree_node_id,c.right_tree_node_id right_tree_node_id from category_tree_node_relation c inner join category_tree_node_product p
+        on p.category_tree_node_relation_id=c.id and p.type=c.type
+        where c.is_deleted=0 and c.company_id = #companyId#;
+    </select>
+
+    <select id="querySeriesMerchantProductIds" parameterClass="java.util.HashMap" resultClass="java.lang.Long">
+        <![CDATA[
+		select  DISTINCT merchant_product_id
+          from merchant_product
+         where company_id = #companyId# and series_parent_id in
+        ]]>
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+    <select id="queryMerchantProductCategory" parameterClass="java.util.HashMap" resultMap="merchantProductCategory">
+        select t.merchant_product_id mpId, t.fore_category_tree_node_id categoryId from category_tree_node_merchant_product t where t.is_deleted = 0 and t.company_id = #companyId# and t.merchant_product_id in
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+    <select id="queryMerchantProductCategoryByCateIds" parameterClass="java.util.HashMap" resultMap="merchantProductCategory">
+        select t.merchant_product_id mpId, t.fore_category_tree_node_id categoryId from category_tree_node_merchant_product t where t.is_deleted = 0 and t.company_id = #companyId# and t.fore_category_tree_node_id in
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+    <select id="queryAllMerchantProductCategory" parameterClass="java.lang.Integer" resultMap="merchantProductCategory">
+        select t.merchant_product_id mpId, t.fore_category_tree_node_id categoryId from category_tree_node_merchant_product t where t.is_deleted = 0 and t.company_id = #companyId#
+    </select>
+
+    <!--商品角标 start-->
+    <select id="querySuperScriptByIds" parameterClass="java.util.HashMap" resultMap="superScript">
+        select id superscript_id,name,display_type,priority,icon_url,create_time from superscript where is_deleted=0 and company_id = #companyId# and id in
+        <iterate property="ids"  open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+
+    <select id="queryAllSuperScripts" parameterClass="java.lang.Integer" resultMap="superScript">
+        select id superscript_id,name,display_type,priority,icon_url,create_time from superscript where is_deleted=0 and company_id = #companyId#
+    </select>
+    <select id="queryAllMerScript" parameterClass="java.lang.Integer" resultMap="merProScript">
+        select merchant_product_id id,superscript_id,valid_from,valid_to from merchant_prod_superscript where is_deleted = 0 and company_id = #companyId#
+        <!--<![CDATA[-->
+        <!--valid_from < now() and valid_to >= now()-->
+        <!--]]>-->
+    </select>
+
+    <select id="queryMerScriptByMPIds" parameterClass="java.util.HashMap" resultMap="merProScript">
+        select merchant_product_id id,superscript_id,valid_from,valid_to from merchant_prod_superscript where is_deleted=0 and company_id = #companyId# and merchant_product_id in
+        <iterate property="ids"  open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+        <isNotEmpty prepend="and" property="nowDate">
+            <![CDATA[
+            valid_from < #nowDate# and valid_to >= #nowDate#
+            ]]>
+        </isNotEmpty>
+    </select>
+    <!--商品角标 end-->
+    <!--商品销售区域 start-->
+    <select id="queryAllSaleArea" parameterClass="java.lang.Integer" resultMap="merProSaleAreas">
+        select sale_area_id,code,parentCode,name,level from sale_area_cover where is_deleted = 0 and all_select = 1 and company_id = #companyId#
+    </select>
+    <select id="queryAllSaleAreaIds" parameterClass="java.lang.Integer" resultMap="merProIdAreaId">
+        select merchant_product_id,sale_area_id from merchant_product_sale_area where is_deleted = 0 and  company_id = #companyId#
+    </select>
+    <select id="queryAllDefaultSaleAreaIds" parameterClass="java.lang.Integer" resultMap="saleAreaIdMerchantIdMap">
+        select id sale_area_id,merchant_id from sale_area where is_deleted = 0 and sale_area_default =1 and company_id = #companyId#
+    </select>
+    <select id="queryAllDefaultSaleAreaIdsByMerchantIds" parameterClass="java.util.HashMap" resultMap="saleAreaIdMerchantIdMap">
+        select id sale_area_id,merchant_id from sale_area where is_deleted = 0 and sale_area_default =1 and company_id = #companyId# and merchant_id in
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+    <select id="querySaleAreaByAreaIds" parameterClass="java.util.HashMap" resultMap="merProSaleAreas">
+        select sale_area_id,code,parentCode,name,level from sale_area_cover where is_deleted = 0 and all_select = 1 and company_id = #companyId# and id in
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+    <select id="queryAllSaleAreaIdsByMPIds" parameterClass="java.util.HashMap" resultMap="merProIdAreaId">
+        select merchant_product_id,sale_area_id from merchant_product_sale_area where is_deleted = 0 and  company_id = #companyId# and merchant_product_id in
+        <iterate property="ids" open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+    <select id="querySupplierMerchantProductRelByMpIds" parameterClass="map" resultClass="com.odianyun.search.whale.data.model.SupplierMerchantProductRel">
+        SELECT merchant_product_id merchantProductId, supplier_id supplierId FROM supplier_merchant_product_rel WHERE is_deleted = 0 AND company_id = #companyId# AND merchant_product_id IN
+        <iterate property="mpIds" open="(" close=")" conjunction=",">
+            #mpIds[]#
+        </iterate>
+    </select>
+    <select id="querySaleAreaIdsByMerchantIds" parameterClass="map" resultClass="long">
+        SELECT sale_area_id saleAreaId FROM merchant_sale_area WHERE is_deleted = 0 AND company_id = #companyId# AND merchant_id IN
+        <iterate property="merchantIdList" open="(" close=")" conjunction=",">
+            #merchantIdList[]#
+        </iterate>
+    </select>
+    <select id="querySaleAreaIdsByMerchantCategory" parameterClass="map" resultClass="long">
+        SELECT sale_area_id saleAreaId FROM category_sale_area
+        WHERE is_deleted = 0 AND company_id = #companyId# AND merchant_id IN
+        <iterate property="supplierIdList" open="(" close=")" conjunction=",">
+            #supplierIdList[]#
+        </iterate>
+        AND category_id = #categoryId#
+    </select>
+    <!--商品销售区域 end-->
+    <!--组合商品 start-->
+    <select id="querySubMerchantProducts" parameterClass="java.util.HashMap" resultMap="merchantProduct">
+        SELECT p.id, p.product_id, p.merchant_id, p.chinese_name, p.english_name, p.subtitle,
+        p.is_deleted, p.create_time, p.code, p.company_id, p.merchant_series_id,
+        p.tax_no, p.TYPE, p.sale_type, p.management_state, IF(datediff(NOW(),p.create_time)>14,0,1) AS isNew,third_merchant_product_code,
+        p.card_type,p.card_id
+        FROM merchant_product p
+        INNER JOIN merchant_product_combine_relation pcr
+        ON p.id = pcr.sub_merchant_prod_id
+        WHERE pcr.merchant_prod_id = #id# AND p.is_deleted = 0 AND pcr.is_deleted = 0
+        AND p.status = 2 AND p.management_state = 1 AND p.company_id = #companyId# AND pcr.company_id = #companyId#
+    </select>
+    <select id="queryAllCombineProduct" parameterClass="java.lang.Integer" resultMap="combineProductMap">
+        select id,merchant_prod_id combine_product_id,sub_merchant_prod_id sub_merchant_prod_id,count,company_id companyId from merchant_product_combine_relation where is_deleted = 0 and company_id = #companyId#;
+    </select>
+
+    <select id="queryAllBindEans" parameterClass="java.lang.Long" resultClass="java.lang.Long">
+        select dest_barcode from merchant_prod_barcode_bind
+        where dest_mp_id = #id# and is_deleted = 0;
+    </select>
+    <!--组合商品 end-->
+
+    <!--扫码购：根据ean码查询所有关联的ean码-->
+    <select id="queryEansByDestbarcode" parameterClass="java.util.HashMap" resultMap="productBarcode">
+        select src_barcode,dest_barcode from merchant_prod_barcode_bind where is_deleted = 0 and company_id = #companyId# and dest_barcode in
+        <iterate property="destBarcode" open="(" close=")" conjunction=",">
+            #destBarcode[]#
+        </iterate>
+    </select>
+
+
+
+</sqlMap>

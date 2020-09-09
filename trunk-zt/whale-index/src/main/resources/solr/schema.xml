@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<schema name="product" version="1.0">
+	
+	<fields>
+        <field name="_version_" type="long" indexed="true" stored="true" multiValued="false"/>
+		<field name="id" type="long" indexed="true" stored="true" required="true" multiValued="false" termPositions="false" termOffsets="false"/> 
+		<field name="productId" type="long" indexed="true" stored="false" required="false" multiValued="false" termPositions="false" termOffsets="false"/> 
+	    <field name="tag_words" type="text_ik" indexed="true" stored="false" multiValued="false" termPositions="false" termOffsets="false"/>
+		<field name="categoryId_search" type="text_cjk" indexed="true" stored="false" multiValued="false" termPositions="false" termOffsets="false"/>
+		<field name="categoryId" type="long" indexed="true" stored="false" multiValued="false" termPositions="false" termOffsets="false"/>
+		<field name="navCategoryId_search" type="text_cjk" indexed="true" stored="false" multiValued="false" termPositions="false" termOffsets="false"/>
+	    <field name="categoryName_search"  type="text_ik" indexed="true" stored="false" multiValued="false" termPositions="false" termOffsets="false"/>
+		<field name="brandId_search" type="text_cjk" indexed="true" stored="false" multiValued="false" termPositions="false" termOffsets="false"/>
+		<field name="brandName_search" type="text_ik" indexed="true" stored="false" multiValued="false" termPositions="false" termOffsets="false"/>
+		<field name="merchantId" type="long" indexed="true" stored="false" multiValued="false" termPositions="false" termOffsets="false"/>
+		<field name="coverProvinceId" type="text_cjk" indexed="true" stored="false" multiValued="false" termPositions="false" termOffsets="false"/>
+		<field name="attrValueId_search" type="text_cjk" indexed="true" stored="false" multiValued="false" termPositions="false" termOffsets="false"/>
+		<field name="attrValue_search"  type="text_ik" indexed="true" stored="false" multiValued="false" termPositions="false" termOffsets="false"/>
+		<field name="price" type="double" indexed="true" stored="false" required="false" multiValued="false" termPositions="false" termOffsets="false"/> 
+		<field name="create_time" type="string" indexed="true" stored="false" required="false" multiValued="false" termPositions="false" termOffsets="false"/> 
+		<field name="suggest" type="text_auto" indexed="true" stored="false" required="false" multiValued="true" termPositions="false" termOffsets="false"/>
+	    <copyField source="tag_words" dest="suggest"/>
+	    <copyField source="categoryName_search" dest="suggest"/>
+	    <copyField source="brandName_search" dest="suggest"/>
+	    <copyField source="attrValue_search" dest="suggest"/>
+		<field name="ean_no" type="string" indexed="true" stored="false" required="false" multiValued="false" termPositions="false" termOffsets="false"/> 
+	 </fields>
+	 
+	<defaultSearchField>tag_words</defaultSearchField>
+	<uniqueKey>id</uniqueKey>
+
+	<types>
+		<!-- basic types -->
+		<fieldType name="string" class="solr.StrField" sortMissingLast="true"/>
+		<fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
+    	<fieldType name="int" class="solr.TrieIntField" precisionStep="0" positionIncrementGap="0"/>
+    	<fieldType name="float" class="solr.TrieFloatField" precisionStep="0" positionIncrementGap="0"/>
+    	<fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
+    	<fieldType name="double" class="solr.TrieDoubleField" precisionStep="0" positionIncrementGap="0"/>
+		<fieldType name="store_only" class="solr.StrField"  stored="true" indexed="true" />
+        
+        <fieldtype name="text_stndrd" class="solr.TextField"
+			positionIncrementGap="100">
+            <analyzer>
+               <tokenizer class="solr.StandardTokenizerFactory" maxTokenLength="255"/>
+            </analyzer>
+        </fieldtype>
+        
+        <fieldType name="text_cjk" class="solr.TextField"
+			positionIncrementGap="100">
+			<analyzer>
+				<tokenizer class="solr.StandardTokenizerFactory" />
+				<filter class="solr.CJKWidthFilterFactory" />
+				<filter class="solr.LowerCaseFilterFactory" />
+				<filter class="solr.CJKBigramFilterFactory" />
+			</analyzer>
+		</fieldType>
+        <fieldType name="text_smart" class="solr.TextField" positionIncrementGap="100">
+          <analyzer type="index">
+            <tokenizer class="solr.SmartChineseSentenceTokenizerFactory"/>
+            <filter class="solr.SmartChineseWordTokenFilterFactory"/>
+          </analyzer>
+          <analyzer type="query">
+            <tokenizer class="solr.SmartChineseSentenceTokenizerFactory"/>
+            <filter class="solr.SmartChineseWordTokenFilterFactory"/>
+          </analyzer>
+        </fieldType>
+        <fieldType name="text_auto" class="solr.TextField">
+           <analyzer>
+              <tokenizer class="org.wltea.analyzer.lucene.IKTokenizerFactory" useSmart="false"/>
+              <filter class="solr.LowerCaseFilterFactory"/>
+           </analyzer>
+        </fieldType>
+		<fieldType name="text_ik" class="solr.TextField">   
+          <analyzer type="index">
+          	 <tokenizer class="org.wltea.analyzer.lucene.IKTokenizerFactory" useSmart="false"/>
+          	 <filter class="solr.LowerCaseFilterFactory"/>
+          </analyzer>   
+          <analyzer type="query">
+          	 <tokenizer class="org.wltea.analyzer.lucene.IKTokenizerFactory" useSmart="true"/>
+          	  <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
+          	 <filter class="solr.LowerCaseFilterFactory"/>
+          </analyzer>
+        </fieldType>
+	</types>
+
+</schema>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<config>
+	<luceneMatchVersion>LUCENE_53</luceneMatchVersion>
+
+	<directoryFactory name="DirectoryFactory"
+		class="${solr.directoryFactory:solr.NRTCachingDirectoryFactory}" />
+
+	<codecFactory class="solr.SchemaCodecFactory" />
+
+	<schemaFactory class="ClassicIndexSchemaFactory" />
+
+	<indexConfig>
+
+		<lockType>${solr.lock.type:native}</lockType>
+
+	</indexConfig>
+
+
+	<jmx />
+
+	<lib dir="/data/solr-5.3.0/server/solr/yihe/contrib/analysis-extras/lib"
+		regex=".*\.jar" />
+	<lib dir="/data/solr-5.3.0/server/solr/yihe/contrib/analysis-extras/lucene-libs"
+		regex=".*\.jar" />
+	<lib dir="/data/solr-5.3.0/server/solr/yihe/contrib/extraction/lib"
+		regex=".*\.jar" />
+	<lib dir="/data/solr-5.3.0/server/solr/yihe/dist/" regex="solr-cell-\d.*\.jar" />
+	<lib dir="/data/solr-5.3.0/server/solr/yihe/contrib/clustering/lib/"
+		regex=".*\.jar" />
+	<lib dir="/data/solr-5.3.0/server/solr/yihe/dist/" regex="solr-clustering-\d.*\.jar" />
+	<lib dir="/data/solr-5.3.0/server/solr/yihe/contrib/langid/lib/"
+		regex=".*\.jar" />
+	<lib dir="/data/solr-5.3.0/server/solr/yihe/dist/" regex="solr-langid-\d.*\.jar" />
+	<lib dir="/data/solr-5.3.0/server/solr/yihe/contrib/velocity/lib"
+		regex=".*\.jar" />
+	<lib dir="/data/solr-5.3.0/server/solr/yihe/dist/" regex="solr-velocity-\d.*\.jar" />
+	<lib
+		dir="/data/solr-5.3.0/server/solr/yihe/contrib/dataimporthandler-extras/lib"
+		regex=".*\.jar" />
+	<lib dir="/data/solr-5.3.0/server/solr/yihe/dist/" regex="solr-dataimporthandler-\d.*\.jar" />
+	<lib dir="/data/solr-5.3.0/server/solr/yihe/dist/" regex="solr-dataimporthandler-extras-\d.*\.jar" />
+	
+	<requestHandler name="/select" class="solr.SearchHandler">
+		<lst name="defaults">
+			<str name="echoParams">explicit</str>
+			<str name="wt">xml</str>
+			<int name="rows">10</int>
+			<str name="df">text</str>
+		</lst>
+	</requestHandler>
+
+	<requestHandler name="/query" class="solr.SearchHandler">
+		<lst name="defaults">
+			<str name="echoParams">explicit</str>
+			<str name="wt">json</str>
+			<str name="indent">true</str>
+			<str name="df">text</str>
+		</lst>
+	</requestHandler>
+
+	<requestHandler name="/update" class="solr.UpdateRequestHandler">
+
+	</requestHandler>
+	
+
+	<requestHandler name="/admin/" class="solr.admin.AdminHandlers" />
+
+
+	<!-- The default high-performance update handler -->
+	<updateHandler class="solr.DirectUpdateHandler2">
+		<updateLog>
+			<str name="dir">${solr.ulog.dir:}</str>
+		</updateLog>
+		<autoCommit>
+			<maxTime>60000</maxTime>
+			<openSearcher>false</openSearcher>
+		</autoCommit>
+		<autoSoftCommit>
+			<maxTime>10000</maxTime>
+			<maxDocs>10</maxDocs>
+		</autoSoftCommit>
+
+	</updateHandler>
+
+	<requestHandler name="/dataimport" class="solr.DataImportHandler">
+		<lst name="defaults">
+			<str name="config">dataimport-config.xml</str>
+		</lst>
+	</requestHandler>
+	
+	<requestHandler name="/analysis/field"  startup="lazy" class="solr.FieldAnalysisRequestHandler" /> 
+
+	<query>
+		<maxBooleanClauses>1024</maxBooleanClauses>
+
+		<filterCache class="solr.FastLRUCache" size="10000"
+			initialSize="20000" autowarmCount="5000" />
+
+		<queryResultCache class="solr.LRUCache" size="5120"
+			initialSize="5120" autowarmCount="2560" />
+
+
+		<documentCache class="solr.LRUCache" size="5120"
+			initialSize="5120" autowarmCount="2560" />
+
+		<enableLazyFieldLoading>true</enableLazyFieldLoading>
+
+	</query>
+
+	<!-- Legacy config for the admin interface -->
+	<admin>
+		<defaultQuery>*:*</defaultQuery>
+	</admin>
+
+    <searchComponent name="spellcheck" class="solr.SpellCheckComponent">
+	    <str name="queryAnalyzerFieldType">text_ik</str>
+	    <lst name="spellchecker">
+		    <str name="name">default</str>
+		    <str name="field">suggest</str>
+		    <str name="buildOnCommit">true</str>
+		    <str name="spellcheckIndexDir">spellchecker</str>
+	    </lst>
+	</searchComponent>
+	<searchComponent class="solr.SpellCheckComponent" name="suggest">
+		<str name="queryAnalyzerFieldType">text_auto</str>
+	    <lst name="spellchecker">
+	        <str name="name">suggest</str>
+	        <str name="classname">org.apache.solr.spelling.suggest.Suggester</str>
+	        <str name="lookupImpl">org.apache.solr.spelling.suggest.tst.TSTLookupFactory</str>
+	        <str name="field">suggest</str>
+	        <float name="threshold">0.01</float>
+	        <str name="comparatorClass">freq</str>  
+        	<str name="buildOnOptimize">true</str>
+	        <str name="buildOnCommit">true</str>
+	    </lst>
+	</searchComponent>
+	<requestHandler class="org.apache.solr.handler.component.SearchHandler" name="/suggest">
+	   <lst name="defaults">
+	       <str name="spellcheck">true</str>
+	       <str name="spellcheck.dictionary">suggest</str>
+	       <str name="spellcheck.onlyMorePopular">true</str>
+	       <str name="spellcheck.count">5</str>
+	       <str name="spellcheck.collate">true</str>
+	   </lst>
+	   <arr name="components">
+	       <str>suggest</str>
+	   </arr>
+	</requestHandler>
+</config>

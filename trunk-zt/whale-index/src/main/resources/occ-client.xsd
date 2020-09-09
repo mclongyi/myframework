@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://www.odianyun.com/schema/occ-client"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.odianyun.com/schema/occ-client"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+    <xsd:import namespace="http://www.springframework.org/schema/beans"/>
+
+    <xsd:element name="configure">
+        <xsd:complexType mixed="true">
+            <xsd:attribute name="id" type="xsd:string"></xsd:attribute>
+            <xsd:attribute name="pool" type="xsd:string"></xsd:attribute>
+            <xsd:attribute name="order" type="xsd:integer"></xsd:attribute>
+        </xsd:complexType>
+    </xsd:element>
+
+
+</xsd:schema>

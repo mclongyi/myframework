@@ -1,0 +1,99 @@
+{
+ "settings" : {
+        "index" : {
+            "number_of_shards" : 3,
+            "number_of_replicas" : 1
+        },
+        "analysis" : {
+            "analyzer" : {
+                "std" : {
+                    "tokenizer" : "standard",
+                    "filter" : ["standard", "lowercase", "stop", "porter_stem"]
+                }
+            }
+        }
+    },
+  "mappings": {
+    "mp": {
+      "properties": {
+        "id": {
+          "type": "long",
+          "index": "not_analyzed",
+          "store":"yes"
+        },
+       "productId": {
+          "type": "long",
+          "index": "not_analyzed"
+        },
+        "tag_words": {
+           "type": "string",
+           "store": "no",
+           "term_vector": "no",
+           "index_analyzer": "ik_max_word",
+           "search_analyzer": "ik_max_word"
+        },
+        "categoryId_search": {
+          "type": "string",
+          "analyzer": "std"
+        },
+        "categoryId": {
+          "type": "long",
+          "index": "not_analyzed"
+        },
+        "navCategoryId_search": {
+          "type": "string",
+          "analyzer": "std"
+        },
+        "categoryName_search": {
+          "type": "string",
+           "store": "no",
+           "term_vector": "no",
+           "index_analyzer": "ik_max_word",
+           "search_analyzer": "ik_max_word"
+        },
+        "brandId_search": {
+          "type": "string",
+          "analyzer": "std"
+        },
+        "brandName_search": {
+          "type": "string",
+           "store": "no",
+           "term_vector": "no",
+           "index_analyzer": "ik_max_word",
+           "search_analyzer": "ik_max_word"
+        },
+        "merchantId": {
+          "type": "long",
+          "index": "not_analyzed"
+        },
+        "coverProvinceId": {
+          "type": "string",
+          "analyzer": "std"
+        },
+        "attrValueId_search": {
+          "type": "string",
+          "analyzer": "std"
+        },
+        "attrValue_search": {
+          "type": "string",
+           "store": "no",
+           "term_vector": "no",
+           "index_analyzer": "ik_max_word",
+           "search_analyzer": "ik_max_word"
+        },
+        "price": {
+          "type": "double",
+          "index": "not_analyzed"
+        },
+        "create_time": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "ean_no": {
+          "type": "string",
+          "index": "not_analyzed"
+        }
+      }
+    }
+  }
+}

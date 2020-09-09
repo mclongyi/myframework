@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+    http://www.springframework.org/schema/aop       http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+	http://www.springframework.org/schema/beans     http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context   http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/mvc       http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!-- 启用注解 -->
+    <context:annotation-config />
+
+    <context:component-scan base-package="com.odianyun.search.whale.rest.action"/>
+    <context:component-scan base-package="com.odianyun.search.whale.server"/>
+    <context:component-scan base-package="com.laiyifen.arch.ody.helthcheck.*"></context:component-scan>
+
+
+    <!--默认的注解映射支持 -->
+    <mvc:annotation-driven
+            content-negotiation-manager="contentNegotiationManager">
+        <mvc:argument-resolvers>
+            <bean class="com.odianyun.frontier.global.web.LoginInfoResolver" />
+        </mvc:argument-resolvers>
+
+        <mvc:message-converters register-defaults="true">
+            <ref bean="jsonpHttpMessageConverter" />
+            <!--处理时区问题-->
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper">
+                    <bean class="com.fasterxml.jackson.databind.ObjectMapper">
+                        <!-- 时区指定 -->
+                        <property name="timeZone" value="GMT+8" />
+                    </bean>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <mvc:interceptors>
+        <bean class="com.odianyun.frontier.global.web.interceptor.LoginInterceptor"></bean>
+    </mvc:interceptors>
+
+    <bean id="contentNegotiationManager"
+          class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+        <property name="favorPathExtension" value="false" />
+        <property name="favorParameter" value="true" />
+        <property name="parameterName" value="mediaType" />
+        <property name="ignoreAcceptHeader" value="true" />
+        <property name="useJaf" value="false" />
+        <property name="defaultContentType" value="application/json" />
+        <property name="mediaTypes">
+            <map>
+                <entry key="json" value="application/json" />
+                <entry key="jsonp" value="application/javascript" />
+                <entry key="xml" value="application/xml" />
+            </map>
+        </property>
+    </bean>
+
+    <!-- jsonp消息转换器，继承了jackson的json转换器 -->
+    <bean id="jsonpHttpMessageConverter"
+          class="com.odianyun.search.whale.rest.util.MappingJackson2JsonpHttpMessageConverter">
+        <property name="supportedMediaTypes">
+            <list>
+                <value>application/javascript;charset=UTF-8</value>
+                <value>text/javascript;charset=UTF-8</value>
+                <value>application/json;charset=UTF-8</value>
+            </list>
+        </property>
+    </bean>
+
+</beans>

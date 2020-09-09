@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="history">
+    
+    <resultMap id="logWord" class="com.odianyun.search.whale.data.model.history.LogWord">
+        <result property="keyword" column="keyword" />
+        <result property="frequency" column="frequency" />
+        <result property="resultCount" column="result_count" />
+        <result property="userId" column="user_id"/>
+        <result property="type" column="type"/>
+        <result property="companyId" column="company_id"/>
+    </resultMap>
+    
+    <update id="updateOrInsertLogWord" parameterClass="com.odianyun.search.whale.data.model.history.LogWord">
+    	insert into log_words (keyword,frequency,result_count,user_id,type,company_id) values (#keyword#,#frequency#,#resultCount#,#userId#,#type#,#companyId#) ON DUPLICATE KEY UPDATE frequency = frequency + 1;
+    </update>
+
+	
+</sqlMap>

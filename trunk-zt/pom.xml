@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<!-- <parent> -->
+	<!-- <groupId>com.odianyun.public</groupId> -->
+	<!-- <artifactId>pom-ody</artifactId> -->
+	<!-- <version>1.0-SNAPSHOT</version> -->
+	<!-- </parent> -->
+	<groupId>com.odianyun.search</groupId>
+	<artifactId>whale</artifactId>
+	<version>LYF-3.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<properties>
+		<!-- 主要依赖库的版本定义 -->
+		<junit.version>3.8.1</junit.version>
+		<lucene.version>4.10.4</lucene.version>
+		<httpclient.version>4.3.6</httpclient.version>
+		<mysql.version>5.1.31</mysql.version>
+		<!-- Plugin的属性 -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jdk.version>1.7</jdk.version>
+		<occ.version>1.2-SNAPSHOT</occ.version>
+		<!-- 20180422升级 
+		<ocache.version>1.5.0-SNAPSHOT</ocache.version>
+		<osoa.version>1.6.0-SNAPSHOT</osoa.version>
+		<ocore.version>1.2.2-SNAPSHOT</ocore.version>
+		-->
+		<ocache.version>1.6.0-SNAPSHOT</ocache.version>
+		<osoa.version>1.6.1-SNAPSHOT</osoa.version>
+		<ocore.version>1.5.0-SNAPSHOT</ocore.version>
+		<oma-monitor-common.version>1.2.1-SNAPSHOT</oma-monitor-common.version>
+		<omq.version>1.5.0-SNAPSHOT</omq.version>
+		 <!--  
+		<maven-nexus-snapshots-url>http://120.92.227.70:8081/content/repositories/snapshots</maven-nexus-snapshots-url>
+		<maven-nexus-releases-url>http://120.92.227.70:8081/content/repositories/releases</maven-nexus-releases-url>
+		 -->
+		<maven-nexus-releases-id>lyf-3rd-party-mixed</maven-nexus-releases-id>
+        <maven-nexus-releases-url>http://repo.touch.laiyifen.cn/repository/lyf-3rd-party-mixed/</maven-nexus-releases-url>
+        <maven-nexus-snapshots-id>lyf-3rd-party-mixed</maven-nexus-snapshots-id>
+        <maven-nexus-snapshots-url>http://repo.touch.laiyifen.cn/repository/lyf-3rd-party-mixed/</maven-nexus-snapshots-url>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.odianyun.search</groupId>
+				<artifactId>whale-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.odianyun.search</groupId>
+				<artifactId>whale-analysis</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.odianyun.search</groupId>
+				<artifactId>whale-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.odianyun.search</groupId>
+				<artifactId>whale-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.odianyun.search</groupId>
+				<artifactId>whale-data-service</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.odianyun.search</groupId>
+				<artifactId>whale-data-store</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.odianyun.search</groupId>
+				<artifactId>whale-es-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.odianyun.search</groupId>
+				<artifactId>whale-index</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.odianyun.search</groupId>
+				<artifactId>whale-index-spark</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.odianyun.search</groupId>
+				<artifactId>whale-index-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.odianyun.search</groupId>
+				<artifactId>whale-suggest</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.odianyun.search</groupId>
+				<artifactId>whale-processor</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.odianyun.search</groupId>
+				<artifactId>whale-index-suggest</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.odianyun.search</groupId>
+				<artifactId>whale-index-geo</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<!-- OTHER TOOLS begin -->
+			<!-- pojo copy -->
+			<!-- connection pool -->
+			<!-- PERSISTENCE end -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.lucene</groupId>
+				<artifactId>lucene-core</artifactId>
+				<version>${lucene.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient</artifactId>
+				<version>${httpclient.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${mysql.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.odianyun.cc</groupId>
+				<artifactId>occ-client</artifactId>
+				<version>${occ.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.odianyun.architecture</groupId>
+				<artifactId>ocache</artifactId>
+				<version>${ocache.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.odianyun.soa</groupId>
+				<artifactId>osoa</artifactId>
+				<version>${osoa.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>com.ibm.icu</groupId>
+						<artifactId>icu4j</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>com.odianyun.core</groupId>
+				<artifactId>ocore</artifactId>
+				<version>${ocore.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.odianyun.architecture</groupId>
+				<artifactId>oma-monitor-common</artifactId>
+				<version>${oma-monitor-common.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.odianyun.mq</groupId>
+				<artifactId>omq-client</artifactId>
+				<version>${omq.version}</version>
+			</dependency>
+			<!-- 20180908 新增 -->
+			<dependency>
+			    <groupId>com.sun.xml.bind</groupId>
+			    <artifactId>jaxb-impl</artifactId>
+			    <version>2.2.11</version>
+			</dependency>
+
+			<dependency>
+			    <groupId>javax.xml.bind</groupId>
+			    <artifactId>jaxb-api</artifactId>
+			    <version>2.2.11</version>
+			    <exclusions>
+					<exclusion>
+						<groupId>javax.xml.bind</groupId>
+						<artifactId>jaxb-api</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+
+			<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>1.16.10</version>
+				<scope>provided</scope>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+	  
+	 <distributionManagement>
+        <snapshotRepository>
+            <id>${maven-nexus-snapshots-id}</id>
+            <url>${maven-nexus-snapshots-url}</url>
+        </snapshotRepository>
+        <repository>
+            <id>${maven-nexus-releases-id}</id>
+            <url>${maven-nexus-releases-url}</url>
+        </repository>
+    </distributionManagement>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+			<!-- LYF3.0升级添加 start -->
+			<plugin>
+            <groupId>net.alchim31.maven</groupId>
+            <artifactId>scala-maven-plugin</artifactId>
+            <version>3.1.3</version>
+            </plugin>
+            <!-- LYF3.0升级添加 end -->
+		</plugins>
+	</build>
+
+	<modules>
+		<module>whale-api</module>
+		<module>whale-analysis</module>
+		<module>whale-common</module>
+		<module>whale-core</module>
+		<module>whale-data-service</module>
+		<module>whale-data-store</module>
+		<module>whale-es-api</module>
+		<module>whale-index</module>
+		<module>whale-index-spark</module>
+		<module>whale-index-api</module>
+		<module>whale-suggest</module>
+		<module>whale-index-suggest</module>
+		<module>whale-processor</module>
+		<module>whale-index-geo</module>
+	</modules>
+</project>

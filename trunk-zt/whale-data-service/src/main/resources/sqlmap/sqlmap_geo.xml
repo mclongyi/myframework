@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="o2o">
+    <resultMap id="poi" class="com.odianyun.search.whale.data.model.geo.POI">
+    	<result property="refId" column="ref_id" />
+    	<result property="refType" column="ref_type" />
+    	<result property="longitude" column="longitude" />
+    	<result property="latitude" column="latitude" />
+    	<result property="poiType" column="poi_type" />
+    	<result property="addr" column="addr" />
+        <result property="provinceId" column="province_id" />
+        <result property="cityId" column="city_id" />
+        <result property="regionId" column="region_id" />
+    </resultMap>
+    
+    <resultMap id="deliveryArea" class="com.odianyun.search.whale.data.model.geo.DeliveryArea">
+        <result property="merchant_id" column="merchant_id"/>
+        <!--<result property="type" column="type"/>-->
+        <!--<result property="nation_id" column="nation_id" nullValue="0"/>-->
+        <result property="province_id" column="province_id" nullValue="0"/>
+        <result property="city_id" column="city_id" nullValue="0"/>
+        <result property="region_id" column="region_id" nullValue="0"/>
+        <result property="detail_addr" column="detail_addr"/>
+        <result property="poi_addr" column="poi_addr"/>
+        <!--<result property="priority" column="priority" nullValue="0"/>-->
+        <result property="companyId" column="company_id"/>
+    </resultMap>
+    
+    <resultMap id="store" class="com.odianyun.search.whale.data.model.geo.O2OStore">
+         <result property="merchantId"  column="merchantId" />
+         <result property="shopId"  column="shopId" />
+         <result property="location"  column="location" />
+         <result property="polygon"  column="polygon" />
+         <result property="company_id" column="company_id"/>
+    </resultMap>
+    <resultMap id="merchantFlag" class="com.odianyun.search.whale.data.model.geo.MerchantFlag">
+        <result property="id" column="id"/>
+        <result property="merchantId" column="merchant_id"/>
+        <result property="merchantFlagCode" column="merchant_flag_code"/>
+        <result property="merchantFlagId" column="merchant_flag_id"/>
+        <result property="merchantFlagName" column="merchant_flag_name"/>
+
+    </resultMap>
+    
+    
+    <select id="queryAllPOIs" parameterClass="java.lang.Integer" resultMap="poi">
+    	select merchant_id ref_id,2 ref_type,longitude,latitude,2 poi_type,detail_address_all addr,province_id,city_id,region_id from shop where is_deleted=0 and is_available=1 and company_id = #companyId# ;
+    </select>
+    
+   
+    
+    <select id="getPOIsByIds" parameterClass="java.util.HashMap" resultMap="poi" >
+    <![CDATA[
+    		select merchant_id ref_id,2 ref_type,longitude,latitude,2 poi_type,detail_address_all addr,province_id,city_id,region_id from shop where is_deleted=0 and is_available=1 and company_id = #companyId#  and merchant_id in
+     ]]>
+       <iterate property="ids"   open="(" close=")" conjunction=",">    
+            #ids[]#  
+       </iterate>
+    </select>
+
+    <select id="queryDeliveryAreasByIds" parameterClass="java.util.HashMap" resultMap="deliveryArea">
+        select merchant_id,province_id,city_id,region_id,detail_address_all detail_addr,poi poi_addr,shop.company_id company_id
+        from shop shop LEFT JOIN merchant_store_coverage_poi poi on shop.mstore_coverage_map_id = poi.merchant_store_coverage_id where shop.is_deleted=0 and poi.is_deleted=0 and shop.company_id = #companyId# and poi.company_id=#companyId# and merchant_id in
+        <iterate property="ids"   open="(" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+    
+     <select id="getPOIsWithPage" parameterClass="java.util.HashMap" resultMap="poi" >
+      select ref_id,ref_type,longitude,latitude,poi_type,addr,province_id,city_id,region_id from poi where is_deleted=0  and poi_type=2 company_id = #companyId# andlimit #startIndex#,#pageSize#;
+   </select>
+    <select id="queryDeliveryAreasWithPage" parameterClass="java.util.HashMap" resultMap="deliveryArea">
+      select merchant_id,province_id,city_id,region_id,detail_address_all detail_addr,poi poi_addr,shop.company_id company_id
+          from shop shop LEFT JOIN merchant_store_coverage_poi poi on shop.mstore_coverage_map_id = poi.merchant_store_coverage_id where shop.is_deleted=0 and poi.is_deleted=0 and shop.company_id = #companyId# and poi.company_id=#companyId# limit #startIndex#,#pageSize#;
+    </select>
+    <select id="queryAllFlags" parameterClass="java.lang.Integer" resultMap="merchantFlag">
+    <!--select id,merchant_flag_id,merchant_flag_code,merchant_id from merchant_flag_relation where is_deleted = 0 and company_id = #companyId#;-->
+        select mfr.id id ,mfr.merchant_flag_id merchant_flag_id,
+          mfr.merchant_flag_code merchant_flag_code,mfr.merchant_id merchant_id,mf.name merchant_flag_name
+        from merchant_flag_relation mfr
+        join merchant_flag mf
+        on mfr.merchant_flag_id = mf.id
+        where mfr.is_deleted = 0 and mfr.company_id = #companyId#
+        and mf.is_deleted = 0 and mf.company_id = #companyId#;
+
+</select>
+
+
+<select id="queryFlagsByIds" parameterClass="java.util.HashMap" resultMap="merchantFlag">
+    <!--select id,merchant_flag_id,merchant_flag_code,merchant_id from merchant_flag_relation where is_deleted = 0 and company_id = #companyId# and merchant_id in-->
+
+    select mfr.id id ,mfr.merchant_flag_id merchant_flag_id,
+    mfr.merchant_flag_code merchant_flag_code,mfr.merchant_id merchant_id,mf.name merchant_flag_name
+    from merchant_flag_relation mfr
+    join merchant_flag mf
+    on mfr.merchant_flag_id = mf.id
+    where mfr.is_deleted = 0 and mfr.company_id = #companyId#
+    and mf.is_deleted = 0 and mf.company_id = #companyId# and mfr.merchant_id in
+    <iterate property="ids"   open="(" close=")" conjunction=",">
+        #ids[]#
+    </iterate>
+</select>
+
+<!--<select id="queryDeliveryAreasWithPage" parameterClass="java.util.HashMap" resultMap="deliveryArea">
+ select merchant_id,type,nation_id,province_id,city_id,region_id,detail_addr,poi_addr,priority,company_id from merchant_cover_area where
+    is_deleted=0 and  company_id = #companyId#  limit #startIndex#,#pageSize#;
+</select>-->
+    
+   <!-- <insert id="saveO2OStore" parameterClass="com.odianyun.search.whale.data.model.geo.O2OStore">
+    <![CDATA[
+     insert into $tableName$ (merchantId,shopId,company_id,location,polygon)
+     values(#merchantId#,#shopId#,#company_id#,#location#,#polygon#)
+    ]]>
+   </insert>
+   
+   <delete id="cleanO2OStore" parameterClass="java.util.HashMap" >
+        TRUNCATE $tableName$;
+   </delete>
+   
+   <delete id="deleteO2OStores" parameterClass="java.util.HashMap" >
+    delete from $tableName$ where merchantId in ($ids$);
+   </delete>
+   
+   <select id="countAllO2OStores" resultClass="java.lang.Integer" parameterClass="java.util.HashMap">
+      select count(*) from $tableName$;
+   </select>
+   
+   <select id="queryO2OStoresWithPage" parameterClass="java.util.HashMap" resultMap="store" >
+      select merchantId,shopId,company_id,location,polygon from $tableName$ limit #startIndex#,#pageSize#;
+   </select> -->
+   
+</sqlMap>

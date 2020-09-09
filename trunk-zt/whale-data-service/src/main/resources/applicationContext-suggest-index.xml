@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd"
+       default-autowire="byName">
+
+	<context:annotation-config/>
+    <context:component-scan base-package="com.odianyun.search.whale"></context:component-scan>
+
+	
+	<bean id="sqlMapClient_suggest" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation">
+			<value>classpath:/sqlmap/sqlmap-suggest-config.xml</value>
+		</property>
+	</bean>
+
+	
+	<bean id="historyStoreDao" class="com.odianyun.search.whale.data.history.dao.impl.HistoryStoreDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource_search" />
+		</property>
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient_suggest" />
+		</property>
+	</bean>
+	
+	<bean id="conCurrenceDao" class="com.odianyun.search.whale.data.suggest.dao.impl.ConCurrenceDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource_product" />
+		</property>
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient_suggest" />
+		</property>
+	</bean>
+	
+	<bean id="suggestWordDao" class="com.odianyun.search.whale.data.suggest.dao.impl.SuggestWordDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource_search" />
+		</property>
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient_suggest" />
+		</property>
+	</bean>
+	
+	<bean id="hotWordService" class="com.odianyun.search.whale.data.suggest.service.impl.HotWordServiceImpl" />
+	<bean id="historyStoreService" class="com.odianyun.search.whale.data.history.service.impl.HistoryStoreServiceImpl" />
+	<bean id="areaSuggestWordService" class="com.odianyun.search.whale.data.suggest.service.impl.AreaSuggestWordServiceImpl" />
+	<bean id="conCurrenceService" class="com.odianyun.search.whale.data.suggest.service.impl.ConCurrenceServiceImpl" />
+	<bean id="suggestWordService" class="com.odianyun.search.whale.data.suggest.service.impl.SuggestWordServiceImpl" />
+
+	
+</beans>

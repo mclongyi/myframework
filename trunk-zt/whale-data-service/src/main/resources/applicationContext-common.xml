@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:occ-client="http://www.odianyun.com/schema/occ-client" xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:aop="http://www.springframework.org/schema/aop" xmlns:task="http://www.springframework.org/schema/task"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+	   http://www.odianyun.com/schema/occ-client
+		http://www.odianyun.com/schema/occ-client.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd"
+	   default-autowire="byName">
+	
+    <context:annotation-config/>
+    <context:component-scan base-package="com.odianyun.search.whale"></context:component-scan>
+
+	<task:scheduler id="myScheduler"/>
+	<task:scheduled-tasks>
+		<task:scheduled ref="lyfHotWordService" method="updateHotwordJob" cron="0 30 02 * * ? "/>
+	</task:scheduled-tasks>
+
+
+<!-- 暂时放开 查找common 数据库配置 -->	
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreUnresolvablePlaceholders" value="true"/>
+		<property name="locations">
+			<list>
+				<value>file:${global.config.path}/snapshot/search/common/dataSource_product.properties</value>
+				<value>file:${global.config.path}/snapshot/search/common/dataSource_search.properties</value>
+				<value>file:${global.config.path}/snapshot/search/common/dataSource_price.properties</value>
+				<value>file:${global.config.path}/snapshot/search/common/dataSource_stock.properties</value>
+				<value>file:${global.config.path}/snapshot/search/common/dataSource_merchant.properties</value>
+				<value>file:${global.config.path}/snapshot/search/common/dataSource_osc.properties</value>
+				<value>file:${global.config.path}/snapshot/search/common/dataSource_front.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+
+	<occ-client:configure id="occConfigurer_dataService_common" pool="osoa,search,search-backend"/>
+
+
+	
+	<bean id="dataSource_product" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="url" value="${jdbc.url}" />  
+        <property name="driverClassName" value="${jdbc.DriverClassName}" />  
+        <property name="username" value="${jdbc.username}" />  
+        <property name="password" value="${jdbc.password}" />  
+        <property name="maxActive" value="${jdbc.maxActive}" />  
+        <property name="maxIdle" value="${jdbc.maxIdle}" />  
+        <property name="minIdle" value="${jdbc.minIdle}" />  
+        <property name="maxWait" value="${jdbc.maxWait}" /> 
+        <property name="timeBetweenEvictionRunsMillis"  value="${jdbc.timeBetweenEvictionRunsMillis}"></property>
+        <property name="testWhileIdle"  value="${jdbc.testWhileIdle}"></property>
+        <property name="validationQuery"  value="${jdbc.validationQuery}"></property>
+	</bean>
+	
+	<bean id="dataSource_merchant" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="url" value="${merchant.jdbc.url}" />  
+        <property name="driverClassName" value="${merchant.jdbc.DriverClassName}" />  
+        <property name="username" value="${merchant.jdbc.username}" />  
+        <property name="password" value="${merchant.jdbc.password}" />  
+        <property name="maxActive" value="${merchant.jdbc.maxActive}" />  
+        <property name="maxIdle" value="${merchant.jdbc.maxIdle}" />  
+        <property name="minIdle" value="${merchant.jdbc.minIdle}" />  
+        <property name="maxWait" value="${merchant.jdbc.maxWait}" /> 
+        <property name="timeBetweenEvictionRunsMillis"  value="${merchant.jdbc.timeBetweenEvictionRunsMillis}"></property>
+        <property name="testWhileIdle"  value="${merchant.jdbc.testWhileIdle}"></property>
+        <property name="validationQuery"  value="${merchant.jdbc.validationQuery}"></property>
+	</bean>
+	
+	<bean id="dataSource_osc" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="url" value="${osc.jdbc.url}" />  
+        <property name="driverClassName" value="${osc.jdbc.DriverClassName}" />  
+        <property name="username" value="${osc.jdbc.username}" />  
+        <property name="password" value="${osc.jdbc.password}" />  
+        <property name="maxActive" value="${osc.jdbc.maxActive}" />  
+        <property name="maxIdle" value="${osc.jdbc.maxIdle}" />  
+        <property name="minIdle" value="${osc.jdbc.minIdle}" />  
+        <property name="maxWait" value="${osc.jdbc.maxWait}" /> 
+        <property name="timeBetweenEvictionRunsMillis"  value="${osc.jdbc.timeBetweenEvictionRunsMillis}"></property>
+        <property name="testWhileIdle"  value="${osc.jdbc.testWhileIdle}"></property>
+        <property name="validationQuery"  value="${osc.jdbc.validationQuery}"></property>
+	</bean> 
+	
+	<bean id="dataSource_search" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="url" value="${search.jdbc.url}" />  
+        <property name="driverClassName" value="${search.jdbc.DriverClassName}" />  
+        <property name="username" value="${search.jdbc.username}" />  
+        <property name="password" value="${search.jdbc.password}" />  
+        <property name="maxActive" value="${search.jdbc.maxActive}" />  
+        <property name="maxIdle" value="${search.jdbc.maxIdle}" />  
+        <property name="minIdle" value="${search.jdbc.minIdle}" />  
+        <property name="maxWait" value="${search.jdbc.maxWait}" /> 
+        <property name="timeBetweenEvictionRunsMillis"  value="${search.jdbc.timeBetweenEvictionRunsMillis}"></property>
+        <property name="testWhileIdle"  value="${search.jdbc.testWhileIdle}"></property>
+        <property name="validationQuery"  value="${search.jdbc.validationQuery}"></property>
+		<property name="connectionInitSqls" value="set names utf8mb4;"/>
+	</bean>
+
+	<bean id="dataSource_front" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="url" value="${front.jdbc.url}" />
+		<property name="driverClassName" value="${front.jdbc.DriverClassName}" />
+		<property name="username" value="${front.jdbc.username}" />
+		<property name="password" value="${front.jdbc.password}" />
+		<property name="maxActive" value="${front.jdbc.maxActive}" />
+		<property name="maxIdle" value="${front.jdbc.maxIdle}" />
+		<property name="minIdle" value="${front.jdbc.minIdle}" />
+		<property name="maxWait" value="${front.jdbc.maxWait}" />
+		<property name="timeBetweenEvictionRunsMillis"  value="${front.jdbc.timeBetweenEvictionRunsMillis}"></property>
+		<property name="testWhileIdle"  value="${front.jdbc.testWhileIdle}"></property>
+		<property name="validationQuery"  value="${front.jdbc.validationQuery}"></property>
+	</bean>
+
+
+	<!--事务配置 -->
+	<!-- 需要引入tx的命名空间 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource_search"/>
+	</bean>
+
+	<!--<tx:advice id="txAdvice" transaction-manager="transactionManager">-->
+		<!--<tx:attributes>-->
+			<!--&lt;!&ndash;方法后缀是WithTx加入事务 &ndash;&gt;-->
+			<!--<tx:method name="*WithTx" propagation="REQUIRED"-->
+					   <!--rollback-for="java.lang.Throwable"/>-->
+		<!--</tx:attributes>-->
+	<!--</tx:advice>-->
+
+	<!--<aop:config>-->
+		<!--<aop:pointcut id="myPointCut"-->
+					  <!--expression="execution(* com.odianyun.search.whale.data.service.*.*(..))"/>-->
+		<!--<aop:advisor advice-ref="txAdvice" pointcut-ref="myPointCut"/>-->
+	<!--</aop:config>-->
+    <!--事务配置 -->
+
+	<bean id="sqlMapClient_search" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation">
+			<value>classpath:/sqlmap/sqlmap-suggest-config.xml</value>
+		</property>
+		<property name="dataSource" ref="dataSource_search"/>
+	</bean>
+
+	<bean id="searchWordFrequencyDao" class="com.odianyun.search.whale.data.dao.impl.SearchWordFrequencyDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient_search" />
+		</property>
+	</bean>
+
+	<bean id="sqlMapClient_product" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation">
+			<value>classpath:/sqlmap/sqlmap-config.xml</value>
+		</property>
+	</bean>
+
+	<bean id="configDao" class="com.odianyun.search.whale.data.dao.impl.ConfigDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource_search" />
+		</property>
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient_product" />
+		</property>
+	</bean>
+
+
+	<bean id="categoryDao" class="com.odianyun.search.whale.data.dao.impl.CategoryDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource_product" />
+		</property>
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient_product" />
+		</property>
+	</bean>
+
+	<bean id="attributeValueDao"
+		class="com.odianyun.search.whale.data.dao.impl.AttributeValueDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource_product" />
+		</property>
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient_product" />
+		</property>
+	</bean>
+	
+	<bean id="merchantCategoryDao" class="com.odianyun.search.whale.data.dao.impl.MerchantCategoryDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource_product" />
+		</property>
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient_product" />
+		</property>
+	</bean>
+	
+	<bean id="merchantProductDao" class="com.odianyun.search.whale.data.dao.impl.MerchantProductDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource_product" />
+		</property>
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient_product" />
+		</property>
+	</bean>
+
+	<bean id="pointsMallProductDao" class="com.odianyun.search.whale.data.dao.impl.PointsMallProductDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource_product" />
+		</property>
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient_product" />
+		</property>
+	</bean>
+
+	<bean id="currentPointsMallProductDao" class="com.odianyun.search.whale.data.dao.impl.CurrentPointsMallProductDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource_front" />
+		</property>
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient_product" />
+		</property>
+	</bean>
+	
+	<bean id="productDao" class="com.odianyun.search.whale.data.dao.impl.ProductDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource_product" />
+		</property>
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient_product" />
+		</property>
+	</bean>
+	
+	<bean id="brandDao" class="com.odianyun.search.whale.data.dao.impl.BrandDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource_product" />
+		</property>
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient_product" />
+		</property>
+	</bean>
+	
+	<bean id="merchantDao" class="com.odianyun.search.whale.data.dao.impl.MerchantDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource_merchant" />
+		</property>
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient_product" />
+		</property>
+	</bean>
+
+	<bean id="productAttributeDao" class="com.odianyun.search.whale.data.dao.impl.ProductAttributeDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource_product" />
+		</property>
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient_product" />
+		</property>
+	</bean>
+	
+	<bean id="areaDao" class="com.odianyun.search.whale.data.dao.impl.AreaDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource_osc" />
+		</property>
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient_product" />
+		</property>
+	</bean>
+
+	<bean id="configService"
+		class="com.odianyun.search.whale.data.service.impl.ConfigServiceImpl" />
+
+		
+	<bean id="companyService"
+		class="com.odianyun.search.whale.data.saas.service.impl.CompanyServiceImpl" />
+		
+	<bean id="categoryService"
+		class="com.odianyun.search.whale.data.service.impl.CategoryServiceImpl" />
+
+	<bean id="attributeValueService"
+		class="com.odianyun.search.whale.data.service.impl.AttributeValueServiceImpl" />
+
+	<bean id="merchantCategoryService" 
+		class="com.odianyun.search.whale.data.service.impl.MerchantCategoryServiceImpl" />
+		
+	<bean id="springContextUtil"
+		class="com.odianyun.search.whale.data.common.util.SpringContextUtil"></bean>
+
+	<bean id="merchantProductService" class="com.odianyun.search.whale.data.service.impl.MerchantProductServiceImpl" />
+	<bean id="pointsMallProductService" class="com.odianyun.search.whale.data.service.impl.PointsMallProductServiceImpl" />
+	<bean id="currentPointsMallProductService" class="com.odianyun.search.whale.data.service.impl.CurrentPointsMallProductServiceImpl" />
+
+    <bean id="brandService" class="com.odianyun.search.whale.data.service.impl.BrandServiceImpl" />
+    
+	<bean id="merchantService" class="com.odianyun.search.whale.data.service.impl.MerchantServiceImpl">
+	    <property name="merchantDao">
+	        <ref bean="merchantDao"/>
+	     </property>
+	</bean>
+
+	<bean id="productAttributeService" class="com.odianyun.search.whale.data.service.impl.ProductAttributeServiceImpl" />
+	
+	<bean id="areaService"  class="com.odianyun.search.whale.data.service.impl.AreaServiceImpl">
+	     <property name="areaDao">
+	        <ref bean="areaDao"/>
+	     </property>
+	</bean>
+
+	<bean id="hotSaleMerchantProductDao" class="com.odianyun.search.whale.data.dao.impl.HotSaleMerchantProductDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource_search" />
+		</property>
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient_product" />
+		</property>
+	</bean>
+
+	<bean id="hotSaleMerchantProductService"  class="com.odianyun.search.whale.data.service.impl.HotSaleMerchantProductServiceImp">
+		<property name="hotSaleMerchantProductDao">
+			<ref bean="hotSaleMerchantProductDao"/>
+		</property>
+	</bean>
+	<!--商品角标-->
+	<bean id="superScriptDao" class="com.odianyun.search.whale.data.dao.impl.SuperScriptDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource_product" />
+		</property>
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient_product"/>
+		</property>
+	</bean>
+	<bean id="superScriptService" class="com.odianyun.search.whale.data.service.impl.SuperScriptServiceImpl">
+		<property name="superScriptDao">
+			<ref bean="superScriptDao"/>
+		</property>
+	</bean>
+    <!--商品销售区域-->
+	<bean id="merchantProductSaleAreaDao" class="com.odianyun.search.whale.data.dao.impl.MerchantProductSaleAreaDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource_product"></ref>
+		</property>
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient_product" />
+		</property>
+	</bean>
+	<bean id="merchantProductSaleAreaService" class="com.odianyun.search.whale.data.service.impl.MerchantProductSaleAreaServiceImpl">
+		<property name="merchantProductSaleAreaDao">
+			<ref bean="merchantProductSaleAreaDao"/>
+		</property>
+	</bean>
+
+	<bean id="applictionContextInitializedListener"
+		class="com.odianyun.search.whale.data.common.ApplictionContextInitializedListener"></bean>
+
+	<bean id="lyfHotWordService" class="com.odianyun.search.whale.data.service.impl.LyfHotWordServiceImpl" />
+</beans>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd  
+		http://www.springframework.org/schema/mvc  
+		http://www.springframework.org/schema/mvc/spring-mvc.xsd  
+		http://www.springframework.org/schema/context  
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+	<context:component-scan base-package="com.odianyun.search.whale" />
+	<context:annotation-config />
+  
+    <bean id="soaPropertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>file:${global.config.path}/search/common/index_soa.properties</value>
+			</list>
+		</property>
+	</bean>
+
+     <!--一个应用只需要配置一个providerConfig-->
+    <bean name="providerConfig" class="com.odianyun.soa.provider.ProviderConfig">
+        <property name="domainName" value="${soa.domainName}"></property>
+        <!--应用Context Path -->
+        <property name="serviceName" value="${soa.serviceAppName}"></property>
+        <property name="assembleAppName" value="true"></property>
+        <!-- 与web.xml中servlet-mapping中的url-pattern的值相同 -->
+        <property name="urlPattern" value="${soa.urlPattern}"></property>
+        <!-- 根据Application server 的端口修改 -->
+        <property name="port" value="${soa.suggest.port}"></property>
+    </bean>
+    
+    <bean name="/SOAHistoryLogService" class="com.odianyun.soa.provider.SoaWebserviceExporter">
+        <property name="providerConfig" ref="providerConfig"></property>
+        <property name="service" ref="historyLogServive"/>
+        <property name="serviceInterface" value="com.odianyun.search.whale.index.api.service.HistoryLogService"/>
+        <!-- serive版本号 开发环境后缀=dev; staging环境后缀=stg; 测试环境=test，线上环境无后缀 -->
+        <property name="serviceVersion" value="${soa.serviceVersion}"></property>
+    </bean>
+	
+</beans>

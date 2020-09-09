@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd"
+       default-autowire="byName">
+	
+	<import resource="classpath:applicationContext-geo.xml"/>
+	 
+	<bean id="geoIndexFlow" class="com.odianyun.search.whale.index.geo.GeoIndexFlowImpl">
+	     <!-- <property name="storeService">
+	        <ref bean="storeService"/>
+	     </property> -->
+	     <property name="merchantService">
+	        <ref bean="merchantService"/>
+	     </property>
+	     <property name="geoSwitcher">
+	        <ref bean="geoSwitcher"/>
+	     </property>
+	</bean>
+	<bean id="geoIncIndex" class="com.odianyun.search.whale.index.geo.realtime.GeoIncIndex">
+		<property name="merchantService">
+			<ref bean="merchantService"/>
+		</property>
+	</bean>
+    <!--<bean id="geoIncIndex" class="com.odianyun.search.whale.index.geo.GeoIncIndex" />-->
+    <!--<bean id="updateScheduler" class="com.odianyun.search.whale.index.realtime.UpdateScheduler" init-method="start"/>--> 
+    
+    <bean id="geoSwitcher" class="com.odianyun.search.whale.index.geo.GeoIndexSwitcher">
+       <!--  <property name="storeService">
+	        <ref bean="storeService"/>
+	     </property> -->
+    </bean>
+    
+    <bean id="geoUpdateScheduler" class="com.odianyun.search.whale.index.geo.UpdateScheduler" init-method="start"/> 
+    
+    <!--<bean id="realTimeIndexService" class="com.odianyun.search.whale.index.server.RealTimeIndexServer" />-->
+    
+</beans>

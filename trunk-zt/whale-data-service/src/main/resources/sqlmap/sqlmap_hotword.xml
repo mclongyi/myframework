@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="search-hotword">
+
+    <resultMap id="resultVo" class="com.odianyun.search.whale.data.model.hotword.SearchWordFrequencyVO">
+        <result property="id" column="id"/>
+        <result property="keyword" column="keyword"/>
+        <result property="date" column="date"/>
+        <result property="frequency" column="frequency"/>
+        <result property="preFrequency" column="pre_frequency"/>
+        <result property="coolingCoefficient" column="cooling_coefficient"/>
+        <result property="tomorrowFrequency" column="tomorrow_frequency"/>
+        <result property="rank" column="rank"/>
+        <result property="frontKeyword" column="front_keyword"/>
+
+        <result property="wordStatus" column="word_status"/>
+        <result property="ex1" column="ex1"/>
+        <result property="ex2" column="ex2"/>
+        <result property="ex3" column="ex3"/>
+
+        <result property="isAvailable" column="is_available"/>
+        <result property="isDeleted" column="is_deleted"/>
+        <result property="versionNo" column="version_no"/>
+        <result property="createUserid" column="create_userid"/>
+
+        <result property="createUsername" column="create_username"/>
+        <result property="createUserip" column="create_userip"/>
+        <result property="createUsermac" column="create_usermac"/>
+        <result property="updateTimeDb" column="update_time_db"/>
+
+        <result property="updateTime" column="update_time"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createTimeDb" column="create_time_db"/>
+        <result property="serverIp" column="server_ip"/>
+
+        <result property="updateUserid" column="update_userid"/>
+        <result property="updateUsername" column="update_username"/>
+        <result property="updateUserip" column="update_userip"/>
+        <result property="updateUsermac" column="update_usermac"/>
+
+
+        <result property="companyId" column="company_id"/>
+        <result property="clientVersionno" column="client_versionno"/>
+    </resultMap>
+
+    <insert id="insertKeyword" parameterClass="com.odianyun.search.whale.data.model.hotword.SearchWordFrequencyVO">
+        INSERT INTO `search_word_frequency` (`keyword`, `frequency`, `date`)
+        VALUES (#keyword#, #frequency#, #date#);
+    </insert>
+
+    <update id="updateCalculateResult"
+            parameterClass="com.odianyun.search.whale.data.model.hotword.SearchWordFrequencyVO">
+        UPDATE search_word_frequency SET pre_frequency = #preFrequency# , cooling_coefficient = #coolingCoefficient#,
+               tomorrow_frequency = #tomorrowFrequency#, rank = #rank# , word_status = #wordStatus# ,front_keyword=#frontKeyword#,update_time=current_timestamp
+        WHERE id = #id#
+    </update>
+
+    <select id="countByDate" parameterClass="com.odianyun.search.whale.data.model.hotword.SearchWordFrequencyVO"
+        resultClass="java.lang.Long">
+        SELECT count(1)
+        FROM search_word_frequency swf
+        WHERE swf.`date` = #date# and swf.is_deleted=0 AND swf.is_available=1 and swf.frequency>0;
+    </select>
+
+    <select id="selectByDateAndStatus"
+            parameterClass="com.odianyun.search.whale.data.model.hotword.SearchWordFrequencyVO"
+        resultMap="resultVo">
+        SELECT * FROM search_word_frequency swf
+        WHERE swf.is_deleted=0 AND swf.is_available=1 and swf.frequency > 0
+        <isNotNull property="date">
+            AND swf.date=#date#
+        </isNotNull>
+        <isNotNull property="wordStatus">
+            AND swf.word_status=#wordStatus#
+        </isNotNull>
+        <isNotNull property="limit">
+            LIMIT #limit# OFFSET #offset#
+        </isNotNull>
+
+
+    </select>
+
+</sqlMap>

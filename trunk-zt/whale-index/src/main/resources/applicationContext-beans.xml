@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd"
+       default-autowire="byName">
+	
+	<import resource="classpath:applicationContext-index.xml"/>
+
+	<import resource="classpath:search-backend-api/spring-service.xml"/>
+
+	<import resource="classpath:applicationContext-beans-geo-index.xml"/>
+	
+	<import resource="classpath:applicationContext-beans-suggest-index.xml"/>
+
+    <!-- 分销相关的-->
+    <!--<import resource="classpath:agent-ext-business/spring-service.xml"/>-->
+	 
+	<bean id="merchantProductIndexFlow" class="com.odianyun.search.whale.index.full.MerchantProductIndexFlowImpl" />
+    <bean id="merchantProductIncIndex" class="com.odianyun.search.whale.index.realtime.MerchantProductIncIndex" />
+    <bean id="updateScheduler" class="com.odianyun.search.whale.index.realtime.UpdateScheduler" init-method="start"/> 
+    
+    <bean id="esIndexSwitcher" class="com.odianyun.search.whale.index.full.MerchantProductIndexSwitcher" />
+
+    <bean id="oplusOIndexFlow" class="com.odianyun.search.whale.index.opluso.full.OplusOIndexFlowImpl" />
+    <bean id="oplusOIndexSwitcher" class="com.odianyun.search.whale.index.opluso.full.OplusOIndexSwitcher" />
+
+    <bean id="realTimeIndexService" class="com.odianyun.search.whale.index.server.RealTimeIndexServer" />
+    <bean id="updateConsumer" class="com.odianyun.search.whale.index.realtime.IndexUpdateConsumer"/>
+    <bean id="sparkIndexFlow" class="com.odianyun.search.whale.index.full.MerchantProductSparkIndexFlowImpl" />
+    <bean id="quartzHelper" class="com.odianyun.search.whale.index.schedule.QuartzHelper" />
+    <bean id="fullIndexScheduler" class="com.odianyun.search.whale.index.schedule.FullIndexScheduler" />
+    <bean id="realTimeIndexScheduler" class="com.odianyun.search.whale.index.schedule.RealTimeIndexScheduler" />
+
+    
+</beans>
