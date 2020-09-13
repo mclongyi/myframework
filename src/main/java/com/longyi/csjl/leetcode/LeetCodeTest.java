@@ -2,6 +2,7 @@ package com.longyi.csjl.leetcode;
 
 import org.apache.cxf.common.util.StringUtils;
 
+import javax.swing.tree.TreeNode;
 import java.util.*;
 
 /**
@@ -62,8 +63,28 @@ public class LeetCodeTest {
 //      int[] nums4={1,3,5,6};
 //      int searchInsert4 = searchInsert(nums4,0);
 //      System.out.println(searchInsert4);
-         String str = countAndSay(4);
-         System.out.println(str);
+//         String str = countAndSay(4);
+//         System.out.println(str);
+//      int[] nums={-2,1,-3,4,-1,2,1,-5,4};
+//      int result = maxSubArray(nums);
+//      System.out.println(result);
+
+//      int hello_word = lengthOfLastWord(" ");
+//    System.out.println(hello_word);
+//      int[] nums={9};
+//      int[] ints = plusOne(nums);
+//    System.out.println();
+
+//      int i = mySqrt(8);
+//      System.out.println(i);
+
+//      int result = climbStairs(5);
+//      System.out.println(result);
+
+      int[] nums1 ={1,2,3,0,0,0};
+      int[] nums2 ={2,5,6};
+      merge(nums1,3,nums2,3);
+      System.out.println(nums1);
   }
 
     public static int[] twoSum(int[] nums, int target) {
@@ -348,6 +369,134 @@ public class LeetCodeTest {
         }
         return s.toString();
     }
+
+  public static int maxSubArray(int[] nums) {
+        int sum=0;
+        int ans=nums[0];
+        for(int i=0;i<nums.length;i++){
+            if(sum>0){
+                sum=sum+nums[i];
+            }else{
+                sum=nums[i];
+            }
+         ans=Math.max(sum,ans);
+        }
+        return ans;
+  }
+
+    /**
+     * 求最后一个单词的长度
+     * @param s
+     * @return
+     */
+    public static int lengthOfLastWord(String s) {
+        if(null == s || "".equals(s.trim())){
+            return 0;
+        }
+        String[] array = s.split(" ");
+        return array[array.length-1].length();
+    }
+
+    /**
+     * 最高位加一
+     * @param digits
+     * @return
+     */
+    public static int[] plusOne(int[] digits) {
+        int len = digits.length;
+        for(int i = len - 1; i >= 0; i--) {
+            digits[i]++;
+            digits[i] %= 10;
+            if(digits[i]!=0)
+                return digits;
+        }
+        digits = new int[len + 1];
+        digits[0] = 1;
+        return digits;
+    }
+
+    /**
+     * 二进制求和
+     * @param a
+     * @param b
+     * @return
+     */
+    public static String addBinary(String a, String b) {
+        StringBuffer ans = new StringBuffer();
+
+        int n = Math.max(a.length(), b.length()), carry = 0;
+        for (int i = 0; i < n; ++i) {
+            carry += i < a.length() ? (a.charAt(a.length() - 1 - i) - '0') : 0;
+            carry += i < b.length() ? (b.charAt(b.length() - 1 - i) - '0') : 0;
+            ans.append((char) (carry % 2 + '0'));
+            carry /= 2;
+        }
+
+        if (carry > 0) {
+            ans.append('1');
+        }
+        ans.reverse();
+        return ans.toString();
+    }
+
+    /**
+     * 求平方根
+     * @param x
+     * @return
+     */
+    public static int mySqrt(int x) {
+        double sqrt = Math.sqrt(Double.valueOf(x));
+        return  (int)Math.floor(sqrt);
+    }
+
+
+    /**
+     * 趴楼梯算法
+     * @param n
+     * @return
+     */
+    public static int climbStairs(int n) {
+        int p = 0, q = 0, r = 1;
+        for (int i = 1; i <= n; ++i) {
+            p = q;
+            q = r;
+            r = p + q;
+        }
+        return r;
+    }
+
+    /**
+     * 删除链表中的重复元素
+     * @param head
+     * @return
+     */
+    public static ListNode deleteDuplicates(ListNode head) {
+            ListNode current=head;
+            while (current!=null && current.next!=null){
+                if(current.next.val==current.val){
+                    current.next=current.next.next;
+                }else{
+                    current=current.next;
+                }
+            }
+            return head;
+    }
+
+    /**
+     * 合并两个有序数组
+     * @param nums1
+     * @param m
+     * @param nums2
+     * @param n
+     */
+    public static void merge(int[] nums1, int m, int[] nums2, int n) {
+        System.arraycopy(nums2,0,nums1,m,n);
+        Arrays.sort(nums1);
+    }
+
+
+
+
 
 }    
    
