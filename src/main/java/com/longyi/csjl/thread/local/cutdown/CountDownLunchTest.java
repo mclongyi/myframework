@@ -30,6 +30,7 @@ public class CountDownLunchTest {
         latch.await();
         System.out.println("所有飞机一架落地");
         System.out.println("机场工作人员进场");
+        executor.shutdown();
     }
 
 }
