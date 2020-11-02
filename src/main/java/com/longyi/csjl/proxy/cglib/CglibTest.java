@@ -16,6 +16,8 @@ public class CglibTest {
       enhancer.setCallback(new LYMessageProxy(lyMessageProxy));
       Message messageProxy=(Message) enhancer.create();
       messageProxy.sendMsg();
+      Message proxyMsg=(Message)enhancer.create();
+      proxyMsg.sendMsg();
   }
 }    
    

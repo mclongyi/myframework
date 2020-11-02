@@ -25,7 +25,6 @@ public class LYMessageProxy implements MethodInterceptor {
             res=method.invoke(this.object,objects);
              this.close();
         }
-
         return res;
     }
 
