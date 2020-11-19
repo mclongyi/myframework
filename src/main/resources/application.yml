@@ -1,5 +1,1 @@
-example:
-   service:
-     enabled: true
-     prefix: mclongyi
-     suffix: wellcome
+
