@@ -1,8 +1,6 @@
 package com.longyi.csjl.frame.algorithm;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * 冒泡排序
@@ -26,6 +24,6 @@ public class BubbleSort {
           }
       }
     System.out.println("排序后");
-    System.out.println(arr.toString());
+    System.out.println(Arrays.asList(arr).toArray());
   }
 }
