@@ -10,6 +10,8 @@ public class CountingSort {
     int[] arr={0,2,5,3,7,9,10,3,7,6};
     int[] result = countSort(arr);
     System.out.println("排序后:"+arr);
+    Object object=new Object();
+    
   }
 
     /**
