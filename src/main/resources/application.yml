@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: mclongyi
+  redis:
+    enabled: true
+    password:
+    host: 127.0.0.1
+    port: 6379
+    lettuce:
+      pool:
+        max-active: 200
+        shutdown-timeout: 100
+        max-idle: 8
+        max-wait: 30
+        min-idle: 8
+  elasticsearch:
+    rest:
+      uris: http://192.168.0.166:9200
+      password: changeme
+      username: elastic
+  datasource:
+    hikari:
+      maximum-pool-size: 1000
+      auto-commit: 'true'
+      pool-name: DatebookHikariCP
+      idle-timeout: 30000
+      minimum-idle: 50
+      connection-timeout: 30000
+    url: >-
+      jdbc:mysql://127.0.0.1:3306/world?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: '123456'
+    username: root
+    type: com.zaxxer.hikari.HikariDataSource
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml,classpath*:mapper/**/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
+  type-aliases-package: com.longyi.csjl.repository  # 注意：对应实体类的路径
+  configuration:
+    map-underscore-to-camel-case: true
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: false
+  supportMethodsArguments: true
+  params: count=countSql
+    #returnPageInfo: check
+
+
+
+server:
+  port: 9090
