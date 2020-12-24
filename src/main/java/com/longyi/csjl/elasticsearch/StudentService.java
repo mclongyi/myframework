@@ -84,7 +84,7 @@ public class StudentService {
             //模糊匹配模式
             //全匹配模式
             //多字段匹配模式 MultiMatchQueryBuilder QueryBuilders.multiMatchQuery(student.getName(),"name","desc");
-            boolQueryBuilder.must(QueryBuilders.multiMatchQuery("desc",student.getDesc()));
+            boolQueryBuilder.must(QueryBuilders.matchQuery("desc",student.getDesc()));
         }
         if(null!=student.getAge()){
             RangeQueryBuilder rangeQuery = QueryBuilders.rangeQuery("age");
@@ -102,4 +102,6 @@ public class StudentService {
         pageInfo.setTotal(search.getTotalPages());
         return pageInfo;
     }
+
+
 }
