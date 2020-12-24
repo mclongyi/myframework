@@ -1,11 +1,13 @@
 package com.longyi.csjl.elasticsearch;
 
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.*;
 
 @Data
 @Document(indexName = "studentindex",type = "fs")
+@ToString
 public class Student {
 
     @Id
