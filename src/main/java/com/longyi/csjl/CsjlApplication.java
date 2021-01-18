@@ -8,7 +8,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @RetrofitScan("com.longyi.csjl.retrofitscan")
-@MapperScan(basePackages={"com.longyi.csjl.domain.resporitory"})
+@MapperScan(basePackages={"com.longyi.csjl.domain.resporitory","com.longyi.csjl.tools"})
 @EnableSwagger2
 public class CsjlApplication {
 

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.longyi.csjl.tools.CountryMapper">
+  <resultMap id="BaseResultMap" type="com.longyi.csjl.tools.Country">
+    <!--@mbg.generated-->
+    <!--@Table country-->
+    <id column="Code" jdbcType="CHAR" property="code" />
+    <result column="Name" jdbcType="CHAR" property="name" />
+    <result column="Continent" jdbcType="OTHER" property="continent" />
+    <result column="Region" jdbcType="CHAR" property="region" />
+    <result column="SurfaceArea" jdbcType="FLOAT" property="surfacearea" />
+    <result column="IndepYear" jdbcType="SMALLINT" property="indepyear" />
+    <result column="Population" jdbcType="INTEGER" property="population" />
+    <result column="LifeExpectancy" jdbcType="FLOAT" property="lifeexpectancy" />
+    <result column="GNP" jdbcType="FLOAT" property="gnp" />
+    <result column="GNPOld" jdbcType="FLOAT" property="gnpold" />
+    <result column="LocalName" jdbcType="CHAR" property="localname" />
+    <result column="GovernmentForm" jdbcType="CHAR" property="governmentform" />
+    <result column="HeadOfState" jdbcType="CHAR" property="headofstate" />
+    <result column="Capital" jdbcType="INTEGER" property="capital" />
+    <result column="Code2" jdbcType="CHAR" property="code2" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    Code, `Name`, Continent, Region, SurfaceArea, IndepYear, Population, LifeExpectancy, 
+    GNP, GNPOld, LocalName, GovernmentForm, HeadOfState, Capital, Code2
+  </sql>
+</mapper>

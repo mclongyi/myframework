@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,14 +25,9 @@ import java.util.LinkedHashMap;
 @Api(tags={"SQL执行器"})
 public class StockSqlController {
 
-    private final StockSqlService stockSqlService;
+    @Autowired
+    private  StockSqlService stockSqlService;
 
-    @Value("${stock.appSecret.key:zt_stock_sql}")
-    private String key;
-
-    public StockSqlController(StockSqlService stockSqlService) {
-        this.stockSqlService = stockSqlService;
-    }
 
 
     @ApiOperation(value = "SQL查询器", nickname = "select", produces = MediaType.APPLICATION_JSON_VALUE)

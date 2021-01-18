@@ -10,10 +10,10 @@ spring:
       minimum-idle: 5
       connection-timeout: 30000
     url: >-
-      jdbc:mysql://10.6.5.11:63306/zt_stock_center?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true
+       jdbc:mysql://127.0.0.1:3306/world?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true
     driver-class-name: com.mysql.jdbc.Driver
-    password: Z2EjrAhw1gUW46exz5
-    username: nieyongjia
+    password: root
+    username: 123456
     type: com.zaxxer.hikari.HikariDataSource
 server:
   port: 8999
