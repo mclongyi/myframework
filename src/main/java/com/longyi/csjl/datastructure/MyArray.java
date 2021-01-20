@@ -6,16 +6,16 @@ package com.longyi.csjl.datastructure;
  * @date 2021/1/18 21:23
  * @throw
  */
-public class MyArray {
+public class MyArray<E> {
 
-    private int[] data;
+    private Object[] data;
     private int size;
 
     public MyArray(){
             this(10);
     }
     public MyArray(int capacity){
-        data=new int[capacity];
+        data=(E[])new Object[capacity];
         size=0;
     }
 
@@ -31,15 +31,15 @@ public class MyArray {
         return size==0;
     }
 
-    public void addLast(int e){
+    public void addLast(E e){
         this.add(e,size);
     }
 
-    public void addFirst(int e){
+    public void addFirst(E e){
         this.add(e,0);
     }
 
-    public int[] getData(){
+    public Object[] getData(){
         return data;
     }
 
@@ -48,7 +48,7 @@ public class MyArray {
      * @param e
      * @param index
      */
-    public void add(int e,int index){
+    public void add(E e,int index){
         if(size == data.length){
             throw new IllegalArgumentException(" add fail array is full");
         }
@@ -65,9 +65,9 @@ public class MyArray {
     }
 
 
-    public boolean contains(int e){
+    public boolean contains(E e){
         for(int i=0;i<data.length;i++){
-            if(data[i] == e){
+            if(data[i].equals(e)){
                 return true;
             }
         }
@@ -75,9 +75,9 @@ public class MyArray {
     }
 
 
-    public int find(int e){
+    public int find(E e){
         for(int i=0;i<data.length;i++){
-            if(data[i] == e){
+            if(data[i].equals(e)){
                 return i;
             }
         }
@@ -89,28 +89,30 @@ public class MyArray {
      * @param index
      * @return
      */
-    public int remove(int index){
+    public E remove(int index){
         if(index<0 || index>data.length){
             throw new IllegalArgumentException("remove fail out of array bound");
         }
-        int res=data[index];
+        E res=(E)data[index];
         for(int i=index+1;i<size;i++){
             data[i-1]=data[i];
         }
         size--;
+        //防止内存泄露
+        data[size]=null;
         return res;
     }
 
-    public int removeFirst(){
+    public E removeFirst(){
         return  remove(0);
     }
 
 
-    public int removeLast(){
+    public E removeLast(){
         return remove(size);
     }
 
-    public void removeElement(int e){
+    public void removeElement(E e){
         int index = find(e);
         if(index !=-1){
             remove(index);

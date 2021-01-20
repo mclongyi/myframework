@@ -1,5 +1,9 @@
 package com.longyi.csjl.datastructure;
 
+import com.longyi.csjl.thread.local.semapnoe.Student;
+
+import java.util.ArrayList;
+
 /**
  * @author ly
  * @description TODO
@@ -20,6 +24,12 @@ public class MyArrayTest {
         myArray.removeLast();
         myArray.remove(2);
         System.out.println(myArray.toString());
+        MyArray<String> list=new MyArray<>();
+        list.add("aa",0);
+        list.add("ccc",2);
+        list.remove(2);
+        System.out.println(list.toString());
+
 
     }
 }    
