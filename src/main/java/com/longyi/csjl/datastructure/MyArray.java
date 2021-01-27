@@ -6,7 +6,7 @@ package com.longyi.csjl.datastructure;
  * @date 2021/1/18 21:23
  * @throw
  */
-public class MyArray<E> {
+public class MyArray<E>  {
 
     private Object[] data;
     private int size;
@@ -49,9 +49,11 @@ public class MyArray<E> {
      * @param index
      */
     public void add(E e,int index){
-        if(size == data.length){
-            throw new IllegalArgumentException(" add fail array is full");
+        if(index ==  size){
+            //扩容
+            resize(size*2);
         }
+
         //校验索引是否合法
         if(index<0 || index>data.length){
             throw new IllegalArgumentException("index is illegal ");
@@ -64,6 +66,14 @@ public class MyArray<E> {
         size++;
     }
 
+    public void resize(int capacity){
+        E[] dataNew= (E[])new Object[capacity];
+        for(int i=0;i<size;i++){
+            dataNew[i]=(E)data[i];
+        }
+        dataNew=(E[])data;
+    }
+
 
     public boolean contains(E e){
         for(int i=0;i<data.length;i++){
@@ -73,6 +83,7 @@ public class MyArray<E> {
         }
         return false;
     }
+
 
 
     public int find(E e){
@@ -109,7 +120,7 @@ public class MyArray<E> {
 
 
     public E removeLast(){
-        return remove(size);
+        return remove(size-1);
     }
 
     public void removeElement(E e){
@@ -139,6 +150,20 @@ public class MyArray<E> {
         return str.toString();
     }
 
+    public E get(int index){
+        if(index<0 && index> data.length ){
+            throw new IllegalArgumentException("index is error");
+        }
+        return (E)data[index];
+    }
+
+    public E getFirst(){
+        return (E)data[0];
+    }
+
+    public  E getLast(){
+        return (E)data[size-1];
+    }
 
 
 }    

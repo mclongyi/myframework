@@ -32,15 +32,15 @@ public class LeetCodeTest {
 //      String s = longestCommonPrefix(str);
 //      System.out.println(s);
 //      isValid("{[]}");
-//      ListNode<Integer> listNode=new ListNode<>(22);
-//      ListNode<Integer> listNode1=new ListNode<>(4);
+//      ListNodeNew<Integer> listNode=new ListNodeNew<>(22);
+//      ListNodeNew<Integer> listNode1=new ListNodeNew<>(4);
 //      listNode.next=listNode1;
 //
-//      ListNode<Integer> listNode3=new ListNode<>(3);
-//      ListNode<Integer> listNode4=new ListNode<>(54);
+//      ListNodeNew<Integer> listNode3=new ListNodeNew<>(3);
+//      ListNodeNew<Integer> listNode4=new ListNodeNew<>(54);
 //      listNode3.next=listNode4;
 //
-//      ListNode node = mergeTwoLists(listNode, listNode3);
+//      ListNodeNew node = mergeTwoLists(listNode, listNode3);
 //       System.out.println(node);
 //      int[] nums={1,1,3,3,4,6,9};
 ////      removeDuplicates(nums);
@@ -241,13 +241,13 @@ public class LeetCodeTest {
         }
         return stack.isEmpty();
     }
-
-    /**
+/*
+    *//**
      * 合并两个连表
      * @param l1
      * @param l2
      * @return
-     */
+     *//*
     public static ListNode mergeTwoLists(ListNode<Integer> l1, ListNode<Integer> l2) {
         if(l1==null){
             return l2;
@@ -262,7 +262,7 @@ public class LeetCodeTest {
             l2.next=mergeTwoLists(l1,l2.next);
             return l2;
         }
-    }
+    }*/
 
     /**
      * 原地删除重复的数组元素
@@ -465,22 +465,22 @@ public class LeetCodeTest {
         return r;
     }
 
-    /**
-     * 删除链表中的重复元素
-     * @param head
-     * @return
-     */
-    public static ListNode deleteDuplicates(ListNode head) {
-            ListNode current=head;
-            while (current!=null && current.next!=null){
-                if(current.next.val==current.val){
-                    current.next=current.next.next;
-                }else{
-                    current=current.next;
-                }
-            }
-            return head;
-    }
+//    /**
+//     * 删除链表中的重复元素
+//     * @param head
+//     * @return
+//     */
+//    public static ListNode deleteDuplicates(ListNode head) {
+//            ListNode current=head;
+//            while (current!=null && current.next!=null){
+//                if(current.next.val==current.val){
+//                    current.next=current.next.next;
+//                }else{
+//                    current=current.next;
+//                }
+//            }
+//            return head;
+//    }
 
     /**
      * 合并两个有序数组
