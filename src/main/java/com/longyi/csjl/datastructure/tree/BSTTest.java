@@ -15,6 +15,18 @@ public class BSTTest {
             binarySearchTree.add(i);
         }
         binarySearchTree.preOrder();
+        System.out.println("===========");
+        binarySearchTree.inOrder();
+        System.out.println("===========");
+        binarySearchTree.afterOrder();
+        System.out.println("============");
+        binarySearchTree.preOrderNR();
+        System.out.println("============");
+        binarySearchTree.breadthOrder();
+        System.out.println("===========");
+        binarySearchTree.removeMin();
+        binarySearchTree.removeMin();
+        binarySearchTree.preOrder();
     }
 }    
    
