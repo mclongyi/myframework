@@ -183,8 +183,12 @@ public class BinarySearchTree<E extends Comparable<E>> {
     }
 
 
+    /**
+     * 删除树节点
+     * @param e
+     */
     public void remove(E e){
-
+        root=remove(root,e);
     }
 
     private Node remove(Node root,E e){
