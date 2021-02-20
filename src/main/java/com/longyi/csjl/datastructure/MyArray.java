@@ -130,6 +130,15 @@ public class MyArray<E>  {
         }
     }
 
+    public void swap(int i,int j){
+        if(i<0 || i>=size || j<0 || j>size){
+            throw new IllegalArgumentException("index is error");
+        }
+        E temp=(E)data[j];
+        data[j]=data[i];
+        data[i]=temp;
+    }
+
 
 
 

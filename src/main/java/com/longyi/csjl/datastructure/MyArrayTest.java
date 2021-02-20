@@ -1,8 +1,5 @@
 package com.longyi.csjl.datastructure;
 
-import com.longyi.csjl.thread.local.semapnoe.Student;
-
-import java.util.ArrayList;
 
 /**
  * @author ly

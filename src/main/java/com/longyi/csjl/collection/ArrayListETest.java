@@ -35,6 +35,8 @@ public class ArrayListETest {
      //求并集
       Collection<String> union = CollectionUtils.union(list, list2);
       System.out.println("两个集合并集是:"+union);
+
+      System.out.println(10>>1);
   }
 }    
    

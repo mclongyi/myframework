@@ -3,6 +3,8 @@ package com.longyi.csjl.thread.local.cutdown;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.SneakyThrows;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.*;
 
 /**
@@ -19,18 +21,19 @@ public class CountDownLunchTest {
     private static ThreadPoolExecutor executor=new ThreadPoolExecutor(4,4,0,
             TimeUnit.SECONDS,new ArrayBlockingQueue(10),
             threadFactory,new ThreadPoolExecutor.CallerRunsPolicy());
-   private static   CountDownLatch latch = new CountDownLatch(3);
+   private static   CountDownLatch latch = new CountDownLatch(4);
 
     @SneakyThrows
     public static void main(String[] args) {
-        executor.execute(new AirPlan(latch,"北京航空公司",1));
-        executor.execute(new AirPlan(latch,"武汉航空公司",2));
-        executor.execute(new AirPlan(latch,"南京航空公司",3));
-        executor.execute(new AirPlan(latch,"上海航空公司",4));
+        List<String> names = Arrays.asList("北京航空公司", "武汉航空公司", "南京航空公司", "上海航空公司");
+        for(int i=4;i>0;i--){
+            executor.execute(new AirPlan(latch,   names.get(i % 4),i));
+        }
         latch.await();
         System.out.println("所有飞机一架落地");
         System.out.println("机场工作人员进场");
         executor.shutdown();
+
     }
 
 }
