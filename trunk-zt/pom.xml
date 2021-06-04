@@ -16,7 +16,7 @@
 		<!-- 主要依赖库的版本定义 -->
 		<junit.version>3.8.1</junit.version>
 		<lucene.version>4.10.4</lucene.version>
-		<httpclient.version>4.3.6</httpclient.version>
+		<httpclient.version>4.5.13</httpclient.version>
 		<mysql.version>5.1.31</mysql.version>
 		<!-- Plugin的属性 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
