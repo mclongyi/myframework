@@ -21,7 +21,7 @@
 		<hadoop.version>2.6.0-cdh5.7.1</hadoop.version>
         <hbase.version>1.2.0-cdh5.7.1</hbase.version>
 		<junit.version>4.8.1</junit.version>
-		<org.springframework.version>4.0.0.RELEASE</org.springframework.version>
+		<org.springframework.version>5.2.20.RELEASE</org.springframework.version>
 		<zookeeper.version>3.4.5-cdh5.7.1</zookeeper.version>
 		<slf4j-log4j12.version>1.6.2</slf4j-log4j12.version>
 		<log4j.version>1.2.16</log4j.version>
