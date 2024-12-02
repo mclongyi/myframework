@@ -17,7 +17,7 @@
 		<junit.version>3.8.1</junit.version>
 		<lucene.version>4.10.4</lucene.version>
 		<httpclient.version>4.3.6</httpclient.version>
-		<mysql.version>5.1.31</mysql.version>
+		<mysql.version>8.0.28</mysql.version>
 		<!-- Plugin的属性 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jdk.version>1.7</jdk.version>
